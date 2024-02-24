@@ -1,7 +1,7 @@
 # PI_4_Semestre
 
 Trello Board:
-Nome do Grupo: [Inserir Nome do Grupo]
+Nome do Grupo: Homo Sapiens
 
 Backlog:
 
