@@ -1,6 +1,5 @@
 # PI_4_Semestre
 
-Trello Board:
 Nome do Grupo: Homo Sapiens
 
 Backlog:
