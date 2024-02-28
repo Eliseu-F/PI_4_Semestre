@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
 
 @Entity
 @Table (name = "usuarios")
@@ -16,19 +15,19 @@ public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    
-    private String nome;
-     
-    private String email;
-     
-    private String cpf;
-    
-    private String senha;
-    
-    private Status status;
+        private int id;
 
-    private Grupo grupo;
+        private String nome;
+
+        private String email;
+
+        private String cpf;
+
+        private String senha;
+
+        private Status status;
+
+        private Grupo grupo;
     
     public Usuario() {
     }
