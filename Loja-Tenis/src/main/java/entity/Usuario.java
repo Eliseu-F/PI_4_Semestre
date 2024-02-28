@@ -3,16 +3,26 @@ package entity;
 import entity.enumeration.Grupo;
 import entity.enumeration.Status;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.time.LocalDate;
 
 @Entity
+@Table (name = "usuarios")
 public class Usuario {
     
-     private String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    private String nome;
      
-     private String email;
+    private String email;
      
-     private String cpf;
+    private String cpf;
     
     private String senha;
     
@@ -22,8 +32,8 @@ public class Usuario {
     
     public Usuario() {
     }
-
-    public Usuario(String nome, String email, String cpf, String senha, Status status, Grupo grupo) {
+    public Usuario(int id, String nome, String email, String cpf, String senha, Status status, Grupo grupo) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
@@ -31,7 +41,6 @@ public class Usuario {
         this.status = status;
         this.grupo = grupo;
     }
-
     public String getNome() {
         return nome;
     }
@@ -78,6 +87,14 @@ public class Usuario {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     
