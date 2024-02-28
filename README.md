@@ -20,56 +20,54 @@ Done:
  Criar lista "Done" no Trello.
  Mover histórias concluídas para a lista "Done".
 
-Caros,
-   Seguem as histórias do Sprint 1 - Entrega desta sprint em 08/03/2024
-   Lembre-se, preciso do nome do grupo e integrantes para criar no black. Me envie por email ou whatsapp.
-   Vocês precisam registrar o grupo de vocês no trello (ou outra ferramenta) e me coloca como participante - leonildo.cjunior@sp.senac.br.
-   Vocês precisam registar o grupo no github (ou outra ferramenta) e me colocar como participante - leonildo.cjunior@sp.senac.br
-Sprint
-Como Um
-Eu quero, eu posso
-Para que
-Critério de aceite
-1
-Usuário não logado
-Identificar no sistema
-Possa entrar no backoffice
-- os dados de login devem ser validados no banco de dados
-- O login é o email do usuário.
-- A senha deve ser encriptada na ponta antes de validação com o dado no banco (que também estará encriptado).
-- Não localizando o sistema deve negar a entrada do usuário no backoffice.
-- Logando (usuário e senha corretos e habilitado) o sistema deve cair na página principal do backoffice onde terá o link para a página de lista de produtos(todos PERSONAS) e lista de usuário para administrador.
-- Logando também o sistema deve criar a sessão com o usuáro e seu grupo(administrador ou estoquista).
-- Se um cliente entrar com email e senha o mesmo deve ser rejeitado. Esta tela de login é apenas para usuários de backoffice
-1
-Administrador
-Listar Usuário
-Possa acessar as opções de incluir, alterar e habilitar/desabilitar
-- Lista todos os usuários  usuários cadastrados no sistema na entrada da tela mostrando o Nome, email, status, Grupo - para administrador.
-- Ao clicar em altera usuário o sistema deverá enviar para Alteração
-- Ao clicar em inativar/reativar o sistema deverá troca (se ativo passa para inativo ou se inativo passa para ativo)
-- O listar usuários deve permitir filtrar (por nome de usuário) a lista de usuários do sistema
-1
-Administrador
-Cadastrar um usuário
-Possa incluir um acesso ao backoffice
-- Cadastrar o nome do usuário, cpdf, email, senha, grupo (admin/estoquista) no banco de dados.
-- No cadastro, pedir a senha 2 vezes. Só permitir o cadastro quando as 2 senhas estiverem iguais.
-- A senha deve ser encriptada antes de enviar para o banco de dados.
-- O cadastro de usuário cadastra o registro como ativo (sempre)
-- Não é permitido cadastrar dois usuários com mesmo login (email)
-- O cpf deve ser validado antes da gravação.
-1
-Administrador
-Alterar um usuário
-Possa manter os dados de um usuário no backoffice
-É permitido apenas alterar o grupo (se não for o usuário logado no momento)
-- É permitido alterar o nome, cpf, senha (sempre validando a senha 2 vezes) e ela deve ser atualizada no banco de forma encriptada.
-- não é permitido alterar o email.
-- toda alteração deve refletir no banco de dados
-1
-Administrador
-Habilitar e Desabilitar um usuário
-Remover ou conceder acesso a um usuário cadastado no backoffic
-- Na mesma tela de listagem de Usuário, o usuário admin poderá alterar o status dos usuários para ativo (se ele estiver inativado) ou inativar (se ele estiver ativo).
-- Sem a necessidade de entrar em outr página para alteração. A alteração deve apenas ser confirmada por tela de mensagem de alerta pedindo se o usuário concorda ou não com a alteração.
+Critérios de Aceite - Login e Autenticação
+
+1. Usuário não logado
+	• Identificar no sistema.
+	• Permitir entrada no backoffice.
+
+2. Validação de Dados de Login
+	• Validar dados de login no banco de dados.
+	• Utilizar o email como login.
+	• Encriptar a senha antes da validação.
+	• Negar entrada se os dados não forem localizados no sistema.
+	• Criar sessão com usuário e grupo ao logar corretamente.
+
+3. Restrição de Acesso para Clientes
+	• Rejeitar entrada de clientes com email e senha.
+Critérios de Aceite - Página Principal do Backoffice
+
+4. Página Principal do Backoffice
+	• Após login bem-sucedido (usuário e senha corretos), redirecionar para a página principal do backoffice.
+	• Na página principal, incluir links para listagem de produtos e lista de usuários para administrador.
+Critérios de Aceite - Listagem de Usuários para Administrador
+
+5. Listar Usuários
+	• Exibir na entrada da tela: Nome, email, status e Grupo para administrador.
+	• Permitir filtrar a lista por nome de usuário.
+	• Ao clicar em "Alterar Usuário", enviar para a tela de alteração.
+	• Ao clicar em "Inativar/Reativar", trocar o status do usuário.
+Critérios de Aceite - Cadastro de Usuário
+
+6. Cadastrar Usuário
+	• Incluir acesso ao backoffice durante o cadastro.
+	• Solicitar e confirmar senha durante o cadastro.
+	• Encriptar a senha antes de enviar para o banco.
+	• Cadastrar usuário como ativo.
+	• Validar e garantir unicidade do email.
+	• Validar CPF antes da gravação.
+Critérios de Aceite - Alteração de Usuário
+
+7. Alterar Usuário
+	• Manter dados de um usuário no backoffice.
+	• Permitir alteração de nome, CPF e senha (com validação dupla).
+	• Encriptar a senha antes de atualizar no banco.
+	• Não permitir alteração de email.
+	• Refletir todas as alterações no banco de dados.
+Critérios de Aceite - Habilitar/Desabilitar Usuário
+
+8. Habilitar/Desabilitar Usuário
+	• Alterar status (ativo/inativo) na tela de listagem de usuários.
+	• Confirmação da alteração por tela de mensagem de alerta.
+	• Não necessidade de entrar em outra página para a alteração.
+
