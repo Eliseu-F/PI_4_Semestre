@@ -6,38 +6,30 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table (name = "usuarios")
+@Table(name = "Usuarios")
 public class Usuario {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+    private int id;
 
-        private String nome;
+    private String nome;
 
-        private String email;
+    private String email;
 
-        private String cpf;
+    private String cpf;
 
-        private String senha;
+    private String senha;
 
-        private String status;
+    private String status;
 
-        private String grupo;
-    
+    private String grupo;
+
     public Usuario() {
     }
-    public Usuario(int id, String nome, String email, String cpf, String senha, String status, String grupo) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.cpf = cpf;
-        this.senha = senha;
-        this.status = status;
-        this.grupo = grupo;
-    }
+
+    
     public String getNome() {
         return nome;
     }
@@ -93,6 +85,5 @@ public class Usuario {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
 }

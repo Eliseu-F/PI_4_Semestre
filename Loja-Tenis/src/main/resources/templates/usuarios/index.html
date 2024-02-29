@@ -13,29 +13,41 @@
         <div class="container">
             <h1 class="text-center my-4" >Usuarios</h1>
 
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="buscar usuário" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">Confirmar</button>
+                </div>
+            </div>
+
             <a class="btn btn-primary" href="/usuarios/create">Criar Usuario</a>
 
-            <table border="2">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>id</th>
                         <th>nome</th>
                         <th>email</th>
                         <th>cpf</th>
-                        <th>status</th>
                         <th>grupo</th>
+                        <th>status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.nome}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td th:text="${usuario.cpf}"></td>
+                        <td th:text="${usuario.grupo}"></td>
+                        <td th:text="${usuario.status}"></td>
+                        <td style="white-space:nowrap">
+                            <a class="btn btn-primary btn-sm" 
+                               th:href="@{usuarios/edit(id=${usuario.id})}">Editar</a>
+                            <a class="btn btn-danger btn-sm" 
+                               th:href="@{usuarios/delete(id=${usuario.id})}"
+                               onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Delete</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

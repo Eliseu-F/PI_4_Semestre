@@ -5,6 +5,7 @@ import br.senac.tads.pi.lojatenis.service.UsuarioRepository;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,10 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository repo;
 
-    @GetMapping
+    @GetMapping({"", "/"})
     public String showUsuariosList(Model model) {
-        List<Usuario> usuario = repo.findAll();
-        model.addAttribute("usuarios", usuario);
+        List<Usuario> usuarios = repo.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        model.addAttribute("usuarios", usuarios);
         return "usuarios/index";
     }
 }
