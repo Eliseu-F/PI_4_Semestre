@@ -16,6 +16,7 @@
             
 
             <section id="container_input">
+                <form th:action="@{/login}" th:object="${loginForm}" method="post">
                 <div>
                     <h1>Login</h1>
                 </div>
@@ -37,6 +38,7 @@
                         ESQUECEU A SENHA?
                     </p>
                 </div>
+                </form>
             </section>
         </section>
 

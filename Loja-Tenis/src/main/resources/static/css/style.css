@@ -16,7 +16,7 @@ html{
     background-image: url('../images/ui.svg');
     background-repeat: no-repeat;
     background-size: 100%;
-    background-position-y:200% ;
+    background-position-y:300% ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,7 +80,8 @@ input{
 }
 #logo  {
     position: relative;
-    bottom: 100px;
+    bottom: 250px;
+    right: 300px;
 
 }
 
@@ -93,6 +94,5 @@ input{
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    
     font-family: "Segoe UI";
 }
