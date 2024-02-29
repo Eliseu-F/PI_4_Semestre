@@ -2,9 +2,18 @@
     "elements": {},
     "attributes": {
         "th:text": {},
+        "th:if": {
+            "context": "p"
+        },
+        "th:object": {
+            "context": "form"
+        },
         "th:each": {
             "context": "tr"
         },
-        "th:href": {}
+        "th:href": {},
+        "th:field": {
+            "context": "input"
+        }
     }
 }

@@ -16,10 +16,10 @@ Inserir informações na tabela usuarios
 INSERT INTO usuarios (id, nome, email, cpf, grupo, status)
 VALUES
     (1, 'João Silva', 'joao.silva@email.com', '123.456.789-01', 'Administrador', 'Ativo'),
-    (2, 'Maria Souza', 'maria.souza@email.com', '987.654.321-01', 'Usuário Padrão', 'Inativo'),
-    (3, 'Carlos Oliveira', 'carlos.oliveira@email.com', '111.222.333-44', 'Usuário Avançado', 'Ativo'),
+    (2, 'Maria Souza', 'maria.souza@email.com', '987.654.321-01', 'Cliente', 'Inativo'),
+    (3, 'Carlos Oliveira', 'carlos.oliveira@email.com', '111.222.333-44', 'Estoquista', 'Ativo'),
     (4, 'Ana Santos', 'ana.santos@email.com', '555.666.777-88', 'Administrador', 'Inativo'),
-    (5, 'Lucas Pereira', 'lucas.pereira@email.com', '999.888.777-66', 'Usuário Padrão', 'Ativo'),
-    (6, 'Fernanda Lima', 'fernanda.lima@email.com', '444.333.222-11', 'Usuário Avançado', 'Inativo'),
+    (5, 'Lucas Pereira', 'lucas.pereira@email.com', '999.888.777-66', 'Estoquista', 'Ativo'),
+    (6, 'Fernanda Lima', 'fernanda.lima@email.com', '444.333.222-11', 'Cliente', 'Inativo'),
     (7, 'Pedro Rocha', 'pedro.rocha@email.com', '777.888.999-00', 'Administrador', 'Ativo'),
-    (8, 'Mariana Costa', 'mariana.costa@email.com', '222.111.444-55', 'Usuário Padrão', 'Inativo');
+    (8, 'Mariana Costa', 'mariana.costa@email.com', '222.111.444-55', 'Cliente', 'Inativo');

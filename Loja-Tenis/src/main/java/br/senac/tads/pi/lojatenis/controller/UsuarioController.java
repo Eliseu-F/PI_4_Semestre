@@ -1,6 +1,7 @@
 package br.senac.tads.pi.lojatenis.controller;
 
 import br.senac.tads.pi.lojatenis.model.Usuario;
+import br.senac.tads.pi.lojatenis.model.UsuarioDto;
 import br.senac.tads.pi.lojatenis.service.UsuarioRepository;
 
 import java.util.List;
@@ -24,4 +25,13 @@ public class UsuarioController {
         model.addAttribute("usuarios", usuarios);
         return "usuarios/index";
     }
+    
+    @GetMapping({"/cria"})
+    public String showCriaUsuario(Model model) {
+        UsuarioDto usuarioDto = new UsuarioDto();
+        model.addAttribute("usuarioDto", usuarioDto);
+        return "usuarios/CriaUsuario";
+    }
+    
+    
 }
