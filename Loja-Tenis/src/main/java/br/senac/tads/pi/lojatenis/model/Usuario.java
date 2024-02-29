@@ -1,7 +1,5 @@
-package entity;
+package br.senac.tads.pi.lojatenis.model;
 
-import entity.enumeration.Grupo;
-import entity.enumeration.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,13 +23,13 @@ public class Usuario {
 
         private String senha;
 
-        private Status status;
+        private String status;
 
-        private Grupo grupo;
+        private String grupo;
     
     public Usuario() {
     }
-    public Usuario(int id, String nome, String email, String cpf, String senha, Status status, Grupo grupo) {
+    public Usuario(int id, String nome, String email, String cpf, String senha, String status, String grupo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -72,19 +70,19 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Grupo getGrupo() {
+    public String getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo) {
+    public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
 
