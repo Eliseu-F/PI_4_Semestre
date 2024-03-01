@@ -21,6 +21,8 @@ public class Usuario {
     private String cpf;
 
     private String senha;
+    
+    private String Confirmasenha;
 
     private String status;
 
@@ -60,6 +62,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getConfirmasenha() {
+        return Confirmasenha;
+    }
+
+    public void setConfirmasenha(String Confirmasenha) {
+        this.Confirmasenha = Confirmasenha;
     }
 
     public String getStatus() {

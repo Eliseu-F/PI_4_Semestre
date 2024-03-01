@@ -26,12 +26,10 @@ public class UsuarioController {
         return "usuarios/index";
     }
     
-    @GetMapping({"/cria"})
+    @GetMapping({"/create"})
     public String showCriaUsuario(Model model) {
-        UsuarioDto usuarioDto = new UsuarioDto();
-        model.addAttribute("usuarioDto", usuarioDto);
+        UsuarioDto usuarioDto  = new UsuarioDto();
+        model.addAttribute("usuarioDto",usuarioDto);
         return "usuarios/CriaUsuario";
     }
-    
-    
 }

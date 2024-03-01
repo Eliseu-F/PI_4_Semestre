@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 
+<!-- Documentação bootstrap https://getbootstrap.com/docs/5.0/layout/grid/
+
+https://getbootstrap.com/ -->
+
 <html>
     <head>
         <title>TODO supply a title</title>
@@ -14,24 +18,83 @@
                 <div class="col-md-8 mx-auto rounded border p-4 m-4">
                     <h2 class="text-center mb-5"> Novo Usuario</h2>
 
-                    <form method="post" enctype="multipart/form-data" th:object="${usuarioDto}">
+                    <form method="post" enctype="multipart/form-data" th:object="${usuarioDto}"> 
                         <div class="row mb-3">
                             <label class="col-sm-4 col-form-label">Nome</label>
                             <div class="col-sm-8">
-                                <input class="form-control" th:field="${produtoDto.nome}">
+                                <input class="form-control" th:field="${usuarioDto.nome}">
                                 <p th:if="${#fields.hasErrors('nome')}" th:classeerro="text-danger"
-                                   th:erro="${productDto.nome}"></p>
+                                   th:erro="${usuarioDto.nome}"></p>
                             </div>
                         </div>
-                        
-                         <div class="row mb-3">
-                            <label class="col-sm-4 col-form-label">email</label>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
-                                <input class="form-control" th:field="${produtoDto.nome}">
-                                <p th:if="${#fields.hasErrors('nome')}" th:classeerro="text-danger"
-                                   th:erro="${productDto.nome}"></p>
+                                <input class="form-control" th:field="${usuarioDto.email}">
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="text-danger"
+                                   th:erro="${usuarioDto.email}"></p>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">CPF</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="${usuarioDto.cpf}">
+                                <p th:if="${#fields.hasErrors('cpf')}" th:errors="text-danger"
+                                   th:erro="${usuarioDto.cpf}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Senha</label>
+                            <div class="col-sm-8">
+                                <label for="senha">Senha (deve conter entre 4 e 6 caracteres)</label>
+                                <input class="form-control" th:field="${usuarioDto.senha}" th:errorclass="is-invalid" 
+                                       type="senha" name="senha" placeholder="digite uma senha"/>
+                                <div class="invalid-feedback" th:errors="*{senha}"> Erro no atributo do password</div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <label class="col-sm-4 col-form-label">Confirma Senha</label>
+                                <div class="col-sm-8">
+                                    <label for="password">Confirma senha</label>
+                                    <input class="form-control" th:field="${usuarioDto.confirmaSenha}" th:errorclass="is-invalid" 
+                                           type="password" name="senha" placeholder="digite uma senha"/>
+                                    <div class="invalid-feedback" th:errors="*{confirmaSenha}"> Erro no atributo do password</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label class="col-sm-4 col-form-label">Grupo</label>
+                                <div class="col-sm-8">
+                                    <select name="">
+                                        <option>Administrador</option>
+                                        <option>Estoquista</option>
+                                        <option>Cliente</option>
+                                    </select>  
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-5">
+                                <label class="col-sm-4 col-form-label">Status</label>
+                                <div class="col-sm-8">
+                                    <select name="">
+                                        <option>Ativo</option>
+                                        <option>Inativo</option>
+                                    </select>  
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-5">
+                                <div class="offset-sm-4 col-sm-4 d-grid">
+                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                </div>
+
+                                <div class="col-sm-4 d-grid">
+                                    <a class="btn btn-outline-secondary" href="/usuarios" role="button">Cancelar</a>
+                                </div>
+                            </div>
+
                     </form>
                 </div>
             </div>
