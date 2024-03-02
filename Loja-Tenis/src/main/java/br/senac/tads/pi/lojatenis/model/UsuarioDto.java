@@ -1,13 +1,13 @@
 package br.senac.tads.pi.lojatenis.model;
 
 /**
- * Plataforma para desenvolvimento utilizada como base para criar as validações 
+ * Plataforma para desenvolvimento utilizada como base para criar as validações
  * do forms html
  * https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/package-summary
- * 
+ *
  * O que é um DTO
  * https://pt.stackoverflow.com/questions/31362/o-que-%C3%A9-um-dto
- * 
+ *
  * @author eliseu.santos
  */
 import jakarta.validation.constraints.Email;
@@ -17,29 +17,30 @@ import jakarta.validation.constraints.Size;
 
 //Data Transfer Object (DTO)
 public class UsuarioDto {
+
     @NotEmpty(message = "O campo de nome não pode estar vazio")
     private String nome;
-    
+
     @NotEmpty(message = "O campo de email não pode estar vazio")
-    @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+    @Pattern(regexp = ".+@.+\\..+", message = "Please provide a valid email address")
     @Email
     private String email;
-    
+
     @NotEmpty(message = "Necessário inserir o CPF")
     @Size(min = 12, message = "Insira um CPF Valido. ")
     @Size(max = 12, message = "Insira um CPF Valido")
-    private String cpf; 
-    
-    @NotEmpty(message = "O campo de email não pode estar vazio")
+    private String cpf;
+
+    @NotEmpty(message = "A senha não pode estar vazia")
+    @Size(min = 4, max = 6, message = "A senha deve conter entre 4 e 6 caracteres")
     private String senha;
-    
-    @NotEmpty(message = "O campo de email não pode estar vazio")
+
+    @NotEmpty(message = "A confirmação de senha não pode estar vazia")
+    @Size(min = 4, max = 6, message = "A confirmação de senha deve conter entre 4 e 6 caracteres")
     private String confirmaSenha;
-    
-    @NotEmpty(message = "O campo de email não pode estar vazio")
+
     private String status;
 
-    @NotEmpty(message = "O campo de email não pode estar vazio")
     private String grupo;
 
     public String getNome() {
@@ -97,6 +98,5 @@ public class UsuarioDto {
     public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
-    
-    
+
 }
