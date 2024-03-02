@@ -37,7 +37,7 @@ html{
     
 }
 
-#container_input > div > h1 {
+#container_input > form  > div > h1 {
     font-family: "Segoe UI";
     font-size: 30px;
     font-weight: bold;
@@ -46,7 +46,7 @@ html{
     margin-top: 5px;
 }
 
-#container_input > div > h2 {
+#container_input > form  > div > h2 {
     font-family: "Segoe UI";
 
     font-weight: bold;
@@ -84,7 +84,7 @@ input{
 
 }
 
-#container_input > div > h2{
+#container_input > form > div > h2{
     font-size: 13px;
 }
 

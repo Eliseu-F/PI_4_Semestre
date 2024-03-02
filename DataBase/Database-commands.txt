@@ -23,3 +23,20 @@ VALUES
     (6, 'Fernanda Lima', 'fernanda.lima@email.com', '444.333.222-11', 'Cliente', 'Inativo'),
     (7, 'Pedro Rocha', 'pedro.rocha@email.com', '777.888.999-00', 'Administrador', 'Ativo'),
     (8, 'Mariana Costa', 'mariana.costa@email.com', '222.111.444-55', 'Cliente', 'Inativo');
+
+
+INSERT INTO usuarios (id, nome, email, cpf, grupo, status, senha)
+VALUES (1, 'João Silva', 'joao.silva@email.com', '123.456.789-01', 'Administrador', 'Ativo', '123')
+
+
+
+INSERT INTO usuarios (id, nome, email, cpf, grupo, status, senha)
+VALUES
+    (1, 'João Silva', 'joao.silva@email.com', '123.456.789-01', 'Administrador', 'Ativo', '123'),
+    (2, 'Maria Souza', 'maria.souza@email.com', '987.654.321-01', 'Cliente', 'Inativo', '1234'),
+    (3, 'Carlos Oliveira', 'carlos.oliveira@email.com', '111.222.333-44', 'Estoquista', 'Ativo', '12345'),
+    (4, 'Ana Santos', 'ana.santos@email.com', '555.666.777-88', 'Administrador', 'Inativo', '123456'),
+    (5, 'Lucas Pereira', 'lucas.pereira@email.com', '999.888.777-66', 'Estoquista', 'Ativo', '1234567'),
+    (6, 'Fernanda Lima', 'fernanda.lima@email.com', '444.333.222-11', 'Cliente', 'Inativo', '12345678'),
+    (7, 'Pedro Rocha', 'pedro.rocha@email.com', '777.888.999-00', 'Administrador', 'Ativo', '123456789'),
+    (8, 'Mariana Costa', 'mariana.costa@email.com', '222.111.444-55', 'Cliente', 'Inativo', '1234567890');
