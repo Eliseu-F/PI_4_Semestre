@@ -6,17 +6,17 @@
     <link   rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <main class="container">
-        <section >
-            <div>
-                <img id="logo" src="/images/logo.svg" >
-            </div>
-        </section>
-        <section id="container_login">
+<main class="container">
+    <section >
+        <div>
+            <img id="logo" src="/images/logo.svg" >
+        </div>
+    </section>
+    <section id="container_login">
 
 
-            <section id="container_input">
-                <form th:action="@{/signup}" th:object="${usuariodto}" method="post">
+        <section id="container_input">
+            <form th:action="@{/signup}" th:object="${usuariodto}" method="post">
                 <div>
                     <h1>Login</h1>
                 </div>
@@ -38,12 +38,12 @@
                         ESQUECEU A SENHA?
                     </p>
                 </div>
-                    </form>
+            </form>
 
-            </section>
         </section>
+    </section>
 
-        
-    </main>
+
+</main>
 </body>
 </html>

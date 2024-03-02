@@ -25,11 +25,12 @@ VALUES
     (8, 'Mariana Costa', 'mariana.costa@email.com', '222.111.444-55', 'Cliente', 'Inativo');
 
 
+
 INSERT INTO usuarios (id, nome, email, cpf, grupo, status, senha)
 VALUES (1, 'João Silva', 'joao.silva@email.com', '123.456.789-01', 'Administrador', 'Ativo', '123')
 
 
-
+--------------------DADOS COM SENHA ---------------------------------------------------------------
 INSERT INTO usuarios (id, nome, email, cpf, grupo, status, senha)
 VALUES
     (1, 'João Silva', 'joao.silva@email.com', '123.456.789-01', 'Administrador', 'Ativo', '123'),
