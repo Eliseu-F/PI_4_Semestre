@@ -39,19 +39,13 @@ public class UsuarioController {
     }
 
     @PostMapping("/create")
-    public String criarUsuario(
-            @Valid @ModelAttribute UsuarioDto usuarioDto,
-            BindingResult resultado) {
-
-        if (resultado.hasFieldErrors()) {
+    public String criarUsuario(@ModelAttribute("usuarioDto") @Valid UsuarioDto usuarioDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Se houver erros de validação, retorne para o formulário de registro
             return "usuarios/CriaUsuario";
         }
 
-        if (resultado.hasErrors()) {
-            System.out.println("Erros de validação: " + resultado.getAllErrors());
-            return "usuarios/CriaUsuario";
-        }
-
+        // Mapear UsuarioDto para a entidade Usuario
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioDto.getNome());
         usuario.setEmail(usuarioDto.getEmail());
@@ -59,7 +53,12 @@ public class UsuarioController {
         usuario.setSenha(usuarioDto.getSenha());
         usuario.setGrupo(usuarioDto.getGrupo());
         usuario.setStatus(usuarioDto.getStatus());
+        // Configurar atributos de usuarioDto para usuario
 
+        // Salvar usuario no repositório
+        repo.save(usuario);
+
+        // Redirecionar para a lista de usuários após a criação bem-sucedida
         return "redirect:/usuarios";
     }
 
