@@ -22,7 +22,7 @@ public class UsuarioDto {
     private String nome;
 
     @NotEmpty(message = "O campo de email não pode estar vazio")
-    @Pattern(regexp = ".+@.+\\..+", message = "Please provide a valid email address")
+    @Pattern(regexp = ".+@.+\\..+", message = "Insira um email válido, por favor")
     @Email
     private String email;
 
@@ -32,11 +32,11 @@ public class UsuarioDto {
     private String cpf;
 
     @NotEmpty(message = "A senha não pode estar vazia")
-    @Size(min = 4, max = 6, message = "A senha deve conter entre 4 e 6 caracteres")
+    @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
     private String senha;
 
     @NotEmpty(message = "A confirmação de senha não pode estar vazia")
-    @Size(min = 4, max = 6, message = "A confirmação de senha deve conter entre 4 e 6 caracteres")
+    @Size(min = 6)
     private String confirmaSenha;
 
     private String status;
