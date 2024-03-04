@@ -23,12 +23,19 @@ public class SignUpController {
     public String submitSignUp(UsuarioDto usuarioDto){
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuarioDto.getEmail());
 
-        if(usuarioOptional.isPresent() && usuarioOptional.get().getSenha().equals(usuarioDto.getSenha())){
+        if (usuarioOptional.isPresent() && usuarioOptional.get().getSenha().equals(usuarioDto.getSenha())) {
+            Usuario usuario = usuarioOptional.get();
+
+            if ("Cliente".equals(usuario.getGrupo())) {
+
+                return "redirect:/signup?error=cliente";
+            }
             return "redirect:/usuarios";
-        }else {
+        } else {
             return "redirect:/signup?error";
         }
     }
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 }

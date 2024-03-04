@@ -45,6 +45,11 @@ public class UsuarioController {
             return "usuarios/CriaUsuario";
         }
 
+        if(repo.existsByEmail((usuarioDto.getEmail()))){
+            bindingResult.rejectValue("email", "error.usuarioDto", "Este email já está em uso");
+            return "usuarios/CriaUsuario";
+        }
+
         // Mapear UsuarioDto para a entidade Usuario
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioDto.getNome());

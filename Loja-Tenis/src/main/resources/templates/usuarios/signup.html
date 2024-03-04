@@ -28,6 +28,9 @@
                     <h2>SENHA</h2>
                     <input type="password"  name="senha">
                 </div>
+                <div th:if="${param.error == 'cliente'}" class="alert alert-danger" role="alert">
+                    <a>Você não tem permissão para acessar esta página.</a>
+                </div>
                 <div class="container_button">
                     <button type="submit" value="Sign Up">
                         LOGIN
