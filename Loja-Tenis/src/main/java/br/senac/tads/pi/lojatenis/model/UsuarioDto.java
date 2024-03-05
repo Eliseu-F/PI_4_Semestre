@@ -17,7 +17,8 @@ import jakarta.validation.constraints.Size;
 
 //Data Transfer Object (DTO)
 public class UsuarioDto {
-
+    private Integer id;
+    
     @NotEmpty(message = "O campo de nome não pode estar vazio")
     private String nome;
 
@@ -39,10 +40,18 @@ public class UsuarioDto {
     @Size(min = 6)
     private String confirmaSenha;
 
-    private String status;
+    private String status = "Ativo";
 
     private String grupo;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
     public String getNome() {
         return nome;
     }

@@ -88,7 +88,6 @@ https://getbootstrap.com/ -->
                             <option value="" disabled selected>Selecione um grupo</option>
                             <option value="Administrador">Administrador</option>
                             <option value="Estoquista">Estoquista</option>
-                            <option value="Cliente">Cliente</option>
                         </select>
                         <p th:if="${#fields.hasErrors('grupo')}" th:errorclass="text-danger"
                            th:errors="${usuarioDto.grupo}"></p>
@@ -96,22 +95,7 @@ https://getbootstrap.com/ -->
                 </div>
 
                 <!-- comment -->
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Status</label>
-                    <div class="col-sm-8">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" th:field="${usuarioDto.status}" name="status" id="ativo" value="Ativo"/>
-                            <label class="form-check-label" for="ativo">Ativo</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" th:field="${usuarioDto.status}" name="status" id="inativo" value="Inativo"/>
-                            <label class="form-check-label" for="inativo">Inativo</label>
-                        </div>
-                        <p th:if="${#fields.hasErrors('status')}" th:errorclass="text-danger"
-                           th:errors="${usuarioDto.status}"></p>
-                    </div>
-                </div>
+ 
 
 
                 <div class="row">
