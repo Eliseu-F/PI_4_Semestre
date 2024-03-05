@@ -94,4 +94,33 @@ public class UsuarioController {
 
     }
 
+    @PostMapping("/edit")
+    public String editarUsuario(Model model, @RequestParam int id, @Valid @ModelAttribute UsuarioDto usuarioDto, BindingResult bindingResult) {
+
+        try {
+            Usuario usuario = repo.findById(id).get();
+            model.addAttribute("usuario", usuario);
+
+            if (bindingResult.hasErrors()) {
+                // Se houver erros de validação, retorne para o formulário de registro
+                return "usuarios/EditarUsuario";
+            }
+
+            // Configurar atributos de usuarioDto para usuario
+            usuario.setNome(usuarioDto.getNome());
+            usuario.setEmail(usuarioDto.getEmail());
+            usuario.setCpf(usuarioDto.getCpf());
+            usuario.setSenha(usuarioDto.getSenha());
+            usuario.setGrupo(usuarioDto.getGrupo());
+
+            // Salvar usuario no repositório
+            repo.save(usuario);
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+
+        }
+            // Redirecionar para a lista de usuários após a criação bem-sucedida
+            return "redirect:/usuarios";
+    }
 }

@@ -42,6 +42,7 @@ https://getbootstrap.com/ -->
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">CPF</label>
                     <div class="col-sm-8">
+                        <label>(insira apenas números)</label>
                         <input class="form-control" th:field="${usuarioDto.cpf}">
                         <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="text-danger"
                            th:errors="${usuarioDto.cpf}"></p>
@@ -52,7 +53,7 @@ https://getbootstrap.com/ -->
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Senha</label>
                     <div class="col-sm-8">
-                        <label>Senha (deve conter entre 4 e 6 caracteres)</label>
+                        <label>(deve conter mais de 6 caracteres)</label>
                         <input class="form-control" th:field="${usuarioDto.senha}" th:errorclass="text-danger"
                                type="password" name="senha" placeholder="digite uma senha"/>
                         <div  th:if="${#fields.hasErrors('senha')}" th:errorclass="text-danger"

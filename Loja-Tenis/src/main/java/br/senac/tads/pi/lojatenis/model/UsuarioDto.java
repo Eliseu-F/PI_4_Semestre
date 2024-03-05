@@ -28,8 +28,8 @@ public class UsuarioDto {
     private String email;
 
     @NotEmpty(message = "Necessário inserir o CPF")
-    @Size(min = 12, message = "Insira um CPF Valido. ")
-    @Size(max = 12, message = "Insira um CPF Valido")
+    @Size(min = 11, message = "Insira um CPF Valido. ")
+    @Size(max = 11, message = "Insira um CPF Valido")
     private String cpf;
 
     @NotEmpty(message = "A senha não pode estar vazia")
@@ -37,7 +37,7 @@ public class UsuarioDto {
     private String senha;
 
     @NotEmpty(message = "A confirmação de senha não pode estar vazia")
-    @Size(min = 6)
+    @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
     private String confirmaSenha;
 
     private String status = "Ativo";
