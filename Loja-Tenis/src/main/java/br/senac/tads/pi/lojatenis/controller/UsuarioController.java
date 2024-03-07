@@ -32,4 +32,5 @@ public class UsuarioController {
         model.addAttribute("usuarioDto",usuarioDto);
         return "usuarios/CriaUsuario";
     }
+    
 }
