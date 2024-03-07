@@ -30,7 +30,7 @@ public class SignUpController {
 
                 return "redirect:/signup?error=cliente";
             }
-            return "redirect:/usuarios";
+            return "redirect:/";
         } else {
             return "redirect:/signup?error";
         }
