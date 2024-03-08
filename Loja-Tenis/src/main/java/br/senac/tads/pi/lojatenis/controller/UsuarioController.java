@@ -42,6 +42,7 @@ public class UsuarioController {
         return "usuarios/index";
     }
 
+
     @GetMapping("/create")
     public String showCriaUsuario(Model model) {
         UsuarioDto usuarioDto = new UsuarioDto();

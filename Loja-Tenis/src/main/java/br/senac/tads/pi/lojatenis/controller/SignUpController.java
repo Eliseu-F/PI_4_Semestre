@@ -3,6 +3,8 @@ package br.senac.tads.pi.lojatenis.controller;
 import br.senac.tads.pi.lojatenis.model.Usuario;
 import br.senac.tads.pi.lojatenis.model.UsuarioDto;
 import br.senac.tads.pi.lojatenis.service.UsuarioRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +34,7 @@ public class SignUpController {
     }
 
     @PostMapping("/signup")
-    public String submitSignUp(UsuarioDto usuarioDto){
+    public String submitSignUp(UsuarioDto usuarioDto, HttpServletRequest request) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuarioDto.getEmail());
 
         if (usuarioOptional.isPresent()) {
@@ -42,10 +44,18 @@ public class SignUpController {
             String senhaEncriptada = passwordEncoder.encode(usuarioDto.getSenha());
 
             if (passwordEncoder.matches(usuarioDto.getSenha(), usuario.getSenha())) {
+                HttpSession session = request.getSession();
+                session.setAttribute("grupo", usuario.getGrupo());
+
                 if ("Cliente".equals(usuario.getGrupo())) {
                     return "redirect:/signup?error=cliente";
+                } else if ("Administrador".equals(usuario.getGrupo())) {
+                    return "redirect:/";
+                } else if ("Estoquista".equals(usuario.getGrupo())) {
+                    return "redirect:/estoquista";
+                } else {
+                    return "redirect:/signup?error";
                 }
-                return "redirect:/";
             } else {
                 return "redirect:/signup?error";
             }
@@ -53,4 +63,9 @@ public class SignUpController {
             return "redirect:/signup?error";
         }
     }
+    @GetMapping("/estoquista")
+    public String estoquistaPage() {
+        return "usuarios/estoquista";
+    }
+
 }
