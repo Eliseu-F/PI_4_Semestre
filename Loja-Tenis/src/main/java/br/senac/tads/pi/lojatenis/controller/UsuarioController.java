@@ -113,44 +113,42 @@ public class UsuarioController {
     }
 
     @PostMapping("/edit")
-    public String editarUsuario(Model model, Principal principal, @RequestParam int id, @Valid @ModelAttribute UsuarioDto usuarioDto, BindingResult bindingResult) {
-        if (principal.getName().equals(usuarioDto.getEmail())) {
-            bindingResult.rejectValue("email", "error.usuarioDto", "Você não pode se ");
-            return "usuarios/CriaUsuario";
-        }
-        try {
-            Usuario usuario = repo.findById(id).get();
-            model.addAttribute("usuario", usuario);
-
-            if (bindingResult.hasErrors()) {
-                // Se houver erros de validação, retorne para o formulário de registro
-                return "usuarios/EditarUsuario";
-            }
-
-            // Configurar atributos de usuarioDto para usuario
-            usuario.setNome(usuarioDto.getNome());
-            usuario.setEmail(usuarioDto.getEmail());
-            usuario.setCpf(usuarioDto.getCpf());
-            
-            if (true) {
-                
-            }
-            usuario.setGrupo(usuarioDto.getGrupo());
-            
-            // Encriptar a senha usando o Bcrypt
-            String senhaEcriptada = this.passwordEncoder.encode(usuarioDto.getSenha());
-            usuario.setSenha(senhaEcriptada);
-
-            // Salvar usuario no repositório
-            repo.save(usuario);
-
-        } catch (Exception ex) {
-            System.out.println("Exception: " + ex.getMessage());
-
-        }
-            // Redirecionar para a lista de usuários após a criação bem-sucedida
-            return "redirect:/usuarios";
+public String editarUsuario(Model model, Principal principal, @RequestParam int id, @Valid @ModelAttribute UsuarioDto usuarioDto, BindingResult bindingResult) {
+    // Verificar se o usuário autenticado está tentando editar seu próprio perfil
+    if (principal != null && principal.getName().equals(usuarioDto.getEmail())) {
+        bindingResult.rejectValue("email", "error.usuarioDto", "Você não pode editar seu próprio perfil");
+        return "usuarios/EditarUsuario";
     }
+
+    try {
+        Usuario usuario = repo.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        model.addAttribute("usuario", usuario);
+
+        if (bindingResult.hasErrors()) {
+            // Se houver erros de validação, retorne para o formulário de edição
+            return "usuarios/EditarUsuario";
+        }
+
+        // Configurar atributos de usuarioDto para usuario
+        usuario.setNome(usuarioDto.getNome());
+        usuario.setEmail(usuarioDto.getEmail());
+        usuario.setCpf(usuarioDto.getCpf());
+        usuario.setGrupo(usuarioDto.getGrupo());
+
+        // Encriptar a senha usando o Bcrypt
+        String senhaEncriptada = this.passwordEncoder.encode(usuarioDto.getSenha());
+        usuario.setSenha(senhaEncriptada);
+
+        // Salvar usuario no repositório
+        repo.save(usuario);
+
+    } catch (Exception ex) {
+        System.out.println("Exception: " + ex.getMessage());
+    }
+
+    // Redirecionar para a lista de usuários após a edição bem-sucedida
+    return "redirect:/usuarios";
+}
     @PostMapping("/atualizarStatus")
     public String atualizaStatus(@RequestParam int id,@ModelAttribute UsuarioDto usuarioDto){
         Usuario usuario = repo.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
