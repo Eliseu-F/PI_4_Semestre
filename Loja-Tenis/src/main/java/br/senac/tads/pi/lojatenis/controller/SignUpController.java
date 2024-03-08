@@ -9,10 +9,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Controller
-
+@Service
 public class SignUpController {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    PasswordEncoder passwordEncoder;
+    
+    public SignUpController(UsuarioRepository usuarioRepository){
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
 
     @GetMapping("/signup")
     public String getSignupPage(){
@@ -23,19 +35,22 @@ public class SignUpController {
     public String submitSignUp(UsuarioDto usuarioDto){
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuarioDto.getEmail());
 
-        if (usuarioOptional.isPresent() && usuarioOptional.get().getSenha().equals(usuarioDto.getSenha())) {
+        if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
 
-            if ("Cliente".equals(usuario.getGrupo())) {
+            // Encriptar a senha fornecida antes de comparar
+            String senhaEncriptada = passwordEncoder.encode(usuarioDto.getSenha());
 
-                return "redirect:/signup?error=cliente";
+            if (passwordEncoder.matches(usuarioDto.getSenha(), usuario.getSenha())) {
+                if ("Cliente".equals(usuario.getGrupo())) {
+                    return "redirect:/signup?error=cliente";
+                }
+                return "redirect:/";
+            } else {
+                return "redirect:/signup?error";
             }
-            return "redirect:/";
         } else {
             return "redirect:/signup?error";
         }
     }
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 }

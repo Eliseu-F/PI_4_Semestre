@@ -4,25 +4,37 @@ import br.senac.tads.pi.lojatenis.model.Usuario;
 import br.senac.tads.pi.lojatenis.model.UsuarioDto;
 import br.senac.tads.pi.lojatenis.service.UsuarioRepository;
 import jakarta.validation.Valid;
+import java.security.Principal;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+
 @Controller
 @RequestMapping("/usuarios")
+@Service
 public class UsuarioController {
 
+    
     @Autowired
     private UsuarioRepository repo;
-
+    
+    PasswordEncoder passwordEncoder;
+    
+    public UsuarioController(UsuarioRepository usuarioRepository){
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
+    
+    
     @GetMapping({"", "/"})
     public String showUsuariosList(Model model) {
         List<Usuario> usuarios = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
@@ -55,9 +67,16 @@ public class UsuarioController {
         usuario.setNome(usuarioDto.getNome());
         usuario.setEmail(usuarioDto.getEmail());
         usuario.setCpf(usuarioDto.getCpf());
-        usuario.setSenha(usuarioDto.getSenha());
+        
+        //encripatar a senha usando o Bcrypt
+        String senhaEcripitada = this.passwordEncoder.encode(usuarioDto.getSenha());
+        usuario.setSenha(senhaEcripitada);
+        
         usuario.setGrupo(usuarioDto.getGrupo());
         usuario.setStatus(usuarioDto.getStatus());
+
+  
+
         // Configurar atributos de usuarioDto para usuario
 
         // Salvar usuario no repositório
@@ -94,8 +113,11 @@ public class UsuarioController {
     }
 
     @PostMapping("/edit")
-    public String editarUsuario(Model model, @RequestParam int id, @Valid @ModelAttribute UsuarioDto usuarioDto, BindingResult bindingResult) {
-
+    public String editarUsuario(Model model, Principal principal, @RequestParam int id, @Valid @ModelAttribute UsuarioDto usuarioDto, BindingResult bindingResult) {
+        if (principal.getName().equals(usuarioDto.getEmail())) {
+            bindingResult.rejectValue("email", "error.usuarioDto", "Você não pode se ");
+            return "usuarios/CriaUsuario";
+        }
         try {
             Usuario usuario = repo.findById(id).get();
             model.addAttribute("usuario", usuario);
@@ -109,8 +131,15 @@ public class UsuarioController {
             usuario.setNome(usuarioDto.getNome());
             usuario.setEmail(usuarioDto.getEmail());
             usuario.setCpf(usuarioDto.getCpf());
-            usuario.setSenha(usuarioDto.getSenha());
+            
+            if (true) {
+                
+            }
             usuario.setGrupo(usuarioDto.getGrupo());
+            
+            // Encriptar a senha usando o Bcrypt
+            String senhaEcriptada = this.passwordEncoder.encode(usuarioDto.getSenha());
+            usuario.setSenha(senhaEcriptada);
 
             // Salvar usuario no repositório
             repo.save(usuario);
