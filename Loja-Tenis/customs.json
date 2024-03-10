@@ -8,6 +8,9 @@
         "th:object": {
             "context": "form"
         },
+        "th:action": {
+            "context": "form"
+        },
         "th:errors": {
             "context": "div"
         },
