@@ -10,8 +10,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-@Entity
-@Table(name = "produtos")
 public class ProdutoDto {
 
     @Id
