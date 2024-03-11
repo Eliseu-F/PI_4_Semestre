@@ -53,3 +53,12 @@ VALUES
         ('Fernanda Lima', 'fernanda.lima@email.com', '44433322211', 'Cliente', 'Inativo', '123456'),
         ('Pedro Rocha', 'pedro.rocha@email.com', '77788899900', 'Administrador', 'Ativo', '123456'),
         ('Mariana Costa', 'mariana.costa@email.com', '22211144455', 'Cliente', 'Inativo', '123456');
+
+
+-------------------- PRODUTOS  ----------------------------------------------------------------------------------------------------
+INSERT INTO PRODUTOS (ID, ARQUIVO_IMAGEM, AVALIACAO, DESCRICAO, NOME, PRECO, QTD_ESTOQUE, STATUS)
+VALUES
+(1, 'images/imagem1.jpg', 4.5, 'Descrição do produto 1', 'Produto 1', 29.99, 100, 'TRUE'),
+(2, 'images/imagem2.jpg', 3.8, 'Descrição do produto 2', 'Produto 2', 19.99, 75, 'FALSE'),
+(3, 'images/imagem3.jpg', 5.0, 'Descrição do produto 3', 'Produto 3', 39.99, 50, 'TRUE'),
+(4, 'images/imagem4.jpg', 4.2, 'Descrição do produto 4', 'Produto 4', 49.99, 120, 'FALSE');

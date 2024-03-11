@@ -11,6 +11,9 @@
         "th:action": {
             "context": "form"
         },
+        "th:src": {
+            "context": "td"
+        },
         "th:errors": {
             "context": "div"
         },

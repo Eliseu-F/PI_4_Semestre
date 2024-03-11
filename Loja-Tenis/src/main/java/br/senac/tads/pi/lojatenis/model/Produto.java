@@ -86,11 +86,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public String getarquivo_imagem() {
+    public String getArquivo_imagem() {
         return arquivo_imagem;
     }
 
-    public void setarquivo_imagem(String arquivo_imagem) {
+    public void setArquivo_imagem(String arquivo_imagem) {
         this.arquivo_imagem = arquivo_imagem;
     }
     
