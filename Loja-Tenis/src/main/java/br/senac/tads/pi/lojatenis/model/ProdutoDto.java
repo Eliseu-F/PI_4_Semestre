@@ -28,7 +28,7 @@ public class ProdutoDto {
     @NotEmpty(message = "O campo de avaliação não pode estar vazio")
     private String avaliacao;
     
-    private Boolean status;
+    private String status = "Ativo";
     
     @Min(0)
     private BigDecimal preco;
@@ -66,11 +66,11 @@ public class ProdutoDto {
         this.avaliacao = avaliacao;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
