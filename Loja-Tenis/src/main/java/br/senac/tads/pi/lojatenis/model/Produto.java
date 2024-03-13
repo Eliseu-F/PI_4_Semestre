@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Produtos")
@@ -21,7 +22,7 @@ public class Produto {
 
     private Boolean status;
     
-    private Float preco;
+    private BigDecimal preco;
     
     private int qtd_estoque;
     
@@ -62,11 +63,11 @@ public class Produto {
         this.status = status;
     }
 
-    public Float getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Float preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

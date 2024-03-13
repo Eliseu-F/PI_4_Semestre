@@ -6,8 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProdutoDto {
@@ -17,20 +21,23 @@ public class ProdutoDto {
     private int id;
     
     @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Size(max = 200, message = "Você excedeu 200 caracteres")
     private String nome;
     
-    @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Max(5)
+    @NotEmpty(message = "O campo de avaliação não pode estar vazio")
     private String avaliacao;
-
+    
     private Boolean status;
     
-    @NotEmpty(message = "O campo de nome não pode estar vazio")
     @Min(0)
-    private Float preco;
+    private BigDecimal preco;
     
-    @NotEmpty(message = "O campo de nome não pode estar vazio")
+   @NotNull(message = "defina uma quantidade para o estoque")
     private int qtd_estoque;
     
+    @Size(min = 10, message = "A descrição precisa ter pelo menos 10 caracteres")
+    @Size(max = 2000, message = "A descrição não pode exceder 2000 caracteres")
     private String descricao; 
     
     private MultipartFile arquivo_imagem ;
@@ -67,11 +74,11 @@ public class ProdutoDto {
         this.status = status;
     }
 
-    public Float getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Float preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
