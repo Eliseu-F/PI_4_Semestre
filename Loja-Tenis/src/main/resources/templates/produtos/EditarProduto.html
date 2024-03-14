@@ -20,76 +20,77 @@ https://getbootstrap.com/ -->
 
                     <form method="post" enctype="multipart/form-data" th:object="${produtoDto}">
 
-                        <form method="post" enctype="multipart/form-data" th:object="${produtoDto}">
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">ID</label>
-                                <div class="col-sm-8">
-                                    <input readonly class="form-control-plaintext" th:value="${produtoDto.id}">
-                                </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">ID</label>
+                            <div class="col-sm-8">
+                                <input readonly class="form-control" th:value="${produtoDto.id}"> 
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Nome</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="${produtoDto.nome}">
+                                <p th:if="${#fields.hasErrors('nome')}" th:errorclass="text-danger"
+                                   th:errors="${produtoDto.nome}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Avaliação</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" th:field="${produtoDto.avaliacao}" min="1" max="5" step="0.5">
+                                <p th:if="${#fields.hasErrors('avaliacao')}" class="text-danger" th:errors="${produtoDto.avaliacao}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Quantidade</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" th:field="${produtoDto.qtd_estoque}" min="1">
+                                <p th:if="${#fields.hasErrors('qtd_estoque')}" class="text-danger" th:errors="${produtoDto.qtd_estoque}"></p>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Descrição</label>
+                            <div class="col-sm-8">               
+                                <textarea class="form-control" th:field="${produtoDto.descricao}"></textarea>
+                                <p th:if="${#fields.hasErrors('descricao')}" th:errorclass="text-danger"
+                                   th:errors="${produtoDto.descricao}"></p>                       
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Preco</label>
+                            <div class="col-sm-8">
+                                <input step="0.01" type="number" 
+                                       class="form-control" th:field="${produtoDto.preco}">
+                                <p th:if="${#fields.hasErrors('preco')}" class="text-danger" th:errors="${produtoDto.preco}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Imagem</label>
+                            <div class="col-sm-8">
+                                <input pattern="form-control" type="file" 
+                                       th:field="${produtoDto.arquivo_imagem}">
+                                <p th:if="${#fields.hasErrors('arquivo_imagem')}" class="text-danger" th:errors="${produtoDto.arquivo_imagem}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="offset-sm-4 col-sm-4 d-grid">
+                                <button type="submit" class="btn btn-primary">Confirmar</button>
                             </div>
 
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">Avaliação</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" th:field="${produtoDto.avaliacao}" min="1" max="5" step="0.5">
-                                    <p th:if="${#fields.hasErrors('avaliacao')}" class="text-danger" th:errors="${produtoDto.avaliacao}"></p>
-                                </div>
+                            <div class="col-sm-4 d-grid">
+                                <a class="btn btn-outline-secondary" href="/produtos" role="button">Cancelar</a>
                             </div>
+                        </div>
 
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">Quantidade</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" th:field="${produtoDto.qtd_estoque}" min="1">
-                                    <p th:if="${#fields.hasErrors('qtd_estoque')}" class="text-danger" th:errors="${produtoDto.qtd_estoque}"></p>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">Descrição</label>
-                                <div class="col-sm-8">               
-                                    <textarea class="form-control" th:field="${produtoDto.descricao}"></textarea>
-                                    <p th:if="${#fields.hasErrors('descricao')}" th:errorclass="text-danger"
-                                       th:errors="${produtoDto.descricao}"></p>                       
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">Preco</label>
-                                <div class="col-sm-8">
-                                    <input pattern="\d{1,2}.\d{2}" step="0.01" type="number" 
-                                           class="form-control" th:field="${produtoDto.preco}"
-                                           title="Formato válido: XX.XX">
-                                    <p th:if="${#fields.hasErrors('preco')}" class="text-danger" th:errors="${produtoDto.preco}"></p>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3">
-                                <div class="offset-sm-4 col-sm-8">
-                                    <img th:src="@{/images/ + ${produto.arquivo_imagem}}" width="150" alt="..."/>
-                                </div>
-                            </div>
-                           
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">Imagem</label>
-                                <div class="col-sm-8">
-                                    <input pattern="form-control" type="file" 
-                                           th:field="${produtoDto.arquivo_imagem}">
-                                    <p th:if="${#fields.hasErrors('arquivo_imagem')}" class="text-danger" th:errors="${produtoDto.arquivo_imagem}"></p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="offset-sm-4 col-sm-4 d-grid">
-                                    <button type="submit" class="btn btn-primary">Confirmar</button>
-                                </div>
-
-                                <div class="col-sm-4 d-grid">
-                                    <a class="btn btn-outline-secondary" href="/produtos" role="button">Cancelar</a>
-                                </div>
-                            </div>
-
-                        </form>
+                    </form>
                 </div>
             </div>
         </div>

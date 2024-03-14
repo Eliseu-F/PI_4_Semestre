@@ -30,7 +30,7 @@ public class ProdutoDto {
     
     private String status = "Ativo";
     
-    @Min(0)
+    @NotNull
     private BigDecimal preco;
     
    @NotNull(message = "defina uma quantidade para o estoque")

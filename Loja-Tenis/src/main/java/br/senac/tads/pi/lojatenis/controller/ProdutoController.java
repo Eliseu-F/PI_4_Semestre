@@ -108,7 +108,6 @@ public class ProdutoController {
             produto.setPreco(produtoDto.getPreco());
             produto.setQtd_estoque(produtoDto.getQtd_estoque());
             produto.setDescricao(produtoDto.getDescricao());
-            produto.setStatus(produtoDto.getStatus());
 
             // Salvar produto no repositório
             repo.save(produto);
