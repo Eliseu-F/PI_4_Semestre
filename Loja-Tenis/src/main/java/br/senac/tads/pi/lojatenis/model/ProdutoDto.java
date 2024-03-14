@@ -30,11 +30,11 @@ public class ProdutoDto {
     
     private String status = "Ativo";
     
-    @NotNull
+    @NotNull(message = "Defina um valor")
     private BigDecimal preco;
     
-   @NotNull(message = "defina uma quantidade para o estoque")
-    private int qtd_estoque;
+   @NotNull(message = "Defina uma quantidade para o estoque")
+    private int qtd_estoque =1;
     
     @Size(min = 10, message = "A descrição precisa ter pelo menos 10 caracteres")
     @Size(max = 2000, message = "A descrição não pode exceder 2000 caracteres")
