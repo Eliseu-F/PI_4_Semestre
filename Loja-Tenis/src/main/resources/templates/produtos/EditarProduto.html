@@ -75,8 +75,8 @@ https://getbootstrap.com/ -->
                             <label class="col-sm-4 col-form-label">Imagem</label>
                             <div class="col-sm-8">
                                 <input pattern="form-control" type="file" 
-                                       th:field="${produtoDto.arquivo_imagem}">
-                                <p th:if="${#fields.hasErrors('arquivo_imagem')}" class="text-danger" th:errors="${produtoDto.arquivo_imagem}"></p>
+                                       th:field="${produtoDto.imagens}">
+                                <p th:if="${#fields.hasErrors('imagens')}" class="text-danger" th:errors="${produtoDto.imagens}"></p>
                             </div>
                         </div>
 

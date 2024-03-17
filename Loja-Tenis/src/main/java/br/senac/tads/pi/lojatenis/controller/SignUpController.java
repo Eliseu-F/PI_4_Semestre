@@ -49,9 +49,9 @@ public class SignUpController {
 
                 if ("Cliente".equals(usuario.getGrupo())) {
                     return "redirect:/signup?error=cliente";
-                } else if ("Administrador".equals(usuario.getGrupo())) {
+                } else if ("Administrador".equals(usuario.getGrupo()) && "Ativo".equals(usuario.getStatus())) {
                     return "redirect:/";
-                } else if ("Estoquista".equals(usuario.getGrupo())) {
+                } else if ("Estoquista".equals(usuario.getGrupo()) && "Ativo".equals(usuario.getStatus())) {
                     return "redirect:/estoquista";
                 } else {
                     return "redirect:/signup?error";
