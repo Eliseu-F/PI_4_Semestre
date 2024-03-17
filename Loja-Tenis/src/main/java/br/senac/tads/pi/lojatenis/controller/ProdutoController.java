@@ -4,8 +4,18 @@ import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.model.ProdutoDto;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
 import jakarta.validation.Valid;
+
+
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -16,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/produtos")
@@ -26,7 +37,7 @@ public class ProdutoController {
 
     @GetMapping({"", "/"})
     public String showProdutosList(Model model) {
-        List<Produto> produtos = repo.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<Produto> produtos = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("produtos", produtos);
         return "produtos/index";
     }
@@ -45,7 +56,27 @@ public class ProdutoController {
             return "produtos/CriaProduto";
         }
 
-        // Mapear produtoDto para a entidade produto
+        List<String> imagensSalvas = new ArrayList<>();
+        for (MultipartFile imagem : produtoDto.getImagens()) {
+            String nomeArquivo = UUID.randomUUID().toString() + "_" + imagem.getOriginalFilename();
+
+            try {
+                String diretorioImagens = "src/main/resources/static/imagens_produtos/";
+                Path uploadPath = (Path) Paths.get(diretorioImagens);
+                if(!Files.exists(uploadPath)){
+                    System.out.println("Diretorio nao existe");
+                }
+                Path filePath = uploadPath.resolve(nomeArquivo);
+                Files.copy(imagem.getInputStream(), filePath);
+                imagensSalvas.add(nomeArquivo);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        //defini a primeira imagem como padrão
+        String imagemPadrao = imagensSalvas.get(0);
+
+            // Mapear produtoDto para a entidade produto
         Produto produto = new Produto();
 
         produto.setNome(produtoDto.getNome());
@@ -54,6 +85,8 @@ public class ProdutoController {
         produto.setQtd_estoque(produtoDto.getQtd_estoque());
         produto.setDescricao(produtoDto.getDescricao());
         produto.setStatus(produtoDto.getStatus());
+        produto.setImagens(imagensSalvas);
+        produto.setImagemPadrao(imagemPadrao);
         // Configurar atributos de produtoDto para produto
 
         // Salvar produto no repositório
