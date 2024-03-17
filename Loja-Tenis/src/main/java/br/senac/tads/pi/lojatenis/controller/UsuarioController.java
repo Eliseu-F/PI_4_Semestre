@@ -113,6 +113,7 @@ public class UsuarioController {
             return "usuarios/EditarUsuario";
         }
 
+
         try {
             Usuario usuario = repo.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
             model.addAttribute("usuario", usuario);

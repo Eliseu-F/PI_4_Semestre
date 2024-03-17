@@ -26,9 +26,15 @@ public class Usuario {
 
     private String grupo;
 
+    private String role; //Eg: ADMIN,USER
+
     public Usuario() {
     }
 
+    public Usuario(String email, String senha) {
+        this.email = email;
+        this.senha = senha;
+    }
     
     public int getId() {
         return id;
@@ -86,6 +92,13 @@ public class Usuario {
         this.grupo = grupo;
     }
 
-    
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
 }
