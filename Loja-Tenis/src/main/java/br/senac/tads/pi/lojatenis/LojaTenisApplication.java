@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 public class LojaTenisApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LojaTenisApplication.class, args);
+			SpringApplication.run(LojaTenisApplication.class, args);
 	}
 
 }

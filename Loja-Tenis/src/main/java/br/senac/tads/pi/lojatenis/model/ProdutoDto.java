@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
+import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProdutoDto {
@@ -51,6 +52,24 @@ public class ProdutoDto {
 
     @Column(name = "caminho_imagem_padrao")
     private String caminhoImagemPadrao;
+    // Novo campo para armazenar os nomes das imagens removidas
+    @Getter
+    private List<String> imagensRemovidas;
+    private String imagemPadrao;
+
+    public String getImagemPadrao() {
+        return imagemPadrao != null ? imagemPadrao : "";
+    }
+
+
+    public void setImagemPadrao(String imagemPadrao) {
+        this.imagemPadrao = imagemPadrao;
+    }
+// Getters e setters para os campos existentes...
+
+    public void setImagensRemovidas(List<String> imagensRemovidas) {
+        this.imagensRemovidas = imagensRemovidas;
+    }
 
     public String getCaminhoImagemPadrao() {
         return caminhoImagemPadrao;
