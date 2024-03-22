@@ -100,6 +100,11 @@ public class ProdutoController {
             return "produtos/CriaProduto";
         }
 
+        if (produtoDto.getImagens() == null || produtoDto.getImagens().stream().allMatch(MultipartFile::isEmpty)) {
+            bindingResult.rejectValue("imagens", "error.produto", "É necessário selecionar pelo menos uma imagem.");
+            return "produtos/CriaProduto";
+        }
+
         List<String> imagensSalvas = new ArrayList<>();
         for (MultipartFile imagem : produtoDto.getImagens()) {
             String nomeArquivo = UUID.randomUUID().toString() + "_" + imagem.getOriginalFilename();
@@ -117,6 +122,8 @@ public class ProdutoController {
                 e.printStackTrace();
             }
         }
+
+
         //defini a primeira imagem como padrão
         String imagemPadrao = imagensSalvas.get(0);
 
@@ -179,7 +186,7 @@ public class ProdutoController {
     @PostMapping("/edit")
     public String editarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            // Se houver erros de validação, retornar para o formulário de edição
+            // Se houver erros de validação, retornar para o form de edição
             return "produtos/EditarProduto";
         }
         try {
@@ -194,6 +201,16 @@ public class ProdutoController {
             produto.setDescricao(produtoDto.getDescricao());
             produto.setStatus(produtoDto.getStatus());
 
+            if (produto.getImagens().size() == 1 && produtoDto.getImagensRemovidas() != null && !produtoDto.getImagensRemovidas().isEmpty()) {
+                bindingResult.rejectValue("imagensRemovidas", "error.produto", "Não é permitido remover a única imagem associada ao produto.");
+                return "produtos/EditarProduto";
+            }
+
+            if (produto.getImagens().isEmpty() && (produtoDto.getImagens() == null || produtoDto.getImagens().isEmpty() || produtoDto.getImagens().stream().allMatch(MultipartFile::isEmpty))) {
+                bindingResult.rejectValue("imagens", "error.produto", "Não é permitido deixar o produto sem imagem.");
+                return "produtos/EditarProduto";
+            }
+
             if (!produtoDto.getImagemPadrao().isEmpty()) {
                 produto.setImagemPadrao(produtoDto.getImagemPadrao());
             }
@@ -203,7 +220,7 @@ public class ProdutoController {
                     // Remover imagem do banco de dados
                     produto.getImagens().remove(nomeImagemRemovida);
 
-                    // Se a imagem removida for a imagem padrão, definir a próxima imagem como imagem padrão
+                    // Se a imagem removida for a imagem padrão, definir a proxima imagem como imagem padrão
                     if (nomeImagemRemovida.equals(produto.getImagemPadrao())) {
                         if (!produto.getImagens().isEmpty()) {
                             // Define a próxima imagem da lista como imagem padrão

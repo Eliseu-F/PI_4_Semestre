@@ -71,7 +71,10 @@
                             <div class="col-sm-8">
                                 <input pattern="form-control" type="file"
                                        th:field="${produtoDto.imagens}" multiple>
-                                <p th:if="${#fields.hasErrors('imagens')}" class="text-danger" th:errors="${produtoDto.imagens}"></p>
+                                <p th:if="${#fields.hasErrors('imagens')}" class="text-danger" th:errors="${produtoDto.imagens}">
+                                    É necessário selecionar pelo menos uma imagem.
+
+                                </p>
                             </div>
                         </div>
 
