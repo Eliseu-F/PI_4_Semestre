@@ -3,6 +3,7 @@ package br.senac.tads.pi.lojatenis.controller;
 import br.senac.tads.pi.lojatenis.model.Usuario;
 import br.senac.tads.pi.lojatenis.model.UsuarioDto;
 import br.senac.tads.pi.lojatenis.service.UsuarioRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.security.Principal;
 
@@ -32,9 +33,12 @@ public class UsuarioController {
     }
 
     @GetMapping({"", "/"})
-    public String showUsuariosList(Model model) {
+    public String showUsuariosList(Model model, HttpSession session) {
         List<Usuario> usuarios = repo.findAll(Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("usuarios", usuarios);
+
+        String grupoUsuario = (String) session.getAttribute("grupo");
+        model.addAttribute("grupoUsuario", grupoUsuario);
         return "usuarios/index";
     }
 

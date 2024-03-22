@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-
-<!-- Documentação bootstrap https://getbootstrap.com/docs/5.0/layout/grid/
-
-https://getbootstrap.com/ -->
-
 <html>
     <head>
         <title>TODO supply a title</title>
@@ -23,7 +18,7 @@ https://getbootstrap.com/ -->
                         <div class="row mb-3">
                             <label class="col-sm-4 col-form-label">ID</label>
                             <div class="col-sm-8">
-                                <input readonly class="form-control" th:value="${produtoDto.id}"> 
+                                <input readonly class="form-control" th:value="${produtoDto.id}">
                             </div>
                         </div>
 
@@ -58,14 +53,14 @@ https://getbootstrap.com/ -->
                             <div class="col-sm-8">
                                 <textarea class="form-control" th:field="${produtoDto.descricao}"></textarea>
                                 <p th:if="${#fields.hasErrors('descricao')}" th:errorclass="text-danger"
-                                   th:errors="${produtoDto.descricao}"></p>                       
+                                   th:errors="${produtoDto.descricao}"></p>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-4 col-form-label">Preco</label>
                             <div class="col-sm-8">
-                                <input step="0.01" type="number" 
+                                <input step="0.01" type="number"
                                        class="form-control" th:field="${produtoDto.preco}">
                                 <p th:if="${#fields.hasErrors('preco')}" class="text-danger" th:errors="${produtoDto.preco}"></p>
                             </div>
