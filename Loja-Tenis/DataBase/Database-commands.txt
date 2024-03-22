@@ -45,8 +45,10 @@ VALUES
 
     INSERT INTO usuarios (nome, email, cpf, grupo, status, senha)
     VALUES
-        ('João Silva', 'joao.silva@email.com', '12345678901', 'Administrador', 'Ativo', '123456'),
-        ('Maria Souza', 'maria.souza@email.com', '98765432101', 'Cliente', 'Inativo', '123456'),
+        ('João Silva', 'joao.silva@email.com', '12345678901', 'Administrador', 'Ativo', '$2a$12$hoFB54sxannKAm3vMCZEVOwGpqDZF2hgnu2BkC95Qx7Nzc/y4dDru
+'),
+        ('Maria Souza', 'maria.souza@email.com', '98765432101', 'Cliente', 'Inativo', '$2a$12$iJmQjeXvpKuw79W8C6V50OG6L0c5gpb0bz31qnCWwQUt5dIdRQ912
+'),
         ('Carlos Oliveira', 'carlos.oliveira@email.com', '11122233344', 'Estoquista', 'Inativo', '123456'),
         ('Ana Santos', 'ana.santos@email.com', '55566677788', 'Administrador', 'Inativo', '123456'),
         ('Lucas Pereira', 'lucas.pereira@email.com', '99988877766', 'Estoquista', 'Inativo', '123456'),

@@ -52,7 +52,7 @@ public class SignUpController {
                 } else if ("Administrador".equals(usuario.getGrupo()) && "Ativo".equals(usuario.getStatus())) {
                     return "redirect:/";
                 } else if ("Estoquista".equals(usuario.getGrupo()) && "Ativo".equals(usuario.getStatus())) {
-                    return "redirect:/estoquista";
+                    return "redirect:/";
                 } else {
                     return "redirect:/signup?error";
                 }
@@ -63,9 +63,4 @@ public class SignUpController {
             return "redirect:/signup?error";
         }
     }
-    @GetMapping("/estoquista")
-    public String estoquistaPage() {
-        return "usuarios/estoquista";
-    }
-
 }

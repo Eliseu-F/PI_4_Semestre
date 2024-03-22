@@ -3,6 +3,7 @@ package br.senac.tads.pi.lojatenis.controller;
 import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.model.ProdutoDto;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -40,13 +41,18 @@ public class ProdutoController {
     private ProdutoRepository repo;
 
     @GetMapping({"", "/"})
-    public String showProdutosList(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public String showProdutosList(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Page<Produto> produtosPage = repo.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
         model.addAttribute("produtos", produtosPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", produtosPage.getTotalPages());
-    return "produtos/index";
-}
+
+        String grupoUsuario = (String) session.getAttribute("grupo");
+        model.addAttribute("grupoUsuario", grupoUsuario);
+
+        return "produtos/index";
+    }
+
 
     @GetMapping("/create")
     public String showCriaProduto(Model model) {
@@ -103,10 +109,14 @@ public class ProdutoController {
     }
 
     @GetMapping("/edit")
-    public String mostrarEdicao(Model model, @RequestParam int id) {
+    public String mostrarEdicao(Model model, @RequestParam int id, HttpSession session) {
+
         try {
             // Buscar o produto no banco de dados pelo ID
             Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            String grupoUsuario = (String) session.getAttribute("grupo");
+            model.addAttribute("grupoUsuario", grupoUsuario);
 
             // Mapear os atributos do produto para o DTO
             ProdutoDto produtoDto = new ProdutoDto();
@@ -140,7 +150,6 @@ public class ProdutoController {
             // Se houver erros de validação, retornar para o formulário de edição
             return "produtos/EditarProduto";
         }
-
         try {
             // Buscar o produto no banco de dados pelo ID
             Produto produto = repo.findById(produtoDto.getId()).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
@@ -216,7 +225,121 @@ public class ProdutoController {
     }
 
 
+    @GetMapping("/editestoque")
+    public String mostrarEdicaoEstoque(Model model, @RequestParam int id, HttpSession session) {
 
+        try {
+            // Buscar o produto no banco de dados pelo ID
+            Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            String grupoUsuario = (String) session.getAttribute("grupo");
+            model.addAttribute("grupoUsuario", grupoUsuario);
+
+            // Mapear os atributos do produto para o DTO
+            ProdutoDto produtoDto = new ProdutoDto();
+            produtoDto.setId(produto.getId());
+            produtoDto.setNome(produto.getNome());
+            produtoDto.setAvaliacao(produto.getAvaliacao());
+            produtoDto.setPreco(produto.getPreco());
+            produtoDto.setQtd_estoque(produto.getQtd_estoque());
+            produtoDto.setDescricao(produto.getDescricao());
+            produtoDto.setStatus(produto.getStatus());
+
+            // Adicionar o produto e o DTO ao modelo
+            model.addAttribute("produto", produto);
+            model.addAttribute("produtoDto", produtoDto);
+
+            List<String> imagens = produto.getImagens();
+            model.addAttribute("imagens", imagens);
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+            return "redirect:/produtos";
+        }
+        return "produtos/EditarProdutoEstoquista";
+    }
+
+
+
+    @PostMapping("/editestoque")
+    public String editarProdutoEstoque(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Se houver erros de validação, retornar para o formulário de edição
+            return "produtos/EditarProdutoEstoquista";
+        }
+        try {
+            // Buscar o produto no banco de dados pelo ID
+            Produto produto = repo.findById(produtoDto.getId()).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            // Atualizar os atributos do produto com base nos dados do DTO
+            produto.setNome(produtoDto.getNome());
+            produto.setAvaliacao(produtoDto.getAvaliacao());
+            produto.setPreco(produtoDto.getPreco());
+            produto.setQtd_estoque(produtoDto.getQtd_estoque());
+            produto.setDescricao(produtoDto.getDescricao());
+            produto.setStatus(produtoDto.getStatus());
+
+            if (!produtoDto.getImagemPadrao().isEmpty()) {
+                produto.setImagemPadrao(produtoDto.getImagemPadrao());
+            }
+
+            if (produtoDto.getImagensRemovidas() != null && !produtoDto.getImagensRemovidas().isEmpty()) {
+                for (String nomeImagemRemovida : produtoDto.getImagensRemovidas()) {
+                    // Remover imagem do banco de dados
+                    produto.getImagens().remove(nomeImagemRemovida);
+
+                    // Se a imagem removida for a imagem padrão, definir a próxima imagem como imagem padrão
+                    if (nomeImagemRemovida.equals(produto.getImagemPadrao())) {
+                        if (!produto.getImagens().isEmpty()) {
+                            // Define a próxima imagem da lista como imagem padrão
+                            produto.setImagemPadrao(produto.getImagens().get(0));
+                        } else {
+                            // Se não houver mais imagens na lista, defina a imagem padrão como vazia
+                            produto.setImagemPadrao("");
+                        }
+                    }
+
+                    // Excluir fisicamente a imagem do diretório
+                    String diretorioImagens = "src/main/resources/static/imagens_produtos/";
+                    Path imagemRemovidaPath = Paths.get(diretorioImagens + nomeImagemRemovida);
+                    Files.deleteIfExists(imagemRemovidaPath);
+                }
+            }
+
+
+            // Adicionar novas imagens, se houver
+            List<MultipartFile> novasImagens = produtoDto.getImagens();
+            if (novasImagens != null && !novasImagens.isEmpty()) {
+                for (MultipartFile imagem : novasImagens) {
+                    // Processar a imagem apenas se ela não estiver vazia
+                    if (!imagem.isEmpty()) {
+                        String nomeArquivo = UUID.randomUUID().toString() + "_" + imagem.getOriginalFilename();
+                        try {
+                            String diretorioImagens = "src/main/resources/static/imagens_produtos/";
+                            Path uploadPath = Paths.get(diretorioImagens);
+                            if (!Files.exists(uploadPath)) {
+                                Files.createDirectories(uploadPath);
+                            }
+                            Path filePath = uploadPath.resolve(nomeArquivo);
+                            Files.copy(imagem.getInputStream(), filePath);
+                            produto.getImagens().add(nomeArquivo);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            // Salvar o produto atualizado no banco de dados
+            repo.save(produto);
+
+            // Redirecionar para a lista de produtos após a edição bem-sucedida
+            return "redirect:/produtos";
+        } catch (Exception ex) {
+            System.out.println("Erro ao editar o produto: " + ex.getMessage());
+            return "redirect:/produtos"; // Ou outro tratamento de erro adequado
+        }
+    }
 
 
     @PostMapping("/atualizarStatus")
@@ -232,3 +355,4 @@ public class ProdutoController {
     }
 
 }
+
