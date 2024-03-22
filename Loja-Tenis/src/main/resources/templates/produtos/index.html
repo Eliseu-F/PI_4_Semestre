@@ -97,7 +97,7 @@
                 // itera sobre as linhas e exibe ou oculta conforme o filtro
                 linhas.forEach(function (linha, index) {
                     // ignora a primeira linha (cabeçalho da tabela)
-                    if (index > 0) {
+                    if (index >= 0) {
                         // pega o texto da segunda coluna (índice 1) e converte para minúsculas
                         var nomeProduto = linha.children[1].textContent.toLowerCase();
                         // verifica se o texto da segunda coluna inclui o filtro
