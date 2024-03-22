@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import java.security.Principal;
 
 import java.util.List;
+
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @RequestMapping("/usuarios")
@@ -74,6 +77,12 @@ public class UsuarioController {
 
         usuario.setGrupo(usuarioDto.getGrupo());
         usuario.setStatus(usuarioDto.getStatus());
+
+        String cpf = usuarioDto.getCpf();
+            if (!isValidCPF(cpf)) {
+            bindingResult.rejectValue("cpf", "error.usuarioDto", "CPF inválido");
+            return "usuarios/CriaUsuario";
+        }
 
         // Configurar atributos de usuarioDto para usuario
         // Salvar usuario no repositório
@@ -136,6 +145,12 @@ public class UsuarioController {
             String senhaEncriptada = this.passwordEncoder.encode(usuarioDto.getSenha());
             usuario.setSenha(senhaEncriptada);
 
+            String cpf = usuarioDto.getCpf();
+            if (!isValidCPF(cpf)) {
+            bindingResult.rejectValue("cpf", "error.usuarioDto", "CPF inválido");
+            return "usuarios/CriaUsuario";
+        }
+            
             // Salvar usuario no repositório
             repo.save(usuario);
 
@@ -158,4 +173,43 @@ public class UsuarioController {
         repo.save(usuario);
         return "redirect:/usuarios";
     }
+
+    private boolean isValidCPF(String cpf) {
+        // Remove caracteres especiais do CPF
+        cpf = cpf.replaceAll("[^0-9]", "");
+    
+        // Verifica se o CPF possui 11 dígitos
+        if (cpf.length() != 11) {
+            return false;
+        }
+    
+        // Calcula o primeiro dígito verificador
+        int sum = 0;
+        for (int i = 0; i < 9; i++) {
+            sum += (cpf.charAt(i) - '0') * (10 - i);
+        }
+        int remainder = 11 - (sum % 11);
+        int digit1 = (remainder >= 10) ? 0 : remainder;
+    
+        // Verifica o primeiro dígito verificador
+        if (digit1 != (cpf.charAt(9) - '0')) {
+            return false;
+        }
+    
+        // Calcula o segundo dígito verificador
+        sum = 0;
+        for (int i = 0; i < 10; i++) {
+            sum += (cpf.charAt(i) - '0') * (11 - i);
+        }
+        remainder = 11 - (sum % 11);
+        int digit2 = (remainder >= 10) ? 0 : remainder;
+    
+        // Verifica o segundo dígito verificador
+        if (digit2 != (cpf.charAt(10) - '0')) {
+            return false;
+        }
+    
+        return true;
+    }
+    
 }
