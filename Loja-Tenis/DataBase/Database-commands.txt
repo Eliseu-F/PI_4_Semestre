@@ -55,7 +55,23 @@ VALUES
         ('Fernanda Lima', 'fernanda.lima@email.com', '44433322211', 'Cliente', 'Inativo', '123456'),
         ('Pedro Rocha', 'pedro.rocha@email.com', '77788899900', 'Administrador', 'Inativo', '123456'),
         ('Mariana Costa', 'mariana.costa@email.com', '22211144455', 'Cliente', 'Inativo', '123456');
+________________________________10 produtos para teste_____________________________________________
 
+INSERT INTO PRODUTOS (ID,  AVALIACAO, DESCRICAO, NOME, PRECO, QTD_ESTOQUE, STATUS)
+VALUES
+(1,  4.5, 'Descrição do produto 1', 'Produto 1', 29.99, 100, 'Ativo'),
+(2, 3.8, 'Descrição do produto 2', 'Produto 2', 19.99, 75, 'Inativo'),
+(3,  5.0, 'Descrição do produto 3', 'Produto 3', 39.99, 50, 'Ativo'),
+(4,  4.2, 'Descrição do produto 4', 'Produto 4', 49.99, 120, 'Ativo'),
+(5,  4.5, 'Descrição do produto 1', 'Produto 1', 29.99, 100, 'Ativo'),
+(6, 3.8, 'Descrição do produto 2', 'Produto 2', 19.99, 75, 'Inativo'),
+(7,  5.0, 'Descrição do produto 3', 'Produto 3', 39.99, 50, 'Ativo'),
+(8,  4.2, 'Descrição do produto 4', 'Produto 4', 49.99, 120, 'Ativo'),
+(9,  4.2, 'Descrição do produto 4', 'Produto 4', 49.99, 120, 'Ativo'),
+(10,  4.5, 'Descrição do produto 1', 'Produto 1', 29.99, 100, 'Ativo'),
+(11, 3.8, 'Descrição do produto 2', 'Produto 2', 19.99, 75, 'Inativo'),
+(12,  5.0, 'Descrição do produto 3', 'Produto 3', 39.99, 50, 'Ativo'),
+(13,  4.2, 'Descrição do produto 4', 'Produto 4', 49.99, 120, 'Ativo');
 
 -------------------- PRODUTOS  ----------------------------------------------------------------------------------------------------
 INSERT INTO PRODUTOS (ID, ARQUIVO_IMAGEM, AVALIACAO, DESCRICAO, NOME, PRECO, QTD_ESTOQUE, STATUS)
