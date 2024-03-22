@@ -52,6 +52,38 @@ public class ProdutoController {
 
         return "produtos/index";
     }
+    @GetMapping("/view/{id}")
+    public String showProductDetails(@PathVariable int id, Model model) {
+        try {
+            // Buscar o produto no banco de dados pelo ID
+            Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+
+            // Mapear os atributos do produto para o DTO
+            ProdutoDto produtoDto = new ProdutoDto();
+            produtoDto.setId(produto.getId());
+            produtoDto.setNome(produto.getNome());
+            produtoDto.setAvaliacao(produto.getAvaliacao());
+            produtoDto.setPreco(produto.getPreco());
+            produtoDto.setQtd_estoque(produto.getQtd_estoque());
+            produtoDto.setDescricao(produto.getDescricao());
+            produtoDto.setStatus(produto.getStatus());
+
+            // Adicionar o produto e o DTO ao modelo
+            model.addAttribute("produto", produto);
+            model.addAttribute("produtoDto", produtoDto);
+
+            List<String> imagens = produto.getImagens();
+            model.addAttribute("imagens", imagens);
+
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+            return "redirect:/produtos";
+        }
+        return "produtos/VisualizarProduto";
+        }
+
 
 
     @GetMapping("/create")
@@ -353,6 +385,8 @@ public class ProdutoController {
         repo.save(produto);
         return "redirect:/produtos";
     }
+
+
 
 }
 
