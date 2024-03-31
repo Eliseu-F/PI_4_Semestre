@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Detalhes do Produto</title>
     <style>
+        body {
+            overflow-y: hidden; /* Evita a rolagem vertical */
+            margin: 0; /* Remove margens padrão do corpo */
+            padding: 0; /* Remove preenchimento padrão do corpo */
+        }
         .bolinha {
             width: 10px;
             height: 10px;
@@ -17,21 +22,22 @@
             background-color: black;
         }
 
-        body, html {
-            height: 100%;
-            margin: 0px;
+        #total_container{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
         }
 
         #info_container{
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            position: relative;
-            top: 450px;
-            padding-right: 50px;
+            align-items: start;
+            padding-right: 80px;
+
 
         }
         #imagem_container{
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -40,58 +46,128 @@
         #botaoAvanca{
             width: 80px;
             height: 80px;
-            bottom: 420px;
-            left: 390px;
+            bottom: 220px;
+            left: 150px;
             position:relative;
             background-image: url('https://i.pinimg.com/originals/95/3d/6c/953d6c0a8026ae79e81a689692428c6f.png');
             background-size: cover;
             background-repeat: no-repeat;
             border: none;
             cursor: pointer;
+            display: inline-block;
+
         }
         #botaoVolta{
             width: 80px;
             height: 80px;
-            bottom: 500px;
-            right: 390px;
+            bottom: 300px;
+            right: 150px;
             position:relative;
             background-image: url('https://cdn-icons-png.freepik.com/512/6652/6652605.png');
             background-size: cover;
             background-repeat: no-repeat;
             border: none;
             cursor: pointer;
+            display: inline-block;
+
         }
-        .info{
-            font-size: 30px;
+        #imagemAtual{
+           max-width: 700px;
+            max-height: 700px;"
         }
 
+        #title_product{
+            font-size: 48px;
+            font-family: "Segoe UI";
+            font-weight: bold;
+            display: flex;
+
+        }
+        #avali_product{
+            display: flex;
+            font-size: 25px;
+            font-family: "Segoe UI";
+        }
+        #price_product{
+            display: flex;
+            font-size: 40px;
+            font-family: "Segoe UI";
+            font-weight: 500;
+            margin-left: 35px;
+        }
+        #indicadores{
+            position: relative;
+            display: flex;
+            bottom: 200px;
+        }
+
+            .quadrado {
+                width: 100px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 44px;
+                border: 3px solid black; /* Adiciona uma borda preta de 2px */
+        }
+        .sizes {
+            width: 60px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+            border: 2px solid black;
+            margin-right:  15px;
+        }
 
     </style>
 </head>
 <body>
 <h1>Detalhes do Produto</h1>
-<div>
-    <div id="info_container">
-    <h2 class="info" th:text="${produto.nome}"></h2>
-    <p  class="info" th:text="${produto.descricao}"></p>
-    <p  class="info">Preço: R$ <span th:text="${produto.preco}"></span></p>
-    <p  class="info">Avaliação: <span th:text="${produto.avaliacao}"></span></p>
-        <button style="width: 250px; height: 50px; background-color: #EF2B00; color: #EDEDED; font-size: 20px; border-radius: 50px">Comprar</button>
-    </div >
+
+<div id="total_container">
+
 
         <div id="imagem_container" class="me-2 mb-2">
-                <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail" style="max-width: 700px; max-height: 700px;" >
-
+                <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail" >
 
             <div id="indicadores">
                 <span th:each="imagem, index : ${imagens}" class="bolinha" onclick="mostrarImagem([[${index.index}]])"></span>
             </div>
             <button id="botaoAvanca" onclick="proximaImagem()"></button>
             <button id="botaoVolta" onclick="voltaImagem()"></button>
-
-
         </div>
+
+    <div id="info_container">
+        <h2 id="title_product" th:text="${produto.nome}"></h2>
+        <p  id="avali_product"><img src="/images/stars.svg"/>
+            <span th:text="${produto.avaliacao}"></span></p>
+        <div style="display: flex; flex-direction: row; justify-content: start; align-items: center;">
+            <div class="quadrado">
+                + 1 -
+            </div>
+        <p  id="price_product">R$ <span th:text="${produto.preco}"></span></p>
+        </div>
+        <div style="display: flex; flex-direction: row;">
+            <div class="sizes">36</div>
+            <div class="sizes">37</div>
+            <div class="sizes">38</div>
+            <div class="sizes">39</div>
+            <div class="sizes">40</div>
+            <div class="sizes">41</div>
+        </div>
+        <p  id="descri_product" th:text="${produto.descricao}"></p>
+
+        <div style="display: flex; flex-direction: row;">
+        <button style="width: 190px; height: 50px; background-color: #EF2B00; color: #EDEDED; font-size: 13px; font-family: 'Segoe UI'; font-weight: bold; margin-right: 25px; border: none">COMPRAR</button>
+            <button style="width: 190px; height: 50px; background-color: #000000; color: #EDEDED; font-size: 13px; font-family: 'Segoe UI'; font-weight: bold; border: none">ADICIONAR AO CARRINHO</button>
+        </div>
+</div >
 </div>
+
+
+
 <script th:inline="javascript">
     var imagens = /*[[${produto.imagens}]]*/;
     var imagemPadrao = /*[[${produto.imagemPadrao}]]*/;
