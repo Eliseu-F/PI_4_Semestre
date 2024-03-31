@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="home.css">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-color: #fff;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid #ccc; 
+    padding-bottom: 10px;
+}
+
+header {
+    background-color: #fff;
+    color: #333;
+    padding: 10px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-bottom: 2px solid #000000; 
+    border-radius: 10px; 
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    position: relative;
+    
+}
+
+.nav-links li {
+    display: inline;
+    margin-left: 10px;
+}
+
+.nav-links li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.hero {
+    background-color: #f4f4f4;
+    padding: 50px 0;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.carousel-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-bottom: 2px solid #000000;
+    border-radius: 10px;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card {
+    width: 300px;
+    height: 400px;
+    margin-right: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    scroll-snap-align: start; 
+}
+.card img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+        
+.card h3 {
+    margin: 0;
+    font-size: 18px;
+}
+        
+.card p {
+    margin: 10px 0;
+    color: #888;
+}
+        
+.details-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+        
+.details-button:hover {
+    background-color: #555;
+}
+        
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+        
+.prev-button {
+    left: 10px;
+}
+        
+.next-button {
+    right: 10px;
+}
+.buttonLogin{
+    position: absolute;
+    right: 320px;
+    border-radius: 20px;
+    background-color: #f05d19;
+    color: white;
+    padding: 7px 20px;
+    margin: 1px;
+    transition: background-color 0.3s ease;
+}
+.buttonCadastro {
+    position: absolute;
+    right: 420px;
+    border-radius: 20px;
+    background-color: #f05d19;
+    color: white;
+    padding: 7px 20px;
+     margin: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.buttonLogin:hover,
+.buttonCadastro:hover {
+    background-color: #c0df14;
+    padding: 10px 40px;
+}
+.menu{
+    flex-direction: row;
+    justify-content: space-between;
+}
+</style>
+
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="/home">
+                <img src="images/LOGO.png" class="logo" alt="Logo" style="width: 250px; height: 100px; z-index: 1">
+            </a>
+            <ul class="nav-links">
+                <a href="/signup" class="buttonLogin">Login</a>
+                <a href="/cadastroCliente" class="buttonCadastro">Cadastro</a>
+                <a href="/meuperfil" style="margin-right: 20px;"> <!-- Adicione margem direita -->
+                    <img src="images/user.svg" class="user" alt="perfil" style="width: 30px; height: 30px">
+                </a>
+                <a href="/carrinho" style="margin-right: 30px;">
+                    <img src="images/carrinho.svg" class="car" alt="car" style="width: 30px; height: 30px">
+                </a>
+            </ul>
+        </nav>
+    </header>
+
+    <!--  -->
+<div class="carousel-container">
+    <div class="carousel">
+        <div class="card">
+            <h3>Produto 1</h3>
+            <img src="imagem1.jpg" alt="Produto 1">
+            <p>Valor: R$ 100,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+        <div class="card">
+            <h3>Produto</h3>
+            <img src="imagem2.jpg" alt="Produto 2">
+            <p>Valor: R$ 150,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+        <div class="card">
+            <h3>Produto</h3>
+            <img src="imagem3.jpg" alt="Produto 3">
+            <p>Valor: R$ 120,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+        <div class="card">
+            <h3>Produto</h3>
+            <img src="imagem3.jpg" alt="Produto 3">
+            <p>Valor: R$ 120,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+        <div class="card">
+            <h3>Produto</h3>
+            <img src="imagem3.jpg" alt="Produto 3">
+            <p>Valor: R$ 120,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+        <div class="card">
+            <h3>Produto 3</h3>
+            <img src="imagem3.jpg" alt="Produto 3">
+            <p>Valor: R$ 120,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+        <div class="card">
+            <h3>Produto 3</h3>
+            <img src="imagem3.jpg" alt="Produto 3">
+            <p>Valor: R$ 120,00</p>
+            <a href="#" class="details-button">Detalhes</a>
+        </div>
+
+    </div>
+    <button class="prev-button" onclick="moveCarousel(-1)">&#10094;</button>
+    <button class="next-button" onclick="moveCarousel(1)">&#10095;</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
