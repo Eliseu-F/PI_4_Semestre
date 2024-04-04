@@ -36,6 +36,8 @@
 
 
         }
+
+
         #imagem_container{
             flex: 1;
             display: flex;
@@ -76,17 +78,28 @@
             max-height: 700px;"
         }
 
+        #descri_product{
+            font-family: "Segoe UI";
+
+        }
+
         #title_product{
-            font-size: 48px;
+            font-size: 50px;
             font-family: "Segoe UI";
             font-weight: bold;
             display: flex;
+            align-items: flex-end;
+            margin: unset;
+            margin-top: 100px
 
         }
         #avali_product{
-            display: flex;
-            font-size: 25px;
+            font-size: 35px;
             font-family: "Segoe UI";
+            align-items: flex-end;
+            margin: unset;
+            text-align: center;
+
         }
         #price_product{
             display: flex;
@@ -157,10 +170,12 @@
             <div class="sizes">40</div>
             <div class="sizes">41</div>
         </div>
-        <p  id="descri_product" th:text="${produto.descricao}"></p>
 
+        <div id="descri_product" style="width: 450px;">
+            <p th:text="${produto.descricao}" style="word-wrap: break-word;"></p>
+        </div>
         <div style="display: flex; flex-direction: row;">
-        <button style="width: 190px; height: 50px; background-color: #EF2B00; color: #EDEDED; font-size: 13px; font-family: 'Segoe UI'; font-weight: bold; margin-right: 25px; border: none">COMPRAR</button>
+            <button style="width: 190px; height: 50px; background-color: #EF2B00; color: #EDEDED; font-size: 13px; font-family: 'Segoe UI'; font-weight: bold; margin-right: 87px; border: none">COMPRAR</button>
             <button style="width: 190px; height: 50px; background-color: #000000; color: #EDEDED; font-size: 13px; font-family: 'Segoe UI'; font-weight: bold; border: none">ADICIONAR AO CARRINHO</button>
         </div>
 </div >
