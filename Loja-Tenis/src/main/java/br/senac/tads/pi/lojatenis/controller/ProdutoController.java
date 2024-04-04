@@ -110,7 +110,7 @@ public class ProdutoController {
             String nomeArquivo = UUID.randomUUID().toString() + "_" + imagem.getOriginalFilename();
 
             try {
-                String diretorioImagens = "src/main/resources/static/imagens_produtos/";
+                String diretorioImagens = "C://Users//samuel.lsbraga//Downloads//Projeto-Integrador-4//Loja-Tenis//src//main//resources//static//imagens_produtos";
                 Path uploadPath = (Path) Paths.get(diretorioImagens);
                 if(!Files.exists(uploadPath)){
                     System.out.println("Diretorio nao existe");
