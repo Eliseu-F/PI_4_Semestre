@@ -4,10 +4,15 @@
  */
 package br.senac.tads.pi.lojatenis.controller;
 
+import br.senac.tads.pi.lojatenis.model.Produto;
+import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  *
@@ -17,11 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-    
+
+    @Autowired
+    private ProdutoRepository repo;
     @GetMapping({"", "/"})
     public String home(Model model){
-        model.addAttribute("message", "Olá !");
+        List<Produto> produtos = repo.findAll();
+
+        model.addAttribute("produtos", produtos);
         return "home/index";
     }
-    
+
 }

@@ -41,9 +41,7 @@
                         <th>Nome</th>
                         <th>Avaliação</th>
                         <th>Quantidade</th>
-                        <th>Descricao</th>
                         <th>Preço</th>
-                        <th>Imagem</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -53,11 +51,7 @@
                         <td th:text="${produto.nome}"></td>
                         <td th:text="${produto.avaliacao}"></td>
                         <td th:text="${produto.qtd_estoque}"></td>
-                        <td th:text="${produto.descricao}"></td>
                         <td th:text="${produto.preco}"></td>
-                        <td>
-                            <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" style="max-width: 100px; max-height: 100px;" />
-                        </td>
 
                         <td th:text="${produto.status}"></td>
                         <td style="white-space:nowrap" >
