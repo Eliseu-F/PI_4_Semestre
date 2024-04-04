@@ -16,23 +16,21 @@ body {
     background-color: #fff;
     width: 80%;
     margin: 0 auto;
-    border-bottom: 1px solid #ccc; 
+    border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
 }
 
 header {
     background-color: #fff;
     color: #333;
-    padding: 10px 0;
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #D9D9D9;
-    border-bottom: 2px solid #000000; 
-    border-radius: 10px; 
+    background-color: #ffffff;
+    border-bottom: 2px solid #000000;
 }
 
 .logo {
@@ -42,7 +40,7 @@ header {
 
 .nav-links {
     position: relative;
-    
+
 }
 
 .nav-links li {
@@ -69,64 +67,71 @@ footer {
 }
 
 .carousel-container {
+    background-color: #EAEAEA;
+    flex: 1;
+    flex-direction: row;
+    display: flex;
     position: relative;
     width: 80%;
+    height: 500px;
     margin: 0 auto;
     overflow: hidden;
-    border-bottom: 2px solid #000000;
     border-radius: 10px;
+    margin-top: 100px;
+    align-items: center;
 }
 
 .carousel {
+    flex: 1;
+    justify-content: center;
     display: flex;
-    overflow-x: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
 }
 
 .card {
     width: 300px;
     height: 400px;
     margin-right: 20px;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-    scroll-snap-align: start; 
+    scroll-snap-align: start;
 }
 .card img {
     max-width: 100%;
     border-radius: 5px;
     margin-bottom: 20px;
 }
-        
+
 .card h3 {
     margin: 0;
     font-size: 18px;
 }
-        
+
 .card p {
     margin: 10px 0;
     color: #888;
 }
-        
+
 .details-button {
-    background-color: #333;
-    color: #fff;
+    background-color: #EF2B00;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    margin-bottom: 8px;
+    width: 300px;
     text-decoration: none;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    text-align: center;
 }
-        
+
 .details-button:hover {
-    background-color: #555;
+    background-color: #000000;
 }
-        
+
 .prev-button, .next-button {
     position: absolute;
     top: 50%;
@@ -139,11 +144,11 @@ footer {
     border-radius: 5px;
     font-size: 18px;
 }
-        
+
 .prev-button {
     left: 10px;
 }
-        
+
 .next-button {
     right: 10px;
 }
@@ -151,7 +156,7 @@ footer {
     position: absolute;
     right: 320px;
     border-radius: 20px;
-    background-color: #f05d19;
+    background-color: #EF2B00;
     color: white;
     padding: 7px 20px;
     margin: 1px;
@@ -161,7 +166,7 @@ footer {
     position: absolute;
     right: 420px;
     border-radius: 20px;
-    background-color: #f05d19;
+    background-color: #EF2B00;
     color: white;
     padding: 7px 20px;
      margin: 1px;
@@ -170,7 +175,7 @@ footer {
 
 .buttonLogin:hover,
 .buttonCadastro:hover {
-    background-color: #c0df14;
+    background-color: #000000;
     padding: 10px 40px;
 }
 .menu{
@@ -190,7 +195,7 @@ footer {
             <ul class="nav-links">
                 <a href="/signup" class="buttonLogin">Login</a>
                 <a href="/cadastroCliente" class="buttonCadastro">Cadastro</a>
-                <a href="/meuperfil" style="margin-right: 20px;"> <!-- Adicione margem direita -->
+                <a href="/meuperfil" style="margin-right: 20px;">
                     <img src="images/user.svg" class="user" alt="perfil" style="width: 30px; height: 30px">
                 </a>
                 <a href="/carrinho" style="margin-right: 30px;">
@@ -200,50 +205,15 @@ footer {
         </nav>
     </header>
 
-    <!--  -->
 <div class="carousel-container">
-    <div class="carousel">
+    <div th:each="produto : ${produtos}" class="carousel">
         <div class="card">
-            <h3>Produto 1</h3>
-            <img src="imagem1.jpg" alt="Produto 1">
-            <p>Valor: R$ 100,00</p>
-            <a href="#" class="details-button">Detalhes</a>
-        </div>
-        <div class="card">
-            <h3>Produto</h3>
-            <img src="imagem2.jpg" alt="Produto 2">
-            <p>Valor: R$ 150,00</p>
-            <a href="#" class="details-button">Detalhes</a>
-        </div>
-        <div class="card">
-            <h3>Produto</h3>
-            <img src="imagem3.jpg" alt="Produto 3">
-            <p>Valor: R$ 120,00</p>
-            <a href="#" class="details-button">Detalhes</a>
-        </div>
-        <div class="card">
-            <h3>Produto</h3>
-            <img src="imagem3.jpg" alt="Produto 3">
-            <p>Valor: R$ 120,00</p>
-            <a href="#" class="details-button">Detalhes</a>
-        </div>
-        <div class="card">
-            <h3>Produto</h3>
-            <img src="imagem3.jpg" alt="Produto 3">
-            <p>Valor: R$ 120,00</p>
-            <a href="#" class="details-button">Detalhes</a>
-        </div>
-        <div class="card">
-            <h3>Produto 3</h3>
-            <img src="imagem3.jpg" alt="Produto 3">
-            <p>Valor: R$ 120,00</p>
-            <a href="#" class="details-button">Detalhes</a>
-        </div>
-        <div class="card">
-            <h3>Produto 3</h3>
-            <img src="imagem3.jpg" alt="Produto 3">
-            <p>Valor: R$ 120,00</p>
-            <a href="#" class="details-button">Detalhes</a>
+            <td>
+                <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" style="max-width: 300px; max-height: 400px;" />
+            </td>
+            <h3 th:text="${produto.nome}" style="display: flex; flex: 1; align-items: center;  text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 600"></h3>
+            <p style="font-family: 'Segoe UI'; font-weight: 400; color: black">R$<span th:text="${produto.preco}"></span></p>
+            <a href="#" class="details-button" th:href="@{/produtos/view/{id}(id=${produto.id})}">Detalhes</a>
         </div>
 
     </div>
