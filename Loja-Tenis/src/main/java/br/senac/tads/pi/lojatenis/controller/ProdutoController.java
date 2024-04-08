@@ -5,8 +5,7 @@ import br.senac.tads.pi.lojatenis.model.ProdutoDto;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-
-
+import java.io.File;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,12 +51,12 @@ public class ProdutoController {
 
         return "produtos/index";
     }
+
     @GetMapping("/view/{id}")
     public String showProductDetails(@PathVariable int id, Model model) {
         try {
             // Buscar o produto no banco de dados pelo ID
             Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-
 
             // Mapear os atributos do produto para o DTO
             ProdutoDto produtoDto = new ProdutoDto();
@@ -76,15 +75,12 @@ public class ProdutoController {
             List<String> imagens = produto.getImagens();
             model.addAttribute("imagens", imagens);
 
-
         } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
             return "redirect:/produtos";
         }
         return "produtos/VisualizarProduto";
-        }
-
-
+    }
 
     @GetMapping("/create")
     public String showCriaProduto(Model model) {
@@ -109,25 +105,35 @@ public class ProdutoController {
         for (MultipartFile imagem : produtoDto.getImagens()) {
             String nomeArquivo = UUID.randomUUID().toString() + "_" + imagem.getOriginalFilename();
 
-            try {
-                String diretorioImagens = "C://Users//samuel.lsbraga//Downloads//Projeto-Integrador-4//Loja-Tenis//src//main//resources//static//imagens_produtos";
-                Path uploadPath = (Path) Paths.get(diretorioImagens);
-                if(!Files.exists(uploadPath)){
-                    System.out.println("Diretorio nao existe");
+            // Diretório de imagens dentro do projeto
+            File diretorioImagens = new File("src/main/resources/static/imagens_produtos");
+
+            //verifica se o diretório imagens_produtos existe
+            if (!diretorioImagens.exists()) {   
+                //se não existir, ele cria
+                if (diretorioImagens.mkdirs()) {
+                    System.out.println("Diretório " + diretorioImagens.getAbsolutePath() + " foi criado.");
+                } else {
+                    System.out.println("Falha ao criar o diretório " + diretorioImagens.getAbsolutePath());
+                    // Lidar com a falha ao criar o diretório, se necessário
                 }
+            }
+
+            try {
+                String caminhoApp = new File("").getAbsolutePath();
+                Path uploadPath = Paths.get(caminhoApp, "src/main/resources/static/imagens_produtos");
                 Path filePath = uploadPath.resolve(nomeArquivo);
                 Files.copy(imagem.getInputStream(), filePath);
                 imagensSalvas.add(nomeArquivo);
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+// Definição da primeira imagem como padrão
+        String imagemPadrao = imagensSalvas.isEmpty() ? null : imagensSalvas.get(0);
 
-        //defini a primeira imagem como padrão
-        String imagemPadrao = imagensSalvas.get(0);
-
-            // Mapear produtoDto para a entidade produto
+        // Mapear produtoDto para a entidade produto
         Produto produto = new Produto();
 
         produto.setNome(produtoDto.getNome());
@@ -180,8 +186,6 @@ public class ProdutoController {
         }
         return "produtos/EditarProduto";
     }
-
-
 
     @PostMapping("/edit")
     public String editarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
@@ -238,7 +242,6 @@ public class ProdutoController {
                 }
             }
 
-
             // Adicionar novas imagens, se houver
             List<MultipartFile> novasImagens = produtoDto.getImagens();
             if (novasImagens != null && !novasImagens.isEmpty()) {
@@ -273,7 +276,6 @@ public class ProdutoController {
         }
     }
 
-
     @GetMapping("/editestoque")
     public String mostrarEdicaoEstoque(Model model, @RequestParam int id, HttpSession session) {
 
@@ -307,8 +309,6 @@ public class ProdutoController {
         }
         return "produtos/EditarProdutoEstoquista";
     }
-
-
 
     @PostMapping("/editestoque")
     public String editarProdutoEstoque(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
@@ -355,7 +355,6 @@ public class ProdutoController {
                 }
             }
 
-
             // Adicionar novas imagens, se houver
             List<MultipartFile> novasImagens = produtoDto.getImagens();
             if (novasImagens != null && !novasImagens.isEmpty()) {
@@ -390,7 +389,6 @@ public class ProdutoController {
         }
     }
 
-
     @PostMapping("/atualizarStatus")
     public String atualizaStatus(@RequestParam int id, @ModelAttribute ProdutoDto produtoDto) {
         Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("produto não encontrado"));
@@ -403,7 +401,4 @@ public class ProdutoController {
         return "redirect:/produtos";
     }
 
-
-
 }
-
