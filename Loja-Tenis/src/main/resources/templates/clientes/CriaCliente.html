@@ -75,7 +75,8 @@
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label">Data de Nascimento</label>
                         <div class="col-sm-8">
-                            <input class="form-control" type="date" th:field="*{dataNascimento}">
+                            <input class="form-control" type="date" th:field="*{dataNascimento}" required
+                                max="9999-12-31">
                             <p th:if="${#fields.hasErrors('dataNascimento')}" th:errorclass="text-danger"
                                 th:errors="${clienteDto.dataNascimento}"></p>
                         </div>
@@ -94,10 +95,12 @@
                         </div>
                     </div>
 
+                    <h2 class="text-center mb-2"> Dados de Endereço</h2>
+
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label">CEP</label>
                         <div class="col-sm-8">
-                            <input class="form-control" th:field="*{cep}">
+                            <input class="form-control" th:field="*{cep}" maxlength="9">
                             <p th:if="${#fields.hasErrors('cep')}" th:errorclass="text-danger"
                                 th:errors="${clienteDto.cep}"></p>
                         </div>
@@ -115,7 +118,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label">Número</label>
                         <div class="col-sm-8">
-                            <input class="form-control" th:field="*{numero}">
+                            <input class="form-control" th:field="*{numero}" maxlength="10">
                             <p th:if="${#fields.hasErrors('numero')}" th:errorclass="text-danger"
                                 th:errors="${clienteDto.numero}"></p>
                         </div>
@@ -151,7 +154,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label">UF</label>
                         <div class="col-sm-8">
-                            <input class="form-control" th:field="*{uf}">
+                            <input class="form-control" th:field="*{uf}" maxlength="2">
                             <p th:if="${#fields.hasErrors('uf')}" th:errorclass="text-danger"
                                 th:errors="${clienteDto.uf}"></p>
                         </div>

@@ -27,15 +27,22 @@ public class Cliente {
     private String senha;
     private String genero;
     private String cpf;
+    private String status;
     private Date dataNascimento;
 
     // Endereço
     private String cep;
+
     private String logradouro;
+
     private String numero;
+
     private String complemento;
+
     private String bairro;
+
     private String cidade;
+    
     private String uf;
 
     public Cliente() {
@@ -161,4 +168,13 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
 }

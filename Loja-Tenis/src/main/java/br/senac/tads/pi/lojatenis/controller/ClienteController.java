@@ -1,9 +1,12 @@
 package br.senac.tads.pi.lojatenis.controller;
 
 import java.security.Principal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +79,8 @@ public class ClienteController {
         cliente.setGenero(clienteDto.getGenero());
         cliente.setCpf(clienteDto.getCpf());
         cliente.setDataNascimento(clienteDto.getDataNascimento());
-
+       
+        cliente.setStatus(clienteDto.getStatus());
         cliente.setCep(clienteDto.getCep());
         cliente.setLogradouro(clienteDto.getLogradouro());
         cliente.setNumero(clienteDto.getNumero());
@@ -98,7 +104,7 @@ public class ClienteController {
         repo.save(cliente);
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
-        return "redirect:/clientes";
+        return "redirect:/signup";
     }
 
     private boolean isValidCPF(String cpf) {

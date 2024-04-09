@@ -2,9 +2,12 @@ package br.senac.tads.pi.lojatenis.model;
 
 import java.sql.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -21,7 +24,8 @@ public class ClienteDto {
     @NotEmpty(message = "O campo de nome não pode estar vazio")
     private String nome;
 
-    @Past(message = "A data de nascimento deve ser no passado")
+    @Past(message = "A data de nascimento inválida.")   
+    @NotNull(message = "Data de nascimento é obrigatória.")
     private Date dataNascimento;
 
     private String genero;
@@ -64,9 +68,11 @@ public class ClienteDto {
     @NotBlank(message = "A cidade não pode estar vazia")
     private String cidade;
 
-    @NotBlank(message = "A UF não pode estar vazia")
-    @Size(min = 2, max = 2, message = "A UF deve conter exatamente 2 caracteres")
+    @Pattern(regexp = "^[A-Za-z]+$", message = "A UF não pode estar vazia")
+    @Size(min = 2, max = 2, message = "Insira uma UF válida")
     private String uf;
+
+    private String status = "Ativo";
 
     public Integer getId() {
         return id;
@@ -189,4 +195,13 @@ public class ClienteDto {
         this.dataNascimento = dataNascimento;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
 }
