@@ -1,13 +1,19 @@
 package br.senac.tads.pi.lojatenis.model;
 
+import java.sql.Date;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  *
  * @author eliseu.santos
  */
+@Entity
+@Table(name = "Clientes")
 public class Cliente {
 
     private String Token = "";
@@ -17,13 +23,13 @@ public class Cliente {
     private int id;
 
     private String nome;
-    private int dataNascimento;
-    private String genero;
-    private String cpf;
     private String email;
     private String senha;
+    private String genero;
+    private String cpf;
+    private Date dataNascimento;
 
-    //Endereço
+    // Endereço
     private String cep;
     private String logradouro;
     private String numero;
@@ -57,14 +63,6 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public int getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(int dataNascimento) {
-        this.dataNascimento = dataNascimento;
     }
 
     public String getGenero() {
@@ -154,7 +152,13 @@ public class Cliente {
     public void setUf(String uf) {
         this.uf = uf;
     }
-    
-    
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
 }
