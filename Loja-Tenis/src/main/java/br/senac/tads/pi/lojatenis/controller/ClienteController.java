@@ -42,6 +42,7 @@ public class ClienteController {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+
     @GetMapping("/create")
     public String showCriaCliente(Model model) {
         ClienteDto clienteDto = new ClienteDto();
@@ -104,7 +105,7 @@ public class ClienteController {
         repo.save(cliente);
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
-        return "redirect:/signup";
+        return "redirect:/login";
     }
 
     private boolean isValidCPF(String cpf) {
@@ -144,5 +145,9 @@ public class ClienteController {
 
         return true;
     }
+
+
+
+    
 
 }
