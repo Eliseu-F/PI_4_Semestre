@@ -98,10 +98,11 @@ input{
     justify-content: center;
     font-weight: bold;
     font-family: "Arial";
-    font-size: 20px;
+    font-size: 30px;
     margin-top: 15px;
+    
 }
 
-.button_header{
-
+.esqueceu > p > a {
+    color: black;
 }
