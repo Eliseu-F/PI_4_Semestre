@@ -23,13 +23,13 @@ public class SignUpController {
     private UsuarioRepository usuarioRepository;
 
     PasswordEncoder passwordEncoder;
-    
-    public SignUpController(UsuarioRepository usuarioRepository){
+
+    public SignUpController(UsuarioRepository usuarioRepository) {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @GetMapping("/signup")
-    public String getSignupPage(){
+    public String getSignupPage() {
         return "usuarios/signup";
     }
 

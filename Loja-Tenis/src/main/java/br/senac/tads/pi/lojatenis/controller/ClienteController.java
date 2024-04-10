@@ -62,6 +62,13 @@ public class ClienteController {
             return "clientes/CriaCliente";
         }
 
+        // Verificar se a senha e a confirmação da senha coincidem
+        if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
+            // Adicione um erro ao BindingResult
+            bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+            return "clientes/CriaCliente";
+        }
+
         // Verificar se o cliente forneceu um endereço
         if (clienteDto.getCep() == null || clienteDto.getLogradouro() == null || clienteDto.getNumero() == null) {
             // Adicionar uma mensagem de erro ao BindingResult
@@ -80,6 +87,10 @@ public class ClienteController {
         cliente.setCpf(clienteDto.getCpf());
         cliente.setDataNascimento(clienteDto.getDataNascimento());
 
+<<<<<<< HEAD
+=======
+        cliente.setStatus(clienteDto.getStatus());
+>>>>>>> d8d4b34e4d74b0a2f492c177f1ad3b0842055484
         cliente.setCep(clienteDto.getCep());
         cliente.setLogradouro(clienteDto.getLogradouro());
         cliente.setNumero(clienteDto.getNumero());
@@ -103,7 +114,7 @@ public class ClienteController {
         repo.save(cliente);
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
-        return "redirect:/signup";
+        return "redirect:/login";
     }
 
     @GetMapping("/edit")

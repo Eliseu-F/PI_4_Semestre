@@ -15,4 +15,8 @@ function moveCarousel(direction) {
     }
 
     carousel.style.transform = `translateX(-${slideIndex * cardWidth}px)`;
+
+
+    
 }
+

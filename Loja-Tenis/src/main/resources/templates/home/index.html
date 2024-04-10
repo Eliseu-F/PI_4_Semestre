@@ -193,14 +193,16 @@ footer {
                 <img src="images/LOGO.png" class="logo" alt="Logo" style="width: 250px; height: 100px; z-index: 1">
             </a>
             <ul class="nav-links">
-                <a href="/signup" class="buttonLogin">Login</a>
-                <a href="/cadastroCliente" class="buttonCadastro">Cadastro</a>
-                <a href="/meuperfil" style="margin-right: 20px;">
+                <a th:if="${usuarioLogado}" href="/meuperfil" style="margin-right: 20px;">
                     <img src="images/user.svg" class="user" alt="perfil" style="width: 30px; height: 30px">
                 </a>
-                <a href="/carrinho" style="margin-right: 30px;">
+                <a th:if="${usuarioLogado}" href="/carrinho" style="margin-right: 30px;">
                     <img src="images/carrinho.svg" class="car" alt="car" style="width: 30px; height: 30px">
                 </a>
+                <a th:if="${usuarioLogado}" id="logoutButton" href="/logout" class="buttonLogin" onclick="confirmLogout()">Logout</a>
+
+                <a th:unless="${usuarioLogado}" href="/login" class="buttonLogin">Login</a>
+                <a th:unless="${usuarioLogado}" href="clientes/create" class="buttonCadastro">Cadastro</a>
             </ul>
         </nav>
     </header>
@@ -222,5 +224,11 @@ footer {
 </div>
 
 <script src="script.js"></script>
+<script>
+    function confirmLogout(){
+        if(confirm("Tem certeza que deseja sair da sua conta?"))
+        { document.getElementById("logoutButton").submit();}
+    }
+</script>
 </body>
 </html>

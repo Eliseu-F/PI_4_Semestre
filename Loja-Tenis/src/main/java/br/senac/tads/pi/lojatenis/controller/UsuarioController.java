@@ -63,6 +63,11 @@ public class UsuarioController {
             bindingResult.rejectValue("email", "error.usuarioDto", "Este email já está em uso");
             return "usuarios/CriaUsuario";
         }
+        if (!usuarioDto.getSenha().equals(usuarioDto.getConfirmaSenha())) {
+            // Adicione um erro ao BindingResult
+            bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+            return "usuarios/CriaUsuario";
+        }
 
         // Mapear UsuarioDto para a entidade Usuario
         Usuario usuario = new Usuario();
