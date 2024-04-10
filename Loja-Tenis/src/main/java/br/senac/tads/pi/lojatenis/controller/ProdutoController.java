@@ -39,8 +39,9 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository repo;
 
-    @GetMapping({"", "/"})
-    public String showProdutosList(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    @GetMapping({ "", "/" })
+    public String showProdutosList(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         Page<Produto> produtosPage = repo.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
         model.addAttribute("produtos", produtosPage.getContent());
         model.addAttribute("currentPage", page);
@@ -90,7 +91,8 @@ public class ProdutoController {
     }
 
     @PostMapping("/create")
-    public String criarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
+    public String criarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             // Se houver erros de validação, retorne para o formulário de registro
             return "produtos/CriaProduto";
@@ -108,9 +110,9 @@ public class ProdutoController {
             // Diretório de imagens dentro do projeto
             File diretorioImagens = new File("src/main/resources/static/imagens_produtos");
 
-            //verifica se o diretório imagens_produtos existe
-            if (!diretorioImagens.exists()) {   
-                //se não existir, ele cria
+            // verifica se o diretório imagens_produtos existe
+            if (!diretorioImagens.exists()) {
+                // se não existir, ele cria
                 if (diretorioImagens.mkdirs()) {
                     System.out.println("Diretório " + diretorioImagens.getAbsolutePath() + " foi criado.");
                 } else {
@@ -130,7 +132,7 @@ public class ProdutoController {
             }
         }
 
-// Definição da primeira imagem como padrão
+        // Definição da primeira imagem como padrão
         String imagemPadrao = imagensSalvas.isEmpty() ? null : imagensSalvas.get(0);
 
         // Mapear produtoDto para a entidade produto
@@ -188,14 +190,16 @@ public class ProdutoController {
     }
 
     @PostMapping("/edit")
-    public String editarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
+    public String editarProduto(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             // Se houver erros de validação, retornar para o form de edição
             return "produtos/EditarProduto";
         }
         try {
             // Buscar o produto no banco de dados pelo ID
-            Produto produto = repo.findById(produtoDto.getId()).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            Produto produto = repo.findById(produtoDto.getId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             // Atualizar os atributos do produto com base nos dados do DTO
             produto.setNome(produtoDto.getNome());
@@ -205,12 +209,15 @@ public class ProdutoController {
             produto.setDescricao(produtoDto.getDescricao());
             produto.setStatus(produtoDto.getStatus());
 
-            if (produto.getImagens().size() == 1 && produtoDto.getImagensRemovidas() != null && !produtoDto.getImagensRemovidas().isEmpty()) {
-                bindingResult.rejectValue("imagensRemovidas", "error.produto", "Não é permitido remover a única imagem associada ao produto.");
+            if (produto.getImagens().size() == 1 && produtoDto.getImagensRemovidas() != null
+                    && !produtoDto.getImagensRemovidas().isEmpty()) {
+                bindingResult.rejectValue("imagensRemovidas", "error.produto",
+                        "Não é permitido remover a única imagem associada ao produto.");
                 return "produtos/EditarProduto";
             }
 
-            if (produto.getImagens().isEmpty() && (produtoDto.getImagens() == null || produtoDto.getImagens().isEmpty() || produtoDto.getImagens().stream().allMatch(MultipartFile::isEmpty))) {
+            if (produto.getImagens().isEmpty() && (produtoDto.getImagens() == null || produtoDto.getImagens().isEmpty()
+                    || produtoDto.getImagens().stream().allMatch(MultipartFile::isEmpty))) {
                 bindingResult.rejectValue("imagens", "error.produto", "Não é permitido deixar o produto sem imagem.");
                 return "produtos/EditarProduto";
             }
@@ -224,7 +231,8 @@ public class ProdutoController {
                     // Remover imagem do banco de dados
                     produto.getImagens().remove(nomeImagemRemovida);
 
-                    // Se a imagem removida for a imagem padrão, definir a proxima imagem como imagem padrão
+                    // Se a imagem removida for a imagem padrão, definir a proxima imagem como
+                    // imagem padrão
                     if (nomeImagemRemovida.equals(produto.getImagemPadrao())) {
                         if (!produto.getImagens().isEmpty()) {
                             // Define a próxima imagem da lista como imagem padrão
@@ -311,14 +319,16 @@ public class ProdutoController {
     }
 
     @PostMapping("/editestoque")
-    public String editarProdutoEstoque(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto, BindingResult bindingResult, Model model) {
+    public String editarProdutoEstoque(@ModelAttribute("produtoDto") @Valid ProdutoDto produtoDto,
+            BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             // Se houver erros de validação, retornar para o formulário de edição
             return "produtos/EditarProdutoEstoquista";
         }
         try {
             // Buscar o produto no banco de dados pelo ID
-            Produto produto = repo.findById(produtoDto.getId()).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            Produto produto = repo.findById(produtoDto.getId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             // Atualizar os atributos do produto com base nos dados do DTO
             produto.setNome(produtoDto.getNome());
@@ -337,7 +347,8 @@ public class ProdutoController {
                     // Remover imagem do banco de dados
                     produto.getImagens().remove(nomeImagemRemovida);
 
-                    // Se a imagem removida for a imagem padrão, definir a próxima imagem como imagem padrão
+                    // Se a imagem removida for a imagem padrão, definir a próxima imagem como
+                    // imagem padrão
                     if (nomeImagemRemovida.equals(produto.getImagemPadrao())) {
                         if (!produto.getImagens().isEmpty()) {
                             // Define a próxima imagem da lista como imagem padrão
@@ -393,9 +404,10 @@ public class ProdutoController {
     public String atualizaStatus(@RequestParam int id, @ModelAttribute ProdutoDto produtoDto) {
         Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("produto não encontrado"));
 
-        //altera o status do produto
+        // altera o status do produto
         produto.setStatus("Ativo".equals(produto.getStatus()) ? "Inativo" : "Ativo");
-        //se o status for ativo, se for true, altera para inativo, caso contrario altera para ativo
+        // se o status for ativo, se for true, altera para inativo, caso contrario
+        // altera para ativo
 
         repo.save(produto);
         return "redirect:/produtos";

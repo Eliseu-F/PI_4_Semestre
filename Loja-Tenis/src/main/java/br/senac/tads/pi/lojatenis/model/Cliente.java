@@ -1,12 +1,10 @@
 package br.senac.tads.pi.lojatenis.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  *
@@ -30,6 +28,13 @@ public class Cliente {
     private String status;
     private Date dataNascimento;
 
+    @ElementCollection
+    @CollectionTable(name="Cliente_enderecos", joinColumns =@JoinColumn(name = "cliente_id"))
+    @Column(name = "endereco")
+    private List<String> enderecos = new ArrayList<>();
+
+    @Column(name = "endereco_padrao")
+    private String enderecoPadrao;
     // Endereço
     private String cep;
 

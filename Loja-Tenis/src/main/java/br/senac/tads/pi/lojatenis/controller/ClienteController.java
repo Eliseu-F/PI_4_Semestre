@@ -79,8 +79,7 @@ public class ClienteController {
         cliente.setGenero(clienteDto.getGenero());
         cliente.setCpf(clienteDto.getCpf());
         cliente.setDataNascimento(clienteDto.getDataNascimento());
-       
-        cliente.setStatus(clienteDto.getStatus());
+
         cliente.setCep(clienteDto.getCep());
         cliente.setLogradouro(clienteDto.getLogradouro());
         cliente.setNumero(clienteDto.getNumero());
@@ -105,6 +104,42 @@ public class ClienteController {
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
         return "redirect:/signup";
+    }
+
+    @GetMapping("/edit")
+    public String mostrarEdicao(Model model, @RequestParam int id, HttpSession session) {
+
+        try {
+            // Buscar o produto no banco de dados pelo ID
+            Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+            String grupoUsuario = (String) session.getAttribute("grupo");
+            model.addAttribute("grupoUsuario", grupoUsuario);
+
+            // Mapear os atributos do produto para o DTO
+            ClienteDto clienteDto = new ClienteDto();
+            clienteDto.setId(cliente.getId());
+            clienteDto.setNome(cliente.getNome());
+            clienteDto.setEmail(cliente.getEmail());
+            clienteDto.setSenha(cliente.getSenha());
+            clienteDto.setConfirmaSenha(cliente.getSenha());
+            clienteDto.setNome(cliente.getNome());
+            clienteDto.setNome(cliente.getNome());
+            
+
+
+            // Adicionar o produto e o DTO ao modelo
+            model.addAttribute("produto", produto);
+            model.addAttribute("produtoDto", produtoDto);
+
+            List<String> imagens = produto.getImagens();
+            model.addAttribute("imagens", imagens);
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+            return "redirect:/produtos";
+        }
+        return "produtos/EditarProduto";
     }
 
     private boolean isValidCPF(String cpf) {
