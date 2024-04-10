@@ -140,6 +140,11 @@ public class UsuarioController {
                 return "usuarios/EditarUsuario";
             }
 
+            if (!usuarioDto.getSenha().equals(usuarioDto.getConfirmaSenha())) {
+                // Adicione um erro ao BindingResult
+                bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+                return "usuarios/CriaUsuario";
+            }
             // Configurar atributos de usuarioDto para usuario
             usuario.setNome(usuarioDto.getNome());
             usuario.setEmail(usuarioDto.getEmail());
