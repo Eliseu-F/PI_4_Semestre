@@ -42,7 +42,6 @@ public class ClienteController {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-
     @GetMapping("/create")
     public String showCriaCliente(Model model) {
         ClienteDto clienteDto = new ClienteDto();
@@ -63,6 +62,13 @@ public class ClienteController {
             return "clientes/CriaCliente";
         }
 
+        // Verificar se a senha e a confirmação da senha coincidem
+        if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
+            // Adicione um erro ao BindingResult
+            bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+            return "clientes/CriaCliente";
+        }
+
         // Verificar se o cliente forneceu um endereço
         if (clienteDto.getCep() == null || clienteDto.getLogradouro() == null || clienteDto.getNumero() == null) {
             // Adicionar uma mensagem de erro ao BindingResult
@@ -80,7 +86,7 @@ public class ClienteController {
         cliente.setGenero(clienteDto.getGenero());
         cliente.setCpf(clienteDto.getCpf());
         cliente.setDataNascimento(clienteDto.getDataNascimento());
-       
+
         cliente.setStatus(clienteDto.getStatus());
         cliente.setCep(clienteDto.getCep());
         cliente.setLogradouro(clienteDto.getLogradouro());
@@ -145,9 +151,5 @@ public class ClienteController {
 
         return true;
     }
-
-
-
-    
 
 }
