@@ -1,193 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial</title>
     <link rel="stylesheet" href="home.css">
     <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+        body {
+            display: flex;
+            flex: 1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
 
-.container {
-    background-color: #fff;
-    width: 80%;
-    margin: 0 auto;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-}
+        }
 
-header {
-    background-color: #fff;
-    color: #333;
-}
+        main {
+            margin-top: 130px;
+        }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    border-bottom: 2px solid #000000;
-}
+        header {
+            display: flex;
+            flex: 1;
+            padding-top: 50px;
+            flex-direction: row;
+            align-items: end;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            background-color: rgb(255, 255, 255)
+        }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
+        #container_header {
+            display: flex;
+            width: 900px;
+            height: 60px;
+            border: solid #FF2E00 3px;
+            margin-left: 35px;
+            align-items: center;
+            padding-left: 30px;
+            flex-direction: row;
+            justify-content: space-around;
 
-.nav-links {
-    position: relative;
+        }
 
-}
+        .text_header {
+            display: flex;
+            font-family: 'Segoe UI';
+            color: #FF2E00;
+            font-size: 20px;
+            font-weight: 500;
+            flex-direction: row;
+            justify-content: center;
+            align-items: inherit;
+            text-decoration: none;
+        }
 
-.nav-links li {
-    display: inline;
-    margin-left: 10px;
-}
+        #container_profile {
+            display: flex;
+            flex: 1;
+        }
 
-.nav-links li a {
-    color: #333;
-    text-decoration: none;
-}
+        .carousel-container {
+            display: flex;
+            background-color: #ffffff;
+            flex: 1;
+            margin: 90px;
+            justify-content: space-evenly;
+            height: 550px;
+            flex-direction: row;
+            align-items: center;
+        }
 
-.hero {
-    background-color: #f4f4f4;
-    padding: 50px 0;
-    text-align: center;
-}
+        .cards {
+            border: solid #EF2B00 3px;
+            height: 430px;
+            width: 300px;
 
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-}
+        }
 
-.carousel-container {
-    background-color: #EAEAEA;
-    flex: 1;
-    flex-direction: row;
-    display: flex;
-    position: relative;
-    width: 80%;
-    height: 500px;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 10px;
-    margin-top: 100px;
-    align-items: center;
-}
+        .details-button {
+            background-color: #EF2B00;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            text-decoration: none;
+        }
 
-.carousel {
-    flex: 1;
-    justify-content: center;
-    display: flex;
-}
 
-.card {
-    width: 300px;
-    height: 400px;
-    margin-right: 20px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    scroll-snap-align: start;
-}
-.card img {
-    max-width: 100%;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
+        .promo_containers {
+            display: flex;
+            flex: 1;
+            background-color: #00ff04;
+            height: 600px;
+            align-self: center;
+            justify-content: center;
+            margin: 105px;
+            align-items: center;
+        }
+        .banner {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto; /* Centraliza horizontalmente */
+        }
 
-.card h3 {
-    margin: 0;
-    font-size: 18px;
-}
+        .banner-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
 
-.card p {
-    margin: 10px 0;
-    color: #888;
-}
+        /* Estilos específicos para cada banner */
+        .banner1 {
+            width: 100%;
+        }
 
-.details-button {
-    background-color: #EF2B00;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 8px;
-    width: 300px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-}
+        .banner2 {
+            width: 100%;
+        }
 
-.details-button:hover {
-    background-color: #000000;
-}
+        .banner3 {
+            width: 100%;
+        }
 
-.prev-button, .next-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 18px;
-}
-
-.prev-button {
-    left: 10px;
-}
-
-.next-button {
-    right: 10px;
-}
-.buttonLogin{
-    position: absolute;
-    right: 320px;
-    border-radius: 20px;
-    background-color: #EF2B00;
-    color: white;
-    padding: 7px 20px;
-    margin: 1px;
-    transition: background-color 0.3s ease;
-}
-.buttonCadastro {
-    position: absolute;
-    right: 420px;
-    border-radius: 20px;
-    background-color: #EF2B00;
-    color: white;
-    padding: 7px 20px;
-     margin: 1px;
-    transition: background-color 0.3s ease;
-}
-
-.buttonLogin:hover,
-.buttonCadastro:hover {
-    background-color: #000000;
-    padding: 10px 40px;
-}
-.menu{
-    flex-direction: row;
-    justify-content: space-between;
-}
-</style>
-
+        /* Responsividade */
+        @media screen and (max-width: 768px) {
+            .banner-container {
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
-<body>
 
+<body>
     <header>
+<<<<<<< HEAD
         <nav class="navbar">
             <a href="/home">
                 <img src="images/LOGO.png" class="logo" alt="Logo" style="width: 250px; height: 100px; z-index: 1">
@@ -201,35 +151,115 @@ footer {
                     <img src="images/carrinho.svg" class="car" alt="car" style="width: 30px; height: 30px">
                 </a>
                 <a th:if="${usuarioLogado}" id="logoutButton" href="/logout" class="buttonLogin" onclick="confirmLogout()">Logout</a>
+=======
+        <img src="images/logoOrange.svg" class="logo" alt="Logo">
+        <span id="container_header">
+>>>>>>> 270c6003e6bfc8cac11eae27ef788d076e773eb7
 
-                <a th:unless="${usuarioLogado}" href="/login" class="buttonLogin">Login</a>
-                <a th:unless="${usuarioLogado}" href="clientes/create" class="buttonCadastro">Cadastro</a>
-            </ul>
-        </nav>
+            <div
+                style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
+                <a class="text_header"><img src="images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
+            </div>
+
+            <div
+                style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
+                <a class="text_header"> <img src="images/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
+            </div>
+
+            <div th:unless="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-left: 50px;">
+                <a href="clientes/create" class="text_header">Cadastrar</a>
+            </div>
+
+            <div th:unless="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-right: 30px;">
+                <a href="/login" class="text_header">Login</a>
+            </div>
+            <div th:if="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-right: 30px;">
+                <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
+            </div>
+
+            <div th:if="${usuarioLogado}" id="container_profile"
+                style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <div style="display: flex; flex: 1; align-items: center; ">
+                    <img src="images/icons/profile.svg" style="margin-right: 15px;" />
+                </div>
+                <div style="display: flex; flex: 1; align-items: center;">
+                    <img src="images/icons/cart.svg" style="margin-right: 15px;" />
+                </div>
+            </div>
+
+        </span>
     </header>
 
-<div class="carousel-container">
-    <div th:each="produto : ${produtos}" class="carousel">
-        <div class="card">
-            <td>
-                <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" style="max-width: 300px; max-height: 400px;" />
-            </td>
-            <h3 th:text="${produto.nome}" style="display: flex; flex: 1; align-items: center;  text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 600"></h3>
-            <p style="font-family: 'Segoe UI'; font-weight: 400; color: black">R$<span th:text="${produto.preco}"></span></p>
-            <a href="#" class="details-button" th:href="@{/produtos/view/{id}(id=${produto.id})}">Detalhes</a>
+    <main>
+        <div class="banner-container">
+            <img src="images/promo/promo4.svg" alt="Banner 2" class="banner banner2">
+        </div>
+        <div class="carousel-container">
+            <div th:each="produto : ${produtos}" class="cards">
+                <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                    <div style="cursor: pointer;">
+                        <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}"
+                            style="max-width: 300px; max-height: 400px;" />
+                        <h3 th:text="${produto.nome}"
+                            style="display: flex; flex: 1; align-items: center;  text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
+                        </h3>
+                        <p
+                            style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
+                            R$<span th:text="${produto.preco}"></span></p>
+                    </div>
+                </a>
+            </div>
         </div>
 
-    </div>
-    <button class="prev-button" onclick="moveCarousel(-1)">&#10094;</button>
-    <button class="next-button" onclick="moveCarousel(1)">&#10095;</button>
-</div>
+        <div class="banner-container">
+            <img src="images/promo/promo1.svg" alt="Banner 1" class="banner banner1">
+        </div>
+        <div class="carousel-container">
+            <div th:each="produto : ${produtos}" class="cards">
+                <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                    <div style="cursor: pointer;">
+                        <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}"
+                            style="max-width: 300px; max-height: 400px;" />
+                        <h3 th:text="${produto.nome}"
+                            style="display: flex; flex: 1; align-items: center;  text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
+                        </h3>
+                        <p
+                            style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
+                            R$<span th:text="${produto.preco}"></span></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="banner-container">
+            <img src="images/promo/promo2.svg" alt="Banner 2" class="banner banner2">
 
-<script src="script.js"></script>
+        </div>
+        <div class="carousel-container">
+            <div th:each="produto : ${produtos}" class="cards">
+                <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                    <div style="cursor: pointer;">
+                        <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}"
+                            style="max-width: 300px; max-height: 400px;" />
+                        <h3 th:text="${produto.nome}"
+                            style="display: flex; flex: 1; align-items: center;  text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
+                        </h3>
+                        <p
+                            style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
+                            R$<span th:text="${produto.preco}"></span></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+
+    </main>
+</body>
+
 <script>
-    function confirmLogout(){
-        if(confirm("Tem certeza que deseja sair da sua conta?"))
-        { document.getElementById("logoutButton").submit();}
+    function confirmLogout() {
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
     }
 </script>
-</body>
+
+
 </html>
