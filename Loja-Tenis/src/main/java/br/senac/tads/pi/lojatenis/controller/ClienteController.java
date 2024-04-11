@@ -61,12 +61,10 @@ public class ClienteController {
             bindingResult.rejectValue("email", "error.clienteDto", "Este email já está em uso");
             return "clientes/CriaCliente";
         }
-
-        // Verificar se a senha e a confirmação da senha coincidem
         if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
             // Adicione um erro ao BindingResult
             bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
-            return "clientes/CriaCliente";
+            return "usuarios/CriaUsuario";
         }
 
         // Verificar se o cliente forneceu um endereço
@@ -87,10 +85,6 @@ public class ClienteController {
         cliente.setCpf(clienteDto.getCpf());
         cliente.setDataNascimento(clienteDto.getDataNascimento());
 
-<<<<<<< HEAD
-=======
-        cliente.setStatus(clienteDto.getStatus());
->>>>>>> d8d4b34e4d74b0a2f492c177f1ad3b0842055484
         cliente.setCep(clienteDto.getCep());
         cliente.setLogradouro(clienteDto.getLogradouro());
         cliente.setNumero(clienteDto.getNumero());
@@ -118,14 +112,10 @@ public class ClienteController {
     }
 
     @GetMapping("/edit")
-    public String mostrarEdicao(Model model, @RequestParam int id, HttpSession session) {
+    public String mostrarEdicao(Model model, @RequestParam int id) {
 
         try {
-            // Buscar o produto no banco de dados pelo ID
             Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-            String grupoUsuario = (String) session.getAttribute("grupo");
-            model.addAttribute("grupoUsuario", grupoUsuario);
 
             // Mapear os atributos do produto para o DTO
             ClienteDto clienteDto = new ClienteDto();
@@ -134,23 +124,23 @@ public class ClienteController {
             clienteDto.setEmail(cliente.getEmail());
             clienteDto.setSenha(cliente.getSenha());
             clienteDto.setConfirmaSenha(cliente.getSenha());
-            clienteDto.setNome(cliente.getNome());
-            clienteDto.setNome(cliente.getNome());
-            
+            clienteDto.setGenero(cliente.getGenero());
+            clienteDto.setCpf(cliente.getCpf());
+            clienteDto.setGenero(cliente.getGenero());
+            clienteDto.setDataNascimento(cliente.getDataNascimento());
 
+            // Adicionar o cliente e o DTO ao modelo
+            model.addAttribute("cliente", cliente);
+            model.addAttribute("clienteDto", clienteDto);
 
-            // Adicionar o produto e o DTO ao modelo
-            model.addAttribute("produto", produto);
-            model.addAttribute("produtoDto", produtoDto);
-
-            List<String> imagens = produto.getImagens();
-            model.addAttribute("imagens", imagens);
+            //List<String> imagens = cliente.getImagens();
+           // model.addAttribute("imagens", imagens);
 
         } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
-            return "redirect:/produtos";
+            return "redirect:/clientes";
         }
-        return "produtos/EditarProduto";
+        return "clientes/EditarCliente";
     }
 
     private boolean isValidCPF(String cpf) {

@@ -193,7 +193,8 @@ footer {
                 <img src="images/LOGO.png" class="logo" alt="Logo" style="width: 250px; height: 100px; z-index: 1">
             </a>
             <ul class="nav-links">
-                <a th:if="${usuarioLogado}" href="/meuperfil" style="margin-right: 20px;">
+                
+                <a th:if="${usuarioLogado}" href="/EditarCliente" style="margin-right: 20px;">
                     <img src="images/user.svg" class="user" alt="perfil" style="width: 30px; height: 30px">
                 </a>
                 <a th:if="${usuarioLogado}" href="/carrinho" style="margin-right: 30px;">
