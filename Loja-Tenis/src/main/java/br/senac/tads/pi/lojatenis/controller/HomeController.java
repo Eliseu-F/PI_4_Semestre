@@ -47,4 +47,9 @@ public class HomeController {
         return "home/index";
     }
 
+    @GetMapping("/pagina")
+    public String getHome() {
+        return "homes/pagina";
+    }
+
 }
