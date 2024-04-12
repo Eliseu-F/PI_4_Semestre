@@ -35,9 +35,13 @@ public class HomeController {
     public String home(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
         
         if (clienteLogado != null) {
             model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+
         } else {
             model.addAttribute("usuarioLogado", false);
         }
