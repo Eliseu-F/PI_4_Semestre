@@ -117,7 +117,7 @@ public class ClienteController {
         try {
             Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-            // Mapear os atributos do produto para o DTO
+            // Mapear os atributo s do produto para o DTO
             ClienteDto clienteDto = new ClienteDto();
             clienteDto.setId(cliente.getId());
             clienteDto.setNome(cliente.getNome());
@@ -133,14 +133,64 @@ public class ClienteController {
             model.addAttribute("cliente", cliente);
             model.addAttribute("clienteDto", clienteDto);
 
-            //List<String> imagens = cliente.getImagens();
-           // model.addAttribute("imagens", imagens);
+            // List<String> imagens = cliente.getImagens();
+            // model.addAttribute("imagens", imagens);
 
         } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
-            return "redirect:/clientes";
+            return "redirect:/home";
         }
         return "clientes/EditarCliente";
+    }
+
+    @PostMapping("/edit")
+    public String editarCliente(Model model, Principal principal, @RequestParam int id,
+            @Valid @ModelAttribute ClienteDto clienteDto, BindingResult bindingResult) {
+        // Verificar se o usuário autenticado está tentando editar seu próprio perfil
+        if (principal != null && principal.getName().equals(clienteDto.getEmail())) {
+            bindingResult.rejectValue("email", "error.clienteDto", "Você não pode editar seu próprio perfil");
+            return "clientes/EditarCliente";
+        }
+
+        try {
+            Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+            model.addAttribute("cliente", cliente);
+
+            if (bindingResult.hasErrors()) {
+                // Se houver erros de validação, retorne para o formulário de edição
+                return "clientes/EditarCliente";
+            }
+
+            if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
+                // Adicione um erro ao BindingResult
+                bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
+                return "clientes/EditarCliente";
+            }
+            // Configurar atributos de usuarioDto para usuario
+            cliente.setNome(clienteDto.getNome());
+            cliente.setSenha(clienteDto.getSenha());
+            cliente.setDataNascimento(clienteDto.getDataNascimento());
+            cliente.setGenero(clienteDto.getGenero());
+
+            // Encriptar a senha usando o Bcrypt
+            String senhaEncriptada = this.passwordEncoder.encode(clienteDto.getSenha());
+            cliente.setSenha(senhaEncriptada);
+
+            String cpf = clienteDto.getCpf();
+            if (!isValidCPF(cpf)) {
+                bindingResult.rejectValue("cpf", "error.clienteDto", "CPF inválido");
+                return "clientes/EditarCliente";
+            }
+
+            // Salvar cliente no repositório
+            repo.save(cliente);
+
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
+        // Redirecionar para a lista de clientes após a edição bem-sucedida
+        return "redirect:/home";
     }
 
     private boolean isValidCPF(String cpf) {

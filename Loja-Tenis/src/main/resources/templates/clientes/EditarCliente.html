@@ -78,6 +78,29 @@ https://getbootstrap.com/ -->
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Data de Nascimento</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="date"  th:field="${clienteDto.dataNascimento}" required
+                                    max="9999-12-31">
+                                <p th:if="${#fields.hasErrors('dataNascimento')}" th:errorclass="text-danger"
+                                    th:errors="${clienteDto.dataNascimento}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Gênero</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" th:field="${clienteDto.genero}">
+                                    <option value="" disabled selected>Selecione o gênero</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="feminino">Feminino</option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('genero')}" th:errorclass="text-danger"
+                                    th:errors="${clienteDto.genero}"></p>
+                            </div>
+                        </div>
+
                         <!-- Verificação de Senha no Servidor -->
                         <div th:if="${clienteDto.senha ne null and clienteDto.confirmaSenha ne null}">
                             <div th:if="${clienteDto.senha != clienteDto.confirmaSenha}">

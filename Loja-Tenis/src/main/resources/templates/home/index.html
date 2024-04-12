@@ -137,24 +137,8 @@
 
 <body>
     <header>
-<<<<<<< HEAD
-        <nav class="navbar">
-            <a href="/home">
-                <img src="images/LOGO.png" class="logo" alt="Logo" style="width: 250px; height: 100px; z-index: 1">
-            </a>
-            <ul class="nav-links">
-                
-                <a th:if="${usuarioLogado}" href="/EditarCliente" style="margin-right: 20px;">
-                    <img src="images/user.svg" class="user" alt="perfil" style="width: 30px; height: 30px">
-                </a>
-                <a th:if="${usuarioLogado}" href="/carrinho" style="margin-right: 30px;">
-                    <img src="images/carrinho.svg" class="car" alt="car" style="width: 30px; height: 30px">
-                </a>
-                <a th:if="${usuarioLogado}" id="logoutButton" href="/logout" class="buttonLogin" onclick="confirmLogout()">Logout</a>
-=======
         <img src="images/logoOrange.svg" class="logo" alt="Logo">
         <span id="container_header">
->>>>>>> 270c6003e6bfc8cac11eae27ef788d076e773eb7
 
             <div
                 style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
@@ -174,14 +158,15 @@
                 <a href="/login" class="text_header">Login</a>
             </div>
             <div th:if="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-right: 30px;">
+                <a th:text="${nomeCliente}" class="text_header" style="color: black; flex-direction: row; display: flex;"></a>
+
                 <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
             </div>
 
-            <div th:if="${usuarioLogado}" id="container_profile"
-                style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
-                <div style="display: flex; flex: 1; align-items: center; ">
-                    <img src="images/icons/profile.svg" style="margin-right: 15px;" />
-                </div>
+            <div th:if="${usuarioLogado}" id="container_profile" style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+            <a th:href="@{clientes/edit(id=${clienteId})}" style="display: flex; flex: 1; align-items: center; ">
+                    <img src="images/icons/profile.svg"  style="margin-right: 15px;" />
+                </a>
                 <div style="display: flex; flex: 1; align-items: center;">
                     <img src="images/icons/cart.svg" style="margin-right: 15px;" />
                 </div>
