@@ -147,19 +147,16 @@ public class ClienteController {
     public String editarCliente(Model model, Principal principal, @RequestParam int id,
             @Valid @ModelAttribute ClienteDto clienteDto, BindingResult bindingResult) {
         // Verificar se o usuário autenticado está tentando editar seu próprio perfil
-        if (principal != null && principal.getName().equals(clienteDto.getEmail())) {
-            bindingResult.rejectValue("email", "error.clienteDto", "Você não pode editar seu próprio perfil");
-            return "clientes/EditarCliente";
-        }
+     
 
         try {
             Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
             model.addAttribute("cliente", cliente);
 
-            if (bindingResult.hasErrors()) {
-                // Se houver erros de validação, retorne para o formulário de edição
-                return "clientes/EditarCliente";
-            }
+            // if (bindingResult.hasErrors()) {
+            //     Se houver erros de validação, retorne para o formulário de edição
+            //     return "clientes/EditarCliente";
+            // }
 
             if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
                 // Adicione um erro ao BindingResult
@@ -175,12 +172,6 @@ public class ClienteController {
             // Encriptar a senha usando o Bcrypt
             String senhaEncriptada = this.passwordEncoder.encode(clienteDto.getSenha());
             cliente.setSenha(senhaEncriptada);
-
-            String cpf = clienteDto.getCpf();
-            if (!isValidCPF(cpf)) {
-                bindingResult.rejectValue("cpf", "error.clienteDto", "CPF inválido");
-                return "clientes/EditarCliente";
-            }
 
             // Salvar cliente no repositório
             repo.save(cliente);
