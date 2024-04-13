@@ -35,25 +35,6 @@ https://getbootstrap.com/ -->
                             </div>
                         </div>
 
-
-                        <div class="row mb-3">
-                            <label class="col-sm-4 col-form-label">Email</label>
-                            <div class="col-sm-8">
-                                <input readonly class="form-control" th:field="${clienteDto.email}">
-                                <p th:if="${#fields.hasErrors('email')}" th:errorclass="text-danger"
-                                   th:errors="${clienteDto.email}"></p>
-                            </div>
-                        </div>
-                        <!-- comment -->
-
-                        <div class="row mb-3">
-                            <label class="col-sm-4 col-form-label">CPF</label>
-                            <div class="col-sm-8">
-                                <input class="form-control" th:field="${clienteDto.cpf}" readonly>
-                                <p th:if="${#fields.hasErrors('cpf')}" th:errorclass="text-danger"
-                                   th:errors="${clienteDto.cpf}"></p>
-                            </div>
-                        </div>
                         <!-- comment -->
 
                         <div class="row mb-3">
@@ -64,6 +45,7 @@ https://getbootstrap.com/ -->
                                        type="password" name="senha" placeholder="digite uma senha"/>
                                 <div  th:if="${#fields.hasErrors('senha')}" th:errorclass="text-danger"
                                       th:errors="${clienteDto.senha}">Erro no atributo do password</div>
+                                      
                             </div>
                         </div>
 
@@ -72,9 +54,10 @@ https://getbootstrap.com/ -->
                         <div class="row mb-3">
                             <label class="col-sm-4 col-form-label">Confirme a Senha</label>
                             <div class="col-sm-8">
-                                <input class="form-control" th:field="${clienteDto.confirmaSenha}" th:errorclass="text-danger"
+                                <input class="form-control" th:field="${clienteDto.confirmaSenha}"
                                        type="password" name="confirmaSenha" placeholder="confirme sua senha"/>
-                                <div th:errors="${confirmaSenha}" class="text-danger">Erro na confirmação da senha</div>
+                                       <div th:errors="*{confirmaSenha}" class="text-danger">Erro na confirmação da senha</div>
+
                             </div>
                         </div>
 

@@ -158,11 +158,13 @@ public class ClienteController {
             //     return "clientes/EditarCliente";
             // }
 
-            if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
+            if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha()) || clienteDto.getSenha().isEmpty() || clienteDto.getConfirmaSenha().isEmpty()) {
                 // Adicione um erro ao BindingResult
                 bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
                 return "clientes/EditarCliente";
             }
+
+            
             // Configurar atributos de usuarioDto para usuario
             cliente.setNome(clienteDto.getNome());
             cliente.setSenha(clienteDto.getSenha());
