@@ -14,11 +14,13 @@
             margin: 0;
             padding: 0;
             flex-direction: column;
+            background-color: black;
+
 
         }
 
         main {
-            margin-top: 130px;
+            margin-top: 200px;
         }
 
         header {
@@ -30,14 +32,17 @@
             padding: 20px;
             position: fixed;
             width: 100%;
-            background-color: rgb(255, 255, 255)
+            /* background-color: rgb(8, 94, 121); */
+            background-color: rgb(0, 0, 0);
+            justify-content: center;
+
         }
 
         #container_header {
             display: flex;
-            width: 900px;
+            width: 1300px;
             height: 60px;
-            border: solid #FF2E00 3px;
+            border: solid #EF2B00 3px;
             margin-left: 35px;
             align-items: center;
             padding-left: 30px;
@@ -49,7 +54,7 @@
         .text_header {
             display: flex;
             font-family: 'Segoe UI';
-            color: #FF2E00;
+            color: #EF2B00;
             font-size: 20px;
             font-weight: 500;
             flex-direction: row;
@@ -60,12 +65,15 @@
 
         #container_profile {
             display: flex;
-            flex: 1;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+
         }
 
         .carousel-container {
             display: flex;
-            background-color: #ffffff;
+            background-color: #EF2B00;
             flex: 1;
             margin: 90px;
             justify-content: space-evenly;
@@ -100,15 +108,17 @@
             margin: 105px;
             align-items: center;
         }
+
         .banner {
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto; /* Centraliza horizontalmente */
+            margin: 0 auto;
+            /* Centraliza horizontalmente */
         }
 
         .banner-container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
             overflow: hidden;
         }
@@ -116,6 +126,7 @@
         /* Estilos específicos para cada banner */
         .banner1 {
             width: 100%;
+
         }
 
         .banner2 {
@@ -150,24 +161,26 @@
                 <a class="text_header"> <img src="images/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
             </div>
 
-            <div th:unless="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-left: 50px;">
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
                 <a href="clientes/create" class="text_header">Cadastrar</a>
             </div>
 
-            <div th:unless="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-right: 30px;">
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
                 <a href="/login" class="text_header">Login</a>
             </div>
             <div th:if="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-right: 30px;">
-                <a th:text="${nomeCliente}" class="text_header" style="color: black; flex-direction: row; display: flex;"></a>
+                <a th:text="${nomeCliente}" class="text_header"
+                    style="color: black; flex-direction: row; display: flex; margin-right: 30px;"></a>
 
                 <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
             </div>
 
-            <div th:if="${usuarioLogado}" id="container_profile" style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
-            <a th:href="@{clientes/edit(id=${clienteId})}" style="display: flex; flex: 1; align-items: center; ">
-                    <img src="images/icons/profile.svg"  style="margin-right: 15px;" />
+            <div th:if="${usuarioLogado}" id="container_profile"
+                style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <a th:href="@{clientes/edit(id=${clienteId})}" style="display: flex; align-items: center; ">
+                    <img src="images/icons/profile.svg" style="margin-right: 15px;" />
                 </a>
-                <div style="display: flex; flex: 1; align-items: center;">
+                <div style="display: flex; align-items: center;">
                     <img src="images/icons/cart.svg" style="margin-right: 15px;" />
                 </div>
             </div>
@@ -175,9 +188,10 @@
         </span>
     </header>
 
+
     <main>
         <div class="banner-container">
-            <img src="images/promo/promo4.svg" alt="Banner 2" class="banner banner2">
+            <img src="images/promo/promo5.png" alt="Banner 1" class="banner banner1">
         </div>
         <div class="carousel-container">
             <div th:each="produto : ${produtos}" class="cards">
@@ -197,8 +211,9 @@
         </div>
 
         <div class="banner-container">
-            <img src="images/promo/promo1.svg" alt="Banner 1" class="banner banner1">
+            <img src="images/promo/promo9.svg" alt="Banner 3 " class="banner banner3">
         </div>
+
         <div class="carousel-container">
             <div th:each="produto : ${produtos}" class="cards">
                 <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
@@ -216,8 +231,7 @@
             </div>
         </div>
         <div class="banner-container">
-            <img src="images/promo/promo2.svg" alt="Banner 2" class="banner banner2">
-
+            <img src="images/promo/promo8.svg" alt="Banner " class="banner banner1">
         </div>
         <div class="carousel-container">
             <div th:each="produto : ${produtos}" class="cards">
@@ -235,8 +249,6 @@
                 </a>
             </div>
         </div>
-        
-
     </main>
 </body>
 
