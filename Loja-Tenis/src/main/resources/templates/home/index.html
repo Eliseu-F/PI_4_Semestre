@@ -118,7 +118,7 @@
         }
 
         .banner-container {
-            max-width: 100%;
+            max-width: 70%;
             margin: 0 auto;
             overflow: hidden;
         }
@@ -168,16 +168,17 @@
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
                 <a href="/login" class="text_header">Login</a>
             </div>
-            <div th:if="${usuarioLogado}" style="display: flex; flex: 1; align-items: center; margin-right: 30px;">
+            <div th:if="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 30px;">
                 <a th:text="${nomeCliente}" class="text_header"
-                    style="color: black; flex-direction: row; display: flex; margin-right: 30px;"></a>
+                    style="color: rgb(255, 255, 255); flex-direction: row; display: flex; margin-right: 30px;"></a>
+                    
 
                 <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
             </div>
 
             <div th:if="${usuarioLogado}" id="container_profile"
                 style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
-                <a th:href="@{clientes/edit(id=${clienteId})}" style="display: flex; align-items: center; ">
+                <a href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
                     <img src="images/icons/profile.svg" style="margin-right: 15px;" />
                 </a>
                 <div style="display: flex; align-items: center;">
@@ -211,7 +212,7 @@
         </div>
 
         <div class="banner-container">
-            <img src="images/promo/promo9.svg" alt="Banner 3 " class="banner banner3">
+            <img src="images/promo/promo7.jpg" alt="Banner 3 " class="banner banner3">
         </div>
 
         <div class="carousel-container">
@@ -231,7 +232,7 @@
             </div>
         </div>
         <div class="banner-container">
-            <img src="images/promo/promo8.svg" alt="Banner " class="banner banner1">
+            <img src="images/promo/promo8.png" alt="Banner " class="banner banner1">
         </div>
         <div class="carousel-container">
             <div th:each="produto : ${produtos}" class="cards">

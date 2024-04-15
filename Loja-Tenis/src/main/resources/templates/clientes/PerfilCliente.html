@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="perfil.css">
+    <style>
+        body {
+            display: flex;
+            flex: 1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+
+        main {
+            margin-top: 130px;
+            display: flex;
+            flex: 1;
+           align-self: center;
+
+        }
+
+       
+
+        .text_header {
+            display: flex;
+            font-family: 'Segoe UI';
+            color: #FF2E00;
+            font-size: 20px;
+            font-weight: 500;
+            flex-direction: row;
+            justify-content: center;
+            align-items: inherit;
+            text-decoration: none;
+        }
+
+
+        .cardsbox {
+            display: inline-block;
+            align-content: center;
+            height: 200px;
+            width: 400px;
+            background-color: gainsboro;
+            padding: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div>
+            <div>
+                <h2 class="text_header" style="font-size: 40px;">MINHA CONTA</h2>
+            </div>
+            <div class="row">
+                <ul class="elementos_ul">
+                    <li class="cardsbox">
+                        <a th:href="@{/clientes/edit(id=${clienteId})}" class="boxItensCentral">
+                            <img src="https://img.terabyteshop.com.br/central/meu_cadastro.png" alt="Meu cadastro">
+                        </a>
+                        <p class="text_header">Meu cadastro</p>
+                    </li>
+                    <li class="cardsbox">
+                        <a href="/Central/MeusPedidos.obj" class="boxItensCentral">
+                            <img src="https://img.terabyteshop.com.br/central/meus_pedidos.png" alt="Meus pedidos">
+                        </a>
+                        <p class="text_header">Meus pedidos</p>
+                    </li>
+                    <li class="cardsbox">
+                        <a href="/Central/MeusEnderecos.obj">
+                            <img src="https://img.terabyteshop.com.br/central/meus-enderecos.png" alt="Meus Endereços">
+                        </a>
+                        <p class="text_header">Meus Endereços</p>
+                    </li>
+            </div>
+
+        </div>
+    </main>
+</body>
+
+<script>
+    function confirmLogout() {
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
+    }
+</script>
+
+
+</html>
