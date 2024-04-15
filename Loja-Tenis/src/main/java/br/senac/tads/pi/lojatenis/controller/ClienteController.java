@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Sort;
@@ -145,7 +147,7 @@ public class ClienteController {
 
     @PostMapping("/edit")
     public String editarCliente(Model model, Principal principal, @RequestParam int id,
-            @Valid @ModelAttribute ClienteDto clienteDto, BindingResult bindingResult) {
+            @Valid @ModelAttribute ClienteDto clienteDto, BindingResult bindingResult, HttpSession session) {
         // Verificar se o usuário autenticado está tentando editar seu próprio perfil
      
 
@@ -166,7 +168,7 @@ public class ClienteController {
 
             
             // Configurar atributos de usuarioDto para usuario
-            cliente.setNome(clienteDto.getNome());
+            session.setAttribute("nomeCliente", cliente.getNome());
             cliente.setSenha(clienteDto.getSenha());
             cliente.setDataNascimento(clienteDto.getDataNascimento());
             cliente.setGenero(clienteDto.getGenero());
@@ -174,6 +176,8 @@ public class ClienteController {
             // Encriptar a senha usando o Bcrypt
             String senhaEncriptada = this.passwordEncoder.encode(clienteDto.getSenha());
             cliente.setSenha(senhaEncriptada);
+
+
 
             // Salvar cliente no repositório
             repo.save(cliente);
@@ -184,6 +188,27 @@ public class ClienteController {
 
         // Redirecionar para a lista de clientes após a edição bem-sucedida
         return "redirect:/home";
+    }
+
+    @GetMapping("/PerfilCliente")
+    public String acessaPerfil(Model model, HttpServletRequest request) {
+        
+        HttpSession session = request.getSession();       
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
+        
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+        } else {
+            model.addAttribute("usuarioLogado", false);
+        }
+        
+
+        
+        return "clientes/PerfilCliente";
     }
 
     private boolean isValidCPF(String cpf) {
