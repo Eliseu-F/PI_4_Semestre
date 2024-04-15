@@ -50,7 +50,7 @@ public class ClienteDto {
 
     // Endereço
     @NotBlank(message = "O CEP não pode estar vazio")
-    @Pattern(regexp = "\\d{5}-\\d{3}", message = "Formato de CEP inválido. Deve seguir o padrão 'XXXXX-XXX'.")
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "Formato de CEP inválido. Deve seguir o padrão 'XXXXX-XXX ou XXXXXXXX'.")
     private String cep;
 
     @NotBlank(message = "O logradouro não pode estar vazio")
