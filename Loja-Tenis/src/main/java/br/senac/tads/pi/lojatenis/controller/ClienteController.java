@@ -168,7 +168,7 @@ public class ClienteController {
 
             
             // Configurar atributos de usuarioDto para usuario
-            session.setAttribute("nomeCliente", cliente.getNome());
+            cliente.setNome(clienteDto.getNome());            
             cliente.setSenha(clienteDto.getSenha());
             cliente.setDataNascimento(clienteDto.getDataNascimento());
             cliente.setGenero(clienteDto.getGenero());
