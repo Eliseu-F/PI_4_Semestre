@@ -211,6 +211,12 @@ public class ClienteController {
         return "clientes/PerfilCliente";
     }
 
+    
+    @GetMapping("/endereco")
+    public String getLogin() {
+        return "enderecos/endereco";
+    }
+
     private boolean isValidCPF(String cpf) {
         // Remove caracteres especiais do CPF
         cpf = cpf.replaceAll("[^0-9]", "");
