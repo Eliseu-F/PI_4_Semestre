@@ -1,0 +1,45 @@
+.corpo {
+    display: flex;
+    flex: 1;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.principal {
+    margin-top: 150px;
+    display: flex;
+    flex: 1;
+    align-self: center;
+}
+
+.texto_cabecalho {
+    display: flex;
+    font-family: 'Segoe UI';
+    background-color: darkgray;
+    color: #FF2E00;
+    font-size: 20px;
+    font-weight: 500;
+    flex-direction: row;
+    justify-content: center;
+    align-items: inherit;
+    text-decoration: none;
+}
+
+.linha {
+    display: flex;
+    justify-content: center;
+}
+
+.caixas {
+    display: inline-block;
+    justify-content: center;
+    justify-content: space-around;
+    height: 200px;
+    width: 410px;
+    background-color: gainsboro;
+    padding: 2px;
+    box-sizing: border-box;
+}
