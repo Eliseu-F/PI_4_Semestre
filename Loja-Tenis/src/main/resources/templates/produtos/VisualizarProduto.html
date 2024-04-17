@@ -26,21 +26,20 @@
 
         #imagemAtual {
             max-height: 700px;
-            border: 2px solid black;
-            border-top: none;
-            border-bottom: none;
+            
 
         }
 
         #imagem_container {
             display: flex;
+            height: 800px;
+            border: 2px solid black;
+            border-top: none;
+            border-bottom: none;
+
 
         }
 
-        #imagem_container img {
-            max-height: 700px;
-
-        }
 
         #infos_container {
             font-family: 'Segoe UI';
@@ -63,7 +62,7 @@
         #description {
             display: flex;
             position: relative;
-            top: 420px;
+            top: 490px;
             height: 50px;
             align-items: center;
             padding-left: 20px;
@@ -88,7 +87,7 @@
             font-family: 'Segoe UI';
             font-weight: 400;
             color: white;
-            background-color: #EF2B00;
+            background-color: #000000;
         }
 
         #buy_container {
@@ -97,7 +96,7 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
-            top: 576px;
+            top: 680px;
         }
 
         #quantity_container {
@@ -113,14 +112,14 @@
             display: flex;
             flex-direction: row;
             position: absolute;
-            top: 700px;
+            top: 800px;
             
             
         }
         #indicadores{
             position: absolute;
             display: flex;
-            top: 600px;
+            top: 750px;
         }
 
         .bolinha {
@@ -160,7 +159,7 @@
                 </div>
             </div>
 
-            <div id="imagem_container" class="me-2 mb-2">
+            <div id="imagem_container">
                 <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail">
                
             </div>
