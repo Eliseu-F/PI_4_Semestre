@@ -13,29 +13,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ProdutoDto {
 
-
     private int id;
-    
+
     @NotEmpty(message = "O campo de nome não pode estar vazio")
     @Size(max = 200, message = "Você excedeu 200 caracteres")
     private String nome;
-    
+
     @Max(5)
     @NotEmpty(message = "O campo de avaliação não pode estar vazio")
     private String avaliacao;
-    
+
     private String status = "Ativo";
-    
+
     @NotNull(message = "Defina um valor")
     private BigDecimal preco;
-    
-   @NotNull(message = "Defina uma quantidade para o estoque")
-    private int qtd_estoque =1;
-    
+
+    @NotNull(message = "Defina uma quantidade para o estoque")
+    private int qtd_estoque = 1;
+
     @Size(min = 10, message = "A descrição precisa ter pelo menos 10 caracteres")
     @Size(max = 2000, message = "A descrição não pode exceder 2000 caracteres")
-    private String descricao; 
-    
+    private String descricao;
+
     @NotNull(message = "Seleciona pelos uma imagem")
     @Size(min = 1, message = "Selecione pelo menos uma imagem")
     private List<MultipartFile> imagens;
@@ -55,11 +54,10 @@ public class ProdutoDto {
         return imagemPadrao != null ? imagemPadrao : "";
     }
 
-
     public void setImagemPadrao(String imagemPadrao) {
         this.imagemPadrao = imagemPadrao;
     }
-// Getters e setters para os campos existentes...
+    // Getters e setters para os campos existentes...
 
     public void setImagensRemovidas(List<String> imagensRemovidas) {
         this.imagensRemovidas = imagensRemovidas;
@@ -72,6 +70,7 @@ public class ProdutoDto {
     public void setCaminhoImagemPadrao(String caminhoImagemPadrao) {
         this.caminhoImagemPadrao = caminhoImagemPadrao;
     }
+
     public void setImagens(List<MultipartFile> imagens) {
         this.imagens = imagens;
     }
@@ -132,7 +131,4 @@ public class ProdutoDto {
         this.descricao = descricao;
     }
 
-
-    
-    
 }

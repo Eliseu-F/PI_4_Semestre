@@ -9,26 +9,26 @@ import java.util.List;
 @Entity
 @Table(name = "Produtos")
 public class Produto {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     private String nome;
-    
+
     private String avaliacao;
 
     private String status;
-    
+
     private BigDecimal preco;
-    
+
     private int qtd_estoque;
-    
+
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
     @ElementCollection
-    @CollectionTable(name="Produto_Imagens", joinColumns =@JoinColumn(name = "produto_id"))
+    @CollectionTable(name = "Produto_Imagens", joinColumns = @JoinColumn(name = "produto_id"))
     @Column(name = "imagem")
     private List<String> imagens = new ArrayList<>();
 
@@ -107,7 +107,4 @@ public class Produto {
         this.descricao = descricao;
     }
 
-
-    
-    
 }

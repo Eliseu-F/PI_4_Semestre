@@ -74,19 +74,19 @@
         <div class="linha">
             <ul>
                 <li class="caixas">
-                    <a th:href="@{/clientes/edit(id=${clienteId})}" class="boxItensCentral">
+                    <a th:href="@{/clientes/edit(id=${clienteId})}" class="boxItensCentral" style="display: flex; justify-content: center;">
                         <img src="https://img.terabyteshop.com.br/central/meu_cadastro.png" alt="Meu cadastro">
                     </a>
                     <p class="texto_cabecalho">Meu cadastro</p>
                 </li>
                 <li class="caixas">
-                    <a href="/Central/MeusPedidos.obj" class="boxItensCentral">
+                    <a href="/Central/MeusPedidos.obj" class="boxItensCentral" style="display: flex; justify-content: center;" >
                         <img src="https://img.terabyteshop.com.br/central/meus_pedidos.png" alt="Meus pedidos">
                     </a>
                     <p class="texto_cabecalho">Meus pedidos</p>
                 </li>
                 <li class="caixas">
-                    <a href="/enderecos/endereco">
+                    <a href="@{/clientes/endereco(id=$                                                                                  {clienteId})}" style="display: flex; justify-content: center;">
                         <img src="https://img.terabyteshop.com.br/central/meus-enderecos.png" alt="Meus Endereços">
                     </a>
                     <p class="texto_cabecalho">Meus Endereços</p>
