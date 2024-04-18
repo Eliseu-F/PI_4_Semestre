@@ -11,6 +11,7 @@ public class EnderecoDto {
     private String bairro;
     private String cidade;
     private String uf;
+    
 
     // Getters e Setters omitidos para brevidade
 
