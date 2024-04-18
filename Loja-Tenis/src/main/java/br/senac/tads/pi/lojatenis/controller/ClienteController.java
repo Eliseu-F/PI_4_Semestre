@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.ClienteDto;
+import br.senac.tads.pi.lojatenis.model.Endereco;
 import br.senac.tads.pi.lojatenis.service.ClienteRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -47,6 +48,7 @@ public class ClienteController {
     @GetMapping("/create")
     public String showCriaCliente(Model model) {
         ClienteDto clienteDto = new ClienteDto();
+
         model.addAttribute("clienteDto", clienteDto);
         return "clientes/CriaCliente";
     }
@@ -80,6 +82,8 @@ public class ClienteController {
 
         // Mapear clienteDto para a entidade cliente
         Cliente cliente = new Cliente();
+        Endereco enderecoFatura = new Endereco();
+        Endereco enderecoEntrega = new Endereco();
 
         cliente.setNome(clienteDto.getNome());
         cliente.setEmail(clienteDto.getEmail());
@@ -87,13 +91,30 @@ public class ClienteController {
         cliente.setCpf(clienteDto.getCpf());
         cliente.setDataNascimento(clienteDto.getDataNascimento());
 
-        cliente.setCep(clienteDto.getCep());
-        cliente.setLogradouro(clienteDto.getLogradouro());
-        cliente.setNumero(clienteDto.getNumero());
-        cliente.setComplemento(clienteDto.getComplemento());
-        cliente.setBairro(clienteDto.getBairro());
-        cliente.setCidade(clienteDto.getCidade());
-        cliente.setUf(clienteDto.getUf());
+        enderecoFatura.setCep(clienteDto.getCep());
+        enderecoFatura.setLogradouro(clienteDto.getLogradouro());
+        enderecoFatura.setNumero(clienteDto.getNumero());
+        enderecoFatura.setComplemento(clienteDto.getComplemento());
+        enderecoFatura.setBairro(clienteDto.getBairro());
+        enderecoFatura.setCidade(clienteDto.getCidade());
+        enderecoFatura.setUf(clienteDto.getUf());
+        enderecoFatura.setEndereco("FATURAMENTO");
+
+        enderecoEntrega.setCep(clienteDto.getCep());
+        enderecoEntrega.setLogradouro(clienteDto.getLogradouro());
+        enderecoEntrega.setNumero(clienteDto.getNumero());
+        enderecoEntrega.setComplemento(clienteDto.getComplemento());
+        enderecoEntrega.setBairro(clienteDto.getBairro());
+        enderecoEntrega.setCidade(clienteDto.getCidade());
+        enderecoEntrega.setUf(clienteDto.getUf());
+        enderecoEntrega.setEndereco("ENTREGA");
+
+        cliente.setEnderecoPadrao(enderecoEntrega);
+        cliente.getEnderecos().add(enderecoFatura);
+        enderecoFatura.setCliente(cliente);
+
+        cliente.getEnderecos().add(enderecoEntrega);
+        enderecoEntrega.setCliente(cliente);
 
         // encripatar a senha usando o Bcrypt
         String senhaEcripitada = this.passwordEncoder.encode(clienteDto.getSenha());
@@ -149,26 +170,25 @@ public class ClienteController {
     public String editarCliente(Model model, Principal principal, @RequestParam int id,
             @Valid @ModelAttribute ClienteDto clienteDto, BindingResult bindingResult, HttpSession session) {
         // Verificar se o usuário autenticado está tentando editar seu próprio perfil
-     
 
         try {
             Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
             model.addAttribute("cliente", cliente);
 
             // if (bindingResult.hasErrors()) {
-            //     Se houver erros de validação, retorne para o formulário de edição
-            //     return "clientes/EditarCliente";
+            // Se houver erros de validação, retorne para o formulário de edição
+            // return "clientes/EditarCliente";
             // }
 
-            if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha()) || clienteDto.getSenha().isEmpty() || clienteDto.getConfirmaSenha().isEmpty()) {
+            if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha()) || clienteDto.getSenha().isEmpty()
+                    || clienteDto.getConfirmaSenha().isEmpty()) {
                 // Adicione um erro ao BindingResult
                 bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
                 return "clientes/EditarCliente";
             }
 
-            
             // Configurar atributos de usuarioDto para usuario
-            cliente.setNome(clienteDto.getNome());            
+            cliente.setNome(clienteDto.getNome());
             cliente.setSenha(clienteDto.getSenha());
             cliente.setDataNascimento(clienteDto.getDataNascimento());
             cliente.setGenero(clienteDto.getGenero());
@@ -176,8 +196,6 @@ public class ClienteController {
             // Encriptar a senha usando o Bcrypt
             String senhaEncriptada = this.passwordEncoder.encode(clienteDto.getSenha());
             cliente.setSenha(senhaEncriptada);
-
-
 
             // Salvar cliente no repositório
             repo.save(cliente);
@@ -192,11 +210,10 @@ public class ClienteController {
 
     @GetMapping("/PerfilCliente")
     public String acessaPerfil(Model model, HttpServletRequest request) {
-        
-        HttpSession session = request.getSession();       
+
+        HttpSession session = request.getSession();
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
 
-        
         if (clienteLogado != null) {
             model.addAttribute("usuarioLogado", true);
             model.addAttribute("clienteId", clienteLogado.getId());
@@ -205,19 +222,25 @@ public class ClienteController {
         } else {
             model.addAttribute("usuarioLogado", false);
         }
-        
 
-        
         return "clientes/PerfilCliente";
     }
 
-
-    
-
-    
     @GetMapping("/endereco")
-    public String getLogin() {
-        return "enderecos/endereco";
+    public String mostrarEndereco(Model model, @RequestParam int id) {
+
+        Cliente cliente = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        // Cria um ClienteDto e define os endereços
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setEnderecos(cliente.getEnderecos());
+
+        // Adiciona o cliente e o ClienteDto ao modelo
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("clienteDto", clienteDto);
+
+        return "enderecos/EnderecosCliente";
     }
 
     private boolean isValidCPF(String cpf) {
