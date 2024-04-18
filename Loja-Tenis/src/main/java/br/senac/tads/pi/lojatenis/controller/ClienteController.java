@@ -296,10 +296,22 @@ public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Val
     repository.save(novoEndereco);
 
     // Redirecione de volta para a página de perfil do cliente após adicionar o endereço com sucesso
-    return "enderecos/EnderecosCliente";
+
+    return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
+
 }
 
+@PostMapping("/atualizarStatus")
+public String atualizaStatus(@RequestParam int id, @ModelAttribute Endereco endereco) {
+    Endereco endereco2 = repository.findById(id).orElseThrow(() -> new RuntimeException("ENDEREÇO não encontrado"));
 
+    //altera o status do usuario
+    endereco2.setStatus("ATIVO".equals(endereco2.getStatus()) ? "INATIVO" : "ATIVO");
+    //se o status for ativo, se for true, altera para inativo, caso contrario altera para ativo
+
+    repository.save(endereco2);
+    return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
+}
 
 
 
