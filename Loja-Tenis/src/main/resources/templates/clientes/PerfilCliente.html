@@ -40,7 +40,7 @@
 
 
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
-                <a href="clientes/create" class="text_header">Cadastrar</a>
+                <a href="/clientes/create" class="text_header">Cadastrar</a>
             </div>
 
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
@@ -86,7 +86,7 @@
                     <p class="texto_cabecalho">Meus pedidos</p>
                 </li>
                 <li class="caixas">
-                    <a href="@{/clientes/endereco(id=$                                                                                  {clienteId})}" style="display: flex; justify-content: center;">
+                    <a th:href="@{/clientes/endereco(id=${clienteId})}" style="display: flex; justify-content: center;">
                         <img src="https://img.terabyteshop.com.br/central/meus-enderecos.png" alt="Meus Endereços">
                     </a>
                     <p class="texto_cabecalho">Meus Endereços</p>

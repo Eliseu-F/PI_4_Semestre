@@ -1,6 +1,8 @@
 package br.senac.tads.pi.lojatenis.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,7 +26,7 @@ public class ClienteDto {
     @NotEmpty(message = "O campo de nome não pode estar vazio")
     private String nome;
 
-    @Past(message = "A data de nascimento inválida.")   
+    @Past(message = "A data de nascimento inválida.")
     @NotNull(message = "Data de nascimento é obrigatória.")
     private Date dataNascimento;
 
@@ -44,7 +46,7 @@ public class ClienteDto {
     @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
     private String senha;
 
-@NotEmpty(message = "A confirmação de senha não pode estar vazia")
+    @NotEmpty(message = "A confirmação de senha não pode estar vazia")
     @Size(min = 6, message = "A senha deve ter mais de 6 caracteres")
     private String confirmaSenha;
 
@@ -72,7 +74,34 @@ public class ClienteDto {
     @Size(min = 2, max = 2, message = "Insira uma UF válida")
     private String uf;
 
-    private String status = "Ativo";
+    private Endereco enderecoPadrao;
+    // Endereço
+    
+    private List<Endereco> enderecos = new ArrayList<>();
+
+    public Endereco getEnderecoPadrao() {
+        return enderecoPadrao;
+    }
+
+    
+
+    public void setEnderecoPadrao(Endereco enderecoPadrao) {
+        this.enderecoPadrao = enderecoPadrao;
+    }
+
+
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+
 
     public Integer getId() {
         return id;
@@ -90,7 +119,6 @@ public class ClienteDto {
         this.nome = nome;
     }
 
-    
     public String getGenero() {
         return genero;
     }
@@ -130,7 +158,7 @@ public class ClienteDto {
     public void setConfirmaSenha(String confirmaSenha) {
         this.confirmaSenha = confirmaSenha;
     }
-    
+
     public String getCep() {
         return cep;
     }
@@ -195,13 +223,4 @@ public class ClienteDto {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    
 }
