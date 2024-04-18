@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.ClienteDto;
 import br.senac.tads.pi.lojatenis.model.Endereco;
+import br.senac.tads.pi.lojatenis.model.EnderecoDto;
 import br.senac.tads.pi.lojatenis.service.ClienteRepository;
+import br.senac.tads.pi.lojatenis.service.EnderecoRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -38,6 +40,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository repo;
+    
+    @Autowired
+    private EnderecoRepository repository;
 
     PasswordEncoder passwordEncoder;
 
@@ -219,6 +224,8 @@ public class ClienteController {
             model.addAttribute("clienteId", clienteLogado.getId());
             model.addAttribute("nomeCliente", clienteLogado.getNome());
 
+
+
         } else {
             model.addAttribute("usuarioLogado", false);
         }
@@ -227,21 +234,76 @@ public class ClienteController {
     }
 
     @GetMapping("/endereco")
-    public String mostrarEndereco(Model model, @RequestParam int id) {
-
+    public String mostrarEndereco(Model model, @RequestParam int id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         Cliente cliente = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
+
+
+                
         // Cria um ClienteDto e define os endereços
         ClienteDto clienteDto = new ClienteDto();
         clienteDto.setEnderecos(cliente.getEnderecos());
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+        EnderecoDto enderecoDto = new EnderecoDto();
+
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+            model.addAttribute("enderecoDto", enderecoDto);
+            model.addAttribute("cliente", cliente);
+            model.addAttribute("clienteDto", clienteDto);
+
+
+        } else {
+            model.addAttribute("usuarioLogado", false);
+        }
 
         // Adiciona o cliente e o ClienteDto ao modelo
-        model.addAttribute("cliente", cliente);
-        model.addAttribute("clienteDto", clienteDto);
+       
 
         return "enderecos/EnderecosCliente";
     }
+
+    @PostMapping("/endereco/add")
+public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Valid EnderecoDto enderecoDto, BindingResult bindingResult, HttpSession session) {
+    if (bindingResult.hasErrors()) {
+        // Se houver erros de validação, retorne para o formulário de adição de endereço
+        return "redirect:/clientes/PerfilCliente"; // Ou redirecione para a página de perfil do cliente
+    }
+
+    Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+    if (clienteLogado == null) {
+        // Se não houver cliente logado, redirecione para a página de login
+        return "redirect:/login";
+    }
+
+    // Crie um novo endereço e configure seus detalhes
+    Endereco novoEndereco = new Endereco();
+    novoEndereco.setEndereco("ENTREGA");
+    novoEndereco.setCep(enderecoDto.getCep());
+    novoEndereco.setLogradouro(enderecoDto.getLogradouro());
+    novoEndereco.setNumero(enderecoDto.getNumero());
+    novoEndereco.setComplemento(enderecoDto.getComplemento());
+    novoEndereco.setBairro(enderecoDto.getBairro());
+    novoEndereco.setCidade(enderecoDto.getCidade());
+    novoEndereco.setUf(enderecoDto.getUf());
+    novoEndereco.setCliente(clienteLogado); // Associe o endereço ao cliente logado
+
+    // Salve o novo endereço no repositório de endereços
+    repository.save(novoEndereco);
+
+    // Redirecione de volta para a página de perfil do cliente após adicionar o endereço com sucesso
+    return "enderecos/EnderecosCliente";
+}
+
+
+
+
+
+    
 
     private boolean isValidCPF(String cpf) {
         // Remove caracteres especiais do CPF
