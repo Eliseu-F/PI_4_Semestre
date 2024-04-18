@@ -274,6 +274,16 @@ public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Val
         return "redirect:/clientes/PerfilCliente"; // Ou redirecione para a página de perfil do cliente
     }
 
+
+    if (enderecoDto.getCep() == null || enderecoDto.getLogradouro() == null || enderecoDto.getNumero() == null) {
+        // Adicionar uma mensagem de erro ao BindingResult
+        bindingResult.reject("endereco", "Todos os campos obrigatórios devem ser preenchidos");
+
+        // Retornar para o formulário de adição de endereço com a mensagem de erro
+        return "redirect:/clientes/PerfilCliente";
+    }
+
+
     Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
     if (clienteLogado == null) {
         // Se não houver cliente logado, redirecione para a página de login
