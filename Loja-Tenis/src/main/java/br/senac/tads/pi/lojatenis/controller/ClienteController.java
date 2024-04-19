@@ -304,7 +304,7 @@ public class ClienteController {
 
 @PostMapping("/atualizarStatus")
 public String atualizaStatus(@RequestParam int id, @ModelAttribute Endereco endereco) {
-    Endereco endereco2 = repository.findById(id).orElseThrow(() -> new RuntimeException("ENDEREÇO não encontrado"));
+    Endereco endereco2 = repository.findById(id).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
 
     //altera o status do usuario
     endereco2.setStatus("ATIVO".equals(endereco2.getStatus()) ? "INATIVO" : "ATIVO");
@@ -313,6 +313,25 @@ public String atualizaStatus(@RequestParam int id, @ModelAttribute Endereco ende
     return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
 }
 
+
+
+
+@PostMapping("/definePadrao")
+public String defineEnderecoPadrao(@RequestParam int id, HttpSession session) {
+    Endereco endereco = repository.findById(id).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+    Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
+    // Verificar se o endereço é o primeiro endereço da lista
+    if (clienteLogado.getEnderecos().indexOf(endereco) == 0) {
+        return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
+    }
+
+    // Atualizar o endereço atual como o padrão no cliente
+    clienteLogado.setEnderecoPadrao(endereco);
+    repo.save(clienteLogado);
+
+    return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
+}
 
 
     

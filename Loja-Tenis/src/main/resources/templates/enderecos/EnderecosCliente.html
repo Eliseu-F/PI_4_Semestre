@@ -63,18 +63,16 @@ https://getbootstrap.com/ -->
                             method="post">
                             <input type="hidden" th:name="id" th:value="${endereco.id}" />
                             <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Tem certeza que deseja alterar o status deste usuário?');">Alterar
-                                Status</button>
+                                onclick="return confirm('Tem certeza que deseja excluir esse endereço?');">Excluir
+                            </button>
                         </form>
 
-
-                        
-                        <form th:if="${endereco.status != 'INATIVO'}" th:action="@{/clientes/atualizarStatus}"
+                        <form th:if="${endereco.status != 'INATIVO'}" th:action="@{/clientes/definePadrao}"
                             method="post">
                             <input type="hidden" th:name="id" th:value="${endereco.id}" />
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Tem certeza que deseja alterar o status deste usuário?');">Definir
-                                Padrão</button>
+                            <button type="submit" class="btn btn-danger btn-sm set-default-address"
+                                onclick="return confirm('Tem certeza que deseja definir esse endereço como padrão?');"
+                                disabled>Definir como endereço padrão</button>
                         </form>
                     </div>
                 </div>
@@ -205,6 +203,21 @@ https://getbootstrap.com/ -->
     })
 </script>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const setDefaultAddressButtons = document.querySelectorAll('.set-default-address');
+        const addressesForm = document.getElementById('addresses-form');
+        
+        if (addressesForm && addressesForm.children.length > 1) { // Checking if there are more than one address
+            setDefaultAddressButtons.forEach(function (button, index) {
+                if (index > 0) { // Enable buttons starting from the second address
+                    button.removeAttribute('disabled');
+                }
+            });
+        }
+    });
+</script>
 
 
 </html>
