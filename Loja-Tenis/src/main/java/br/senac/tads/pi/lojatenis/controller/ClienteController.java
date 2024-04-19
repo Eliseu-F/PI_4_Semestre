@@ -268,29 +268,20 @@ public class ClienteController {
     }
 
     @PostMapping("/endereco/add")
-public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Valid EnderecoDto enderecoDto, BindingResult bindingResult, HttpSession session) {
+    public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Valid EnderecoDto enderecoDto, BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
+    
     if (bindingResult.hasErrors()) {
-        // Se houver erros de validação, retorne para o formulário de adição de endereço
-        return "redirect:/clientes/PerfilCliente"; // Ou redirecione para a página de perfil do cliente
-    }
-
-
-    if (enderecoDto.getCep() == null || enderecoDto.getLogradouro() == null || enderecoDto.getNumero() == null) {
-        // Adicionar uma mensagem de erro ao BindingResult
-        bindingResult.reject("endereco", "Todos os campos obrigatórios devem ser preenchidos");
-
-        // Retornar para o formulário de adição de endereço com a mensagem de erro
-        return "redirect:/clientes/PerfilCliente";
+        model.addAttribute("enderecoDto", enderecoDto);
+        return "redirect:" + request.getHeader("Referer");
     }
 
 
     Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
     if (clienteLogado == null) {
-        // Se não houver cliente logado, redirecione para a página de login
         return "redirect:/login";
     }
 
-    // Crie um novo endereço e configure seus detalhes
+    // Cria um novo endereço e configura seus detalhes
     Endereco novoEndereco = new Endereco();
     novoEndereco.setEndereco("ENTREGA");
     novoEndereco.setCep(enderecoDto.getCep());
@@ -300,12 +291,12 @@ public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Val
     novoEndereco.setBairro(enderecoDto.getBairro());
     novoEndereco.setCidade(enderecoDto.getCidade());
     novoEndereco.setUf(enderecoDto.getUf());
-    novoEndereco.setCliente(clienteLogado); // Associe o endereço ao cliente logado
+    novoEndereco.setCliente(clienteLogado); // Associa o endereço ao cliente logado
 
-    // Salve o novo endereço no repositório de endereços
+    // Salve o novo endereço no repositorio de endereços
     repository.save(novoEndereco);
 
-    // Redirecione de volta para a página de perfil do cliente após adicionar o endereço com sucesso
+    // Redireciona de volta para a pagina de perfil do cliente apos adicionar o endereço com sucesso
 
     return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
 
@@ -317,7 +308,6 @@ public String atualizaStatus(@RequestParam int id, @ModelAttribute Endereco ende
 
     //altera o status do usuario
     endereco2.setStatus("ATIVO".equals(endereco2.getStatus()) ? "INATIVO" : "ATIVO");
-    //se o status for ativo, se for true, altera para inativo, caso contrario altera para ativo
 
     repository.save(endereco2);
     return "redirect:/clientes/PerfilCliente?returnUrl=/clientes/PerfilCliente";
