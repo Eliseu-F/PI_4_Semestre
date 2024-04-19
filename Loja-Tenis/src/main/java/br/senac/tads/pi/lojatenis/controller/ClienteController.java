@@ -210,7 +210,7 @@ public class ClienteController {
         }
 
         // Redirecionar para a lista de clientes após a edição bem-sucedida
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
     @GetMapping("/PerfilCliente")
