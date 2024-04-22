@@ -6,8 +6,8 @@
     <title>Carrinho</title>
     <style>
         body {
-          background-color: #2600ff;
-            
+            /* background-color: #2600ff; */
+
         }
 
         .title {
@@ -26,23 +26,53 @@
             padding: 20px;
             align-items: center;
             width: 500px;
+            margin-top: 35px;
         }
 
-        .card_container {
-            display: flex;
+            
 
+        img {
+            max-width: 150px;
+            max-height: 150px;
         }
-        img{
-            max-width: 150px; max-height: 100px;
-        }
-        #container{
+
+        #container {
             display: flex;
             justify-content: center;
             flex-direction: column;
 
-            border: 3px solid #EF2B00;
-            background-color: rgb(0, 155, 13);
+            /* border: 3px solid #EF2B00; */
+            /* background-color: rgb(0, 155, 13); */
             padding: 20px;
+        }
+
+        #container_all {
+            display: flex;
+            flex-direction: row;
+            /* border: 2px solid blue; */
+            margin-left: 10px;
+            height: 150px;
+
+
+        }
+
+        #container_all>div>p {
+            font-family: 'Segoe UI';
+            font-size: 20px;
+            margin-left: 20px;
+            font-weight: 700;
+
+        }
+        #container_all>div>p>span{
+           color: #EF2B00;
+
+        }
+
+        #pricetotal {
+            font-family: 'Segoe UI';
+            font-size: 30px;
+            margin-left: 20px;
+            font-weight: 700;
         }
     </style>
 
@@ -50,22 +80,31 @@
 
 <body>
     <div id="container">
-    <h1 class="title">Seu Carrinho</h1>
-    <div id="card_container">
-        <!-- Loop para exibir os itens do carrinho -->
-        <div class="card_itens" th:each="item : ${carrinho.itens}">
-            <img th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}"/>
-            <div>
-            <p id="name_item" th:text="${item.produto.nome}"></p>
-            <p id="quantity_item" th:text="${item.quantidade}"></p>
-            <p id="price_item" th:text="${item.produto.preco}"></p>
-            </div>
-            <!-- unidade multiplicado pela quantidade -->
-        </div>
-    </div>
+        <h1 class="title">Seu Carrinho</h1>
+        <div id="card_container">
+            <!-- Loop para exibir os itens do carrinho -->
+            <div class="card_itens" th:each="item : ${carrinho.itens}">
+                <div id="container_all">
+                    <img th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
+                    <div>
+                        <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                        </p>
+                        <p>Quantidade: <span id="quantity_item" th:text="${item.quantidade}"></span>
+                        </p>
+                        <p>Preço: <span> R$</span><span id="price_item" th:text="${item.produto.preco}"></span>
+                        </p>
+                    </div>
+                    <form action="/carrinho/remove" method="post">
+                        <input type="hidden"  name="produtoId" th:value="${item.produto.id}">
+                        <button type="submit">Remover</button>
 
-    <p>Total: <span th:text="${carrinho.calcularTotal()}"></span></p>
-</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <p id="pricetotal">Total: <span th:text="${carrinho.calcularTotal()}"></span></p>
+    </div>
 </body>
 
 </html>

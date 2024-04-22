@@ -53,4 +53,26 @@ public class CarrinhoController {
         return "redirect:/carrinho";
     }
 
+    @PostMapping("/remove")
+    public String removeProduto(@RequestParam int produtoId,
+            HttpSession session) {
+        
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            session.setAttribute("carrinho", carrinho);
+        }   
+
+        Produto produto = produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        // ADICIONA PRODUTO AO CARRINHO
+        carrinho.removerItem(produto);
+
+        // REDIRECIONA PARA PAGINA DO CARRINHO
+        return "redirect:/carrinho";
+    }
+
+
+    
+   
+
 }
