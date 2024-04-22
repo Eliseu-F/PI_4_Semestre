@@ -27,6 +27,8 @@
                 </div>
             </div>
 
+           
+
             <div id="search-container" class="search-container"
                 style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
 
@@ -51,13 +53,15 @@
                 <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
             </div>
 
-            <div th:if="${usuarioLogado}" id="container_profile"
+            <div id="container_profile"
                 style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
-                <a href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
+                <a th:if="${usuarioLogado}"  href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
                     <img src="images/icons/profile.svg" style="margin-right: 15px;" />
                 </a>
                 <div style="display: flex; align-items: center;">
+                    <a href="/carrinho" style="display: flex; align-items: center; ">
                     <img src="images/icons/cart.svg" style="margin-right: 15px;" />
+                </a>
                 </div>
             </div>
 

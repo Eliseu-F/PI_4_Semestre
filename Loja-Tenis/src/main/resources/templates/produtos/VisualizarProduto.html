@@ -181,14 +181,15 @@
                         <p style="font-size: 30px; font-weight: 600; padding: 20px;">1</p>
                         <img src="/images/icons/plus.svg" />
                     </div>
-                    <span class="button">Adicionar ao carrinho</span>
-
+                    <form action="/carrinho/adicionar" method="post">
+                        <!-- Inputs ocultos para enviar dados do produto -->
+                        <input type="hidden" name="produtoId" th:value="${produto.id}" />
+                        <input type="hidden" name="quantidade" value="1" />
+                        <!-- Botão de adicionar ao carrinho -->
+                        <button type="submit" class="button">Adicionar ao carrinho</button>
+                    </form>
                 </div>
-
             </div>
-
-
-
         </div>
 
     </main>

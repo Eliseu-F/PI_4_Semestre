@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carrinho</title>
+    <style>
+        body {
+          background-color: #2600ff;
+            
+        }
+
+        .title {
+            display: flex;
+            font-size: 50px;
+            font-family: 'Segoe UI';
+            color: #EF2B00;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card_itens {
+            display: flex;
+            flex-direction: row;
+            border: 2px solid black;
+            padding: 20px;
+            align-items: center;
+            width: 500px;
+        }
+
+        .card_container {
+            display: flex;
+
+        }
+        img{
+            max-width: 150px; max-height: 100px;
+        }
+        #container{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            border: 3px solid #EF2B00;
+            background-color: rgb(0, 155, 13);
+            padding: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+    <h1 class="title">Seu Carrinho</h1>
+    <div id="card_container">
+        <!-- Loop para exibir os itens do carrinho -->
+        <div class="card_itens" th:each="item : ${carrinho.itens}">
+            <img th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}"/>
+            <div>
+            <p id="name_item" th:text="${item.produto.nome}"></p>
+            <p id="quantity_item" th:text="${item.quantidade}"></p>
+            <p id="price_item" th:text="${item.produto.preco}"></p>
+            </div>
+            <!-- unidade multiplicado pela quantidade -->
+        </div>
+    </div>
+
+    <p>Total: <span th:text="${carrinho.calcularTotal()}"></span></p>
+</div>
+</body>
+
+</html>
