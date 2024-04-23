@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.senac.tads.pi.lojatenis.model.Carrinho;
+import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -21,11 +23,25 @@ public class CarrinhoController {
     private ProdutoRepository produtoRepository;
 
     @GetMapping
-    public String mostrarCarrinho(HttpSession session, Model model) {
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+    public String mostrarCarrinho(HttpSession session1, Model model, HttpServletRequest request) {
+        Carrinho carrinho = (Carrinho) session1.getAttribute("carrinho");
+
+        HttpSession session2 = request.getSession();
+        Cliente clienteLogado = (Cliente) session2.getAttribute("clienteLogado");
+
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+        } else {
+            model.addAttribute("usuarioLogado", false);
+        }
         // SE NAO EXISTER CARRINHO RETORNA PARA HOME
         if (carrinho == null) {
-            return "redirect:/home";
+           
+                carrinho = new Carrinho();
+                session1.setAttribute("carrinho", carrinho);
         }
 
         // Adicione o carrinho ao modelo para exibição na página

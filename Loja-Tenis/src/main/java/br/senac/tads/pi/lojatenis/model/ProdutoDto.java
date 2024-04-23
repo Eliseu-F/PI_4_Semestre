@@ -50,6 +50,11 @@ public class ProdutoDto {
     private List<String> imagensRemovidas;
     private String imagemPadrao;
 
+
+    @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Size(max = 50, message = "Você excedeu 50 caracteres")
+    private String marca;
+
     public String getImagemPadrao() {
         return imagemPadrao != null ? imagemPadrao : "";
     }
@@ -129,6 +134,14 @@ public class ProdutoDto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
 }

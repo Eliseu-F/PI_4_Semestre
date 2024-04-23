@@ -24,6 +24,32 @@ public class Produto {
 
     private int qtd_estoque;
 
+    private String marca;
+
+    private List<String> tamanhos;
+
+    
+
+    public Produto() {
+        this.tamanhos = new ArrayList<>();
+        this.tamanhos.add("36");
+        this.tamanhos.add("37");
+        this.tamanhos.add("38");
+        this.tamanhos.add("39");
+        this.tamanhos.add("40");
+        this.tamanhos.add("41");
+        this.tamanhos.add("42");
+        this.tamanhos.add("43");
+    }
+
+    public List<String> getTamanhos() {
+        return tamanhos;
+    }
+
+    public void setTamanhos(List<String> tamanhos) {
+        this.tamanhos = tamanhos;
+    }
+
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
@@ -105,6 +131,14 @@ public class Produto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
 }
