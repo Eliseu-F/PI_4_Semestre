@@ -175,20 +175,22 @@
                     onclick="mostrarImagem([[${index.index}]])"></span>
             </div>
             <div id="infos_container">
+                <form action="/carrinho/adicionar" method="post">
                 <div id="buy_container" style="padding: 30px;">
                     <div id="quantity_container">
-                        <img src="/images/icons/minus.png" />
-                        <p style="font-size: 30px; font-weight: 600; padding: 20px;">1</p>
-                        <img src="/images/icons/plus.svg" />
+                        <img src="/images/icons/minus.png" onclick="decrementar()"/>
+                        <p id="contador" style="font-size: 30px; font-weight: 600; padding: 20px;">1</p>
+                        <img src="/images/icons/plus.svg" onclick="incrementar()" />
                     </div>
-                    <span class="button">Adicionar ao carrinho</span>
-
+                    
+                        <!-- Inputs ocultos para enviar dados do produto -->
+                        <input type="hidden" name="produtoId"id="produtoId" th:value="${produto.id}" />
+                        <input type="hidden" name="quantidade"  id="quantidade" value="1" />
+                        <!-- Botão de adicionar ao carrinho -->
+                        <button type="submit" class="button">Adicionar ao carrinho</button>
+                    </form>
                 </div>
-
             </div>
-
-
-
         </div>
 
     </main>
@@ -199,6 +201,7 @@
     var imagens = /*[[${produto.imagens}]]*/;
     var imagemPadrao = /*[[${produto.imagemPadrao}]]*/;
     var indiceAtual = -1; // Inicializa o indice atual como -1
+    var quantity = 1 
 
     function proximaImagem() {
         indiceAtual++;
@@ -246,6 +249,25 @@
         atualizarImagem();
     };
 
+
+    function incrementar() {
+    var contadorElemento = document.getElementById("contador");
+    var contadorAtual = parseInt(contadorElemento.textContent);
+    if(contadorAtual <5){
+    contadorElemento.textContent = contadorAtual + 1;
+    document.getElementById("quantidade").value = contadorAtual + 1; 
+    }
+}
+
+function decrementar() {
+    var contadorElemento = document.getElementById("contador");
+    var contadorAtual = parseInt(contadorElemento.textContent);
+    if (contadorAtual > 1) {
+        contadorElemento.textContent = contadorAtual - 1;
+        document.getElementById("quantidade").value = contadorAtual - 1;
+    }
+}
+</script>
     
 </script>
 
