@@ -1,8 +1,10 @@
 package br.senac.tads.pi.lojatenis.controller;
 
+import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.model.ProdutoDto;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.io.File;
@@ -54,11 +56,21 @@ public class ProdutoController {
     }
 
     @GetMapping("/view/{id}")
-    public String showProductDetails(@PathVariable int id, Model model) {
+    public String showProductDetails(@PathVariable int id, Model model, HttpServletRequest request) {
         try {
             // Buscar o produto no banco de dados pelo ID
             Produto produto = repo.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            HttpSession session = request.getSession();
+            Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
 
+            if (clienteLogado != null) {
+                model.addAttribute("usuarioLogado", true);
+                model.addAttribute("clienteId", clienteLogado.getId());
+                model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+            } else {
+                model.addAttribute("usuarioLogado", false);
+            }
             // Mapear os atributos do produto para o DTO
             ProdutoDto produtoDto = new ProdutoDto();
             produtoDto.setId(produto.getId());
@@ -72,6 +84,7 @@ public class ProdutoController {
             // Adicionar o produto e o DTO ao modelo
             model.addAttribute("produto", produto);
             model.addAttribute("produtoDto", produtoDto);
+            model.addAttribute("tamanhos", produto.getTamanhos());
 
             List<String> imagens = produto.getImagens();
             model.addAttribute("imagens", imagens);
@@ -146,6 +159,7 @@ public class ProdutoController {
         produto.setStatus(produtoDto.getStatus());
         produto.setImagens(imagensSalvas);
         produto.setImagemPadrao(imagemPadrao);
+        produto.setMarca(produtoDto.getMarca());
         // Configurar atributos de produtoDto para produto
 
         // Salvar produto no repositório
@@ -174,6 +188,7 @@ public class ProdutoController {
             produtoDto.setQtd_estoque(produto.getQtd_estoque());
             produtoDto.setDescricao(produto.getDescricao());
             produtoDto.setStatus(produto.getStatus());
+            produtoDto.setMarca(produto.getMarca());
 
             // Adicionar o produto e o DTO ao modelo
             model.addAttribute("produto", produto);
@@ -208,6 +223,7 @@ public class ProdutoController {
             produto.setQtd_estoque(produtoDto.getQtd_estoque());
             produto.setDescricao(produtoDto.getDescricao());
             produto.setStatus(produtoDto.getStatus());
+            produto.setMarca(produtoDto.getMarca());
 
             if (produto.getImagens().size() == 1 && produtoDto.getImagensRemovidas() != null
                     && !produtoDto.getImagensRemovidas().isEmpty()) {
@@ -303,6 +319,7 @@ public class ProdutoController {
             produtoDto.setQtd_estoque(produto.getQtd_estoque());
             produtoDto.setDescricao(produto.getDescricao());
             produtoDto.setStatus(produto.getStatus());
+            produtoDto.setMarca(produto.getMarca());
 
             // Adicionar o produto e o DTO ao modelo
             model.addAttribute("produto", produto);
@@ -337,6 +354,7 @@ public class ProdutoController {
             produto.setQtd_estoque(produtoDto.getQtd_estoque());
             produto.setDescricao(produtoDto.getDescricao());
             produto.setStatus(produtoDto.getStatus());
+            produtoDto.setMarca(produto.getMarca());
 
             if (!produtoDto.getImagemPadrao().isEmpty()) {
                 produto.setImagemPadrao(produtoDto.getImagemPadrao());

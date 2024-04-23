@@ -12,11 +12,38 @@
 
 <body>
     <header>
-            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
-                <a href="/clientes/create" class="text_header">Cadastrar</a>
+        <img src="/images/logoOrange.svg" class="logo" alt="Logo">
+        <span id="container_header">
+
+            <div id="menu"
+                style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
+                <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
+                <div id="painel" class="painel">
+                    <div class="painel_container">
+                        <section>Masculino</section>
+                        <section>Feminino</section>
+                        <section>Lançamentos</section>
+                        <section>Promoções</section>
+
+                    </div>
+
+                </div>
             </div>
 
-            <a href="/home" class="text_header" style="margin-right: 30px;">Voltar</a>
+           
+
+            <div id="search-container" class="search-container"
+                style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
+
+
+                <a id="text-header" class="text_header"><img src="/images/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
+
+            </div>
+
+
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
+                <a href="clientes/create" class="text_header">Cadastrar</a>
+            </div>
 
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
                 <a href="/login" class="text_header">Login</a>
@@ -27,10 +54,18 @@
                     style="color: rgb(52, 36, 36); flex-direction: row; display: flex; margin-right: 30px;"></a>
 
                 <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
-                
+            </div>
 
-                
-
+            <div id="container_profile"
+                style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <a th:if="${usuarioLogado}"  href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
+                    <img src="/images/icons/profile.svg" style="margin-right: 15px;" />
+                </a>
+                <div style="display: flex; align-items: center;">
+                    <a href="/carrinho" style="display: flex; align-items: center; ">
+                    <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
+                </a>
+                </div>
             </div>
 
         </span>
@@ -68,9 +103,21 @@
 </body>
 
 <script>
-    function confirmLogout() {
+   function confirmLogout() {
         if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
     }
+
+
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
+
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    })
+
+
+    document.getElementById("")
 </script>
 
 </html>

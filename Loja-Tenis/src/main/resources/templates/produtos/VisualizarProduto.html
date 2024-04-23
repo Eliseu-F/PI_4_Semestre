@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes do Produto</title>
+    <head><link rel="stylesheet" href="/css/home.css"></head>
     <style>
         body {
             background-color: #ffffff;
@@ -96,7 +97,7 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
-            top: 680px;
+            top: 590px;
         }
 
         #quantity_container {
@@ -112,14 +113,14 @@
             display: flex;
             flex-direction: row;
             position: absolute;
-            top: 800px;
+            top: 990px;
             
             
         }
         #indicadores{
             position: absolute;
             display: flex;
-            top: 750px;
+            top: 970px;
         }
 
         .bolinha {
@@ -138,6 +139,65 @@
 </head>
 
 <body>
+    <header>
+        <img src="/images/logoOrange.svg" class="logo" alt="Logo">
+        <span id="container_header">
+
+            <div id="menu"
+                style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
+                <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
+                <div id="painel" class="painel">
+                    <div class="painel_container">
+                        <section>Masculino</section>
+                        <section>Feminino</section>
+                        <section>Lançamentos</section>
+                        <section>Promoções</section>
+
+                    </div>
+
+                </div>
+            </div>
+
+           
+
+            <div id="search-container" class="search-container"
+                style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
+
+
+                <a id="text-header" class="text_header"><img src="/images/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
+
+            </div>
+
+
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
+                <a href="clientes/create" class="text_header">Cadastrar</a>
+            </div>
+
+            <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
+                <a href="/login" class="text_header">Login</a>
+            </div>
+
+            <div th:if="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 30px;">
+                <a th:text="${nomeCliente}" class="text_header"
+                    style="color: rgb(52, 36, 36); flex-direction: row; display: flex; margin-right: 30px;"></a>
+
+                <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
+            </div>
+
+            <div id="container_profile"
+                style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <a th:if="${usuarioLogado}"  href="/clientes/PerfilCliente" style="display: flex; align-items: center; ">
+                    <img src="/images/icons/profile.svg" style="margin-right: 15px;" />
+                </a>
+                <div style="display: flex; align-items: center;">
+                    <a href="/carrinho" style="display: flex; align-items: center; ">
+                    <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
+                </a>
+                </div>
+            </div>
+
+        </span>
+    </header>
     <main>
 
         <div id="total_container">
@@ -145,10 +205,11 @@
                 <div style="padding: 30px;">
                     <h2 id="title_product" th:text="${produto.nome}"></h2>
                     <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
+                    <span th:text="${produto.marca}" style=" font-weight: 700; font-size: 25px; margin: 0; color: #868686; "></span>
+
                     <p id="avali_product"><img src="/images/stars.svg" />
                         <span th:text="${produto.avaliacao}"></span>
                     </p>
-
                     <p th:text="${produto.descricao}" style="word-wrap: break-word; font-size: 15px; font-weight: 400;">
                     </p>
                 </div>
@@ -157,6 +218,8 @@
                     <img src="/images/icons/expand.svg" onclick="toggleDescricao()" />
 
                 </div>
+
+                
             </div>
 
             <div id="imagem_container">
@@ -175,6 +238,11 @@
                     onclick="mostrarImagem([[${index.index}]])"></span>
             </div>
             <div id="infos_container">
+
+                <div style="display: flex; position: relative; text-decoration: none; justify-content: center; align-items: center; top: 320px; flex-wrap: nowrap;">
+                    <h4 th:each="tamanho : ${tamanhos}" th:text="${tamanho}" style="display: flex; margin-right: 20px; border: 3px solid #000000; font-size: 20px; font-weight: 700; padding: 10px;"></h4>
+                </div>
+
                 <form action="/carrinho/adicionar" method="post">
                 <div id="buy_container" style="padding: 30px;">
                     <div id="quantity_container">
@@ -182,7 +250,6 @@
                         <p id="contador" style="font-size: 30px; font-weight: 600; padding: 20px;">1</p>
                         <img src="/images/icons/plus.svg" onclick="incrementar()" />
                     </div>
-                    
                         <!-- Inputs ocultos para enviar dados do produto -->
                         <input type="hidden" name="produtoId"id="produtoId" th:value="${produto.id}" />
                         <input type="hidden" name="quantidade"  id="quantidade" value="1" />
@@ -267,6 +334,22 @@ function decrementar() {
         document.getElementById("quantidade").value = contadorAtual - 1;
     }
 }
+
+function confirmLogout() {
+        if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
+    }
+
+
+    document.getElementById("menu").addEventListener("mouseenter", function () {
+        document.getElementById("painel").style.display = "flex";
+    });
+
+    document.getElementById("menu").addEventListener("mouseleave", function () {
+        document.getElementById("painel").style.display = "none";
+    })
+
+
+    document.getElementById("")
 </script>
     
 </script>
