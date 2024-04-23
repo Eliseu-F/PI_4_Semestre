@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Carrinho</title>
-    <style>
-        body {
-            /* background-color: #2600ff; */
 
-        }
+    <style>
+       
 
         .title {
             display: flex;
@@ -29,7 +27,7 @@
             margin-top: 35px;
         }
 
-            
+
 
         img {
             max-width: 150px;
@@ -63,8 +61,9 @@
             font-weight: 700;
 
         }
-        #container_all>div>p>span{
-           color: #EF2B00;
+
+        #container_all>div>p>span {
+            color: #EF2B00;
 
         }
 
@@ -73,6 +72,12 @@
             font-size: 30px;
             margin-left: 20px;
             font-weight: 700;
+        }
+
+        #quantity_container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 
@@ -89,14 +94,34 @@
                     <div>
                         <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
                         </p>
-                        <p>Quantidade: <span id="quantity_item" th:text="${item.quantidade}"></span>
-                        </p>
                         <p>Preço: <span> R$</span><span id="price_item" th:text="${item.produto.preco}"></span>
                         </p>
+                        <div id="quantity_container">
+                        <form method="post" action="/carrinho/diminuir">
+                            <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+
+                            <button type="submit">
+                                <img src="/images/icons/esquerda.svg" onclick="decrementar()" />
+                            </button>
+                        </form>
+                            <span id="quantity_item" th:text="${item.quantidade}" style="font-family: 'Segoe UI';font-size: 20px; margin-left: 20px;  margin-right: 20px; font-weight: 700; color: #EF2B00;"></span>
+                           
+                            <form method="post" action="/carrinho/aumentar">
+                                <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+                                <button type="submit">
+                                    <img src="/images/icons/direita.svg" onclick="incrementar()" />
+                                </button>
+                            </form>
+                        </div>
+
+
                     </div>
                     <form action="/carrinho/remove" method="post">
-                        <input type="hidden"  name="produtoId" th:value="${item.produto.id}">
-                        <button type="submit">Remover</button>
+                        <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+                        <button style="border: none; background-color: unset; margin-left: 120px; display: flex;"
+                            type="submit">
+                            <img src="images/icons/delete.svg" style="height: 30px; width: 30px; display: flex;" />
+                        </button>
 
                     </form>
                 </div>

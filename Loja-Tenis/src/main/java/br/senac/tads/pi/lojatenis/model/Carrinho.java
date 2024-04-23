@@ -27,6 +27,31 @@ public class Carrinho {
         itens.add(novoItem);
     }
 
+    public void aumentaQuantidade(Produto produto) {
+        for (ItemPedido item : itens) {
+            if (item.getProduto().getId() == (produto.getId())) {
+                item.setQuantidade(item.getQuantidade() + 1);
+                return;
+            }
+        }
+    }
+
+
+    public void diminuiQuantidade(Produto produto) {
+        for (ItemPedido item : itens) {
+            if (item.getProduto().getId() == (produto.getId())) {
+                int novaQuantidade = item.getQuantidade() -1;
+                
+                if(novaQuantidade <= 0){
+                    itens.remove(item);
+                }else{
+                    item.setQuantidade(novaQuantidade);
+                }
+                return;
+            }
+        }
+    }
+
     public void removerItem(Produto produto) {
         itens.removeIf(item -> item.getProduto().getId() ==(produto.getId()));
     }

@@ -56,11 +56,11 @@ public class CarrinhoController {
     @PostMapping("/remove")
     public String removeProduto(@RequestParam int produtoId,
             HttpSession session) {
-        
+
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             session.setAttribute("carrinho", carrinho);
-        }   
+        }
 
         Produto produto = produtoRepository.findById(produtoId)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
@@ -71,8 +71,36 @@ public class CarrinhoController {
         return "redirect:/carrinho";
     }
 
+    @PostMapping("/aumentar")
+    public String aumentarQuantidade(@RequestParam int produtoId,
+            HttpSession session) {
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            session.setAttribute("carrinho", carrinho);
+        }
 
-    
-   
+        Produto produto = produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        carrinho.aumentaQuantidade(produto);
+
+        return "redirect:/carrinho";
+    }
+
+    @PostMapping("/diminuir")
+    public String diminuirQuantidade(@RequestParam int produtoId,
+            HttpSession session) {
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            session.setAttribute("carrinho", carrinho);
+        }
+
+        Produto produto = produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        carrinho.diminuiQuantidade(produto);
+
+        return "redirect:/carrinho";
+    }
 
 }
