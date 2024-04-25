@@ -1,6 +1,9 @@
 package br.senac.tads.pi.lojatenis.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +26,8 @@ public class CarrinhoController {
     private ProdutoRepository produtoRepository;
 
     @GetMapping
-    public String mostrarCarrinho(HttpSession session1, Model model, HttpServletRequest request) {
-        Carrinho carrinho = (Carrinho) session1.getAttribute("carrinho");
+    public String mostrarCarrinho(HttpSession session, Model model, HttpServletRequest request) {
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
 
         HttpSession session2 = request.getSession();
         Cliente clienteLogado = (Cliente) session2.getAttribute("clienteLogado");
@@ -36,12 +39,13 @@ public class CarrinhoController {
 
         } else {
             model.addAttribute("usuarioLogado", false);
+
         }
-        // SE NAO EXISTER CARRINHO RETORNA PARA HOME
+
+        // SE NAO EXISTIR CARRINHO, CRIA UM NOVO
         if (carrinho == null) {
-           
-                carrinho = new Carrinho();
-                session1.setAttribute("carrinho", carrinho);
+            carrinho = new Carrinho();
+            session.setAttribute("carrinho", carrinho);
         }
 
         // Adicione o carrinho ao modelo para exibição na página
@@ -55,7 +59,7 @@ public class CarrinhoController {
         Produto produto = produtoRepository.findById(produtoId)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        // CRIA O CARRINHO NA SESSÃO DO SITE
+        // CRIA O CARRINHO NA SESSÃO DO SITE SE NÃO EXISTIR
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             carrinho = new Carrinho();
@@ -69,10 +73,38 @@ public class CarrinhoController {
         return "redirect:/carrinho";
     }
 
-    @PostMapping("/remove")
-    public String removeProduto(@RequestParam int produtoId,
-            HttpSession session) {
+    @PostMapping("/adicionarComFrete")
+    public String adicionarProdutoAoCarrinhoComFrete(@RequestParam int produtoId, @RequestParam int quantidade,
+            @RequestParam double valorFrete, HttpSession session, Model model) {
+        Produto produto = produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+        // CRIA O CARRINHO NA SESSÃO DO SITE SE NÃO EXISTIR
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            carrinho = new Carrinho();
+            session.setAttribute("carrinho", carrinho);
+        }
+
+        // ADICIONA PRODUTO AO CARRINHO
+        carrinho.adicionarItem(produto, quantidade);
+
+        // CONVERTE O VALOR DO FRETE PARA BigDecimal
+        BigDecimal valorFreteBigDecimal = BigDecimal.valueOf(valorFrete);
+
+        // ADICIONA VALOR DO FRETE AO TOTAL DO CARRINHO
+        carrinho.adicionarFrete(valorFreteBigDecimal);
+
+        // ADICIONA O VALOR DO FRETE AO MODELO
+        model.addAttribute("valorFrete", valorFreteBigDecimal);
+
+        // REDIRECIONA PARA PAGINA DO CARRINHO APÓS SOMAR O VALOR DO FRETE AO TOTAL DO
+        // CARRINHO
+        return "redirect:/carrinho";
+    }
+
+    @PostMapping("/remove")
+    public String removeProduto(@RequestParam int produtoId, HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             session.setAttribute("carrinho", carrinho);
@@ -88,8 +120,7 @@ public class CarrinhoController {
     }
 
     @PostMapping("/aumentar")
-    public String aumentarQuantidade(@RequestParam int produtoId,
-            HttpSession session) {
+    public String aumentarQuantidade(@RequestParam int produtoId, HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             session.setAttribute("carrinho", carrinho);
@@ -104,8 +135,7 @@ public class CarrinhoController {
     }
 
     @PostMapping("/diminuir")
-    public String diminuirQuantidade(@RequestParam int produtoId,
-            HttpSession session) {
+    public String diminuirQuantidade(@RequestParam int produtoId, HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             session.setAttribute("carrinho", carrinho);
@@ -118,5 +148,4 @@ public class CarrinhoController {
 
         return "redirect:/carrinho";
     }
-
 }

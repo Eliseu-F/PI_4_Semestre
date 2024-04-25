@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <head><link rel="stylesheet" href="/css/home.css"></head>
+
+    <head>
+        <link rel="stylesheet" href="/css/home.css">
+    </head>
     <title>Carrinho</title>
 
     <style>
@@ -23,18 +26,19 @@
             border: 2px solid black;
             padding: 20px;
             align-items: center;
-            width: 550px;
+            width: 700px;
+            height: 500px;
             margin-top: 35px;
         }
 
 
 
-        .imagens_produto{
+        .imagens_produto {
             max-width: 150px;
             max-height: 150px;
         }
 
-        
+
 
         #container_all {
             display: flex;
@@ -72,7 +76,6 @@
             justify-content: center;
 
         }
-
     </style>
 
 </head>
@@ -97,13 +100,14 @@
                 </div>
             </div>
 
-           
+
 
             <div id="search-container" class="search-container"
                 style="display: flex; flex: 1; align-items: center;  border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px; padding-right: 65px;">
 
 
-                <a id="text-header" class="text_header"><img src="/images/icons/search.svg" style="margin-right: 15px;" />Buscar</a>
+                <a id="text-header" class="text_header"><img src="/images/icons/search.svg"
+                        style="margin-right: 15px;" />Buscar</a>
 
             </div>
 
@@ -123,65 +127,92 @@
                 <a href="/logout" onclick="confirmLogout()" class="text_header">Logout</a>
             </div>
 
-            <div id="container_profile"
-                style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
-                <a th:if="${usuarioLogado}"  href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
+            <div id="container_profile" style="border-left: solid #EF2B00 3px; height: 60px; padding-left: 25px; ">
+                <a th:if="${usuarioLogado}" href="clientes/PerfilCliente" style="display: flex; align-items: center; ">
                     <img src="/images/icons/profile.svg" style="margin-right: 15px;" />
                 </a>
                 <div style="display: flex; align-items: center;">
                     <a href="/carrinho" style="display: flex; align-items: center; ">
-                    <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
-                </a>
+                        <img src="/images/icons/cart.svg" style="margin-right: 15px;" />
+                    </a>
                 </div>
             </div>
 
         </span>
     </header>
-    
-        <h1 class="title">Seu Carrinho</h1>
-            <div class="card_itens" th:each="item : ${carrinho.itens}">
-                <div id="container_all">
-                    <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
-                    <div>
-                        <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
-                        </p>
-                        <p>Preço: <span> R$</span><span id="price_item" th:text="${item.produto.preco}"></span>
-                        </p>
-                        <div id="quantity_container">
-                            <form method="post" action="/carrinho/diminuir">
-                                <input type="hidden" name="produtoId" th:value="${item.produto.id}">
 
-                                <button type="submit" style="  border: none; background-color:unset ;">
-                                    <img src="/images/icons/esquerda.svg" onclick="decrementar()" />
-                                </button>
-                            </form>
-                            <span id="quantity_item" th:text="${item.quantidade}"
-                                style="font-family: 'Segoe UI';font-size: 20px; margin-left: 20px;  margin-right: 20px; font-weight: 700; color: #EF2B00;"></span>
+    <h1 class="title">Seu Carrinho</h1>
+    <div class="card_itens" th:each="item : ${carrinho.itens}">
+        <div id="container_all">
+            <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
+            <div>
+                <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                </p>
+                <p>Preço: <span> R$</span><span id="price_item" th:text="${item.produto.preco}"></span>
+                </p>
 
-                            <form method="post" action="/carrinho/aumentar">
-                                <input type="hidden" name="produtoId" th:value="${item.produto.id}">
-                                <button type="submit" style="  border: none; background-color:unset ;">
-                                    <img src="/images/icons/direita.svg" onclick="incrementar()" />
-                                </button>
-                            </form>
-                        </div>
+                <div style="justify-content: center; align-items: center;">
+                    <h2>Consultar frete e prazo de entrega</h2>
+                    <form id="formCalcularFrete" action="/calcularFrete" method="post">
+                        <input type="text" id="cep" name="cep" placeholder="Inserir CEP" maxlength="9" pattern="[0-9]{5}-[0-9]{3}">
+                        <button type="submit">OK</button>
+                    </form>
+                </div>
+            
+                <div id="modalOverlay" style="display: none;">
+                    <div id="modalContainer" style="display: none;">
+                        <p>Opções de Frete</p>
+                        <form id="formOpcoesFrete" action="/carrinho/adicionarComFrete" method="post">
+                            <fieldset>
+                                <legend>Selecione uma opção de frete:</legend>
+                                <ul>
+                                    <!-- Aqui você pode incluir suas opções de frete dinamicamente -->
+                                </ul>
+                            </fieldset>
+                            <!-- Adiciona um campo oculto para armazenar o valor do frete selecionado -->
+                            <input type="hidden" id="valorFrete" name="valorFrete" value="">
+                        </form>
+                        <button type="button" onclick="confirmarAdicaoAoCarrinho()">Confirmar</button>
+                        <button onclick="fecharModal()">Fechar</button>
                     </div>
-                    <form action="/carrinho/remove" method="post">
+                </div>
+
+
+
+                <div id="quantity_container">
+                    <form method="post" action="/carrinho/diminuir">
                         <input type="hidden" name="produtoId" th:value="${item.produto.id}">
-                        <button style="border: none; background-color: unset; margin-left: 120px; display: flex;"
-                            type="submit">
-                            <img src="images/icons/delete.svg" style="height: 30px; width: 30px; display: flex;" />
+
+                        <button type="submit" style="  border: none; background-color:unset ;">
+                            <img src="/images/icons/esquerda.svg" onclick="decrementar()" />
+                        </button>
+                    </form>
+                    <span id="quantity_item" th:text="${item.quantidade}"
+                        style="font-family: 'Segoe UI';font-size: 20px; margin-left: 20px;  margin-right: 20px; font-weight: 700; color: #EF2B00;"></span>
+
+                    <form method="post" action="/carrinho/aumentar">
+                        <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+                        <button type="submit" style="  border: none; background-color:unset ;">
+                            <img src="/images/icons/direita.svg" onclick="incrementar()" />
                         </button>
                     </form>
                 </div>
             </div>
-    <p id="pricetotal">Total: <span th:text="${carrinho.calcularTotal()}"></span></p>
+            <form action="/carrinho/remove" method="post">
+                <input type="hidden" name="produtoId" th:value="${item.produto.id}">
+                <button style="border: none; background-color: unset; margin-left: 120px; display: flex;" type="submit">
+                    <img src="images/icons/delete.svg" style="height: 30px; width: 30px; display: flex;" />
+                </button>
+            </form>
+        </div>
+    </div>
+    <p id="pricetotal">Total: <span th:text="${carrinho.calcularTotal(valorFrete)}"></span></p>
     </div>
 
 </body>
 <script>
 
-function confirmLogout() {
+    function confirmLogout() {
         if (confirm("Tem certeza que deseja sair da sua conta?")) { document.getElementById("logoutButton").submit(); }
     }
 
@@ -197,4 +228,98 @@ function confirmLogout() {
 
     document.getElementById("")
 </script>
+
+<script>
+    // Evento de envio do formulário
+    document.getElementById('formCalcularFrete').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evita o envio tradicional do formulário
+
+        var cep = document.getElementById('cep').value;
+
+        // Validação do formato do CEP
+        var regex = /^[0-9]{5}-[0-9]{3}$/;
+        if (!regex.test(cep)) {
+            alert("Formato de CEP inválido. Por favor, insira um CEP no formato XXXXX-XXX.");
+            return;
+        }
+
+        // Substitua esta parte pela lógica de abrir o modal com as opções de frete
+        openModal();
+    });
+
+    // Função para abrir o modal
+    function openModal() {
+        document.getElementById('modalOverlay').style.display = 'block';
+        document.getElementById('modalContainer').style.display = 'block';
+    }
+
+
+    // Simular opções de frete (substitua por sua lógica real)
+    var opcoesFrete = [
+        { valor: 10.00, prazo: '3 dias úteis' },
+        { valor: 15.00, prazo: '2 dias úteis' },
+        { valor: 20.00, prazo: '1 dia útil' }
+    ];
+
+    // Limpar opções de frete existentes
+    var formOpcoesFrete = document.getElementById('formOpcoesFrete');
+    formOpcoesFrete.innerHTML = '';
+
+    // Adicionar opções de frete como radio buttons
+    opcoesFrete.forEach(function (opcao, index) {
+        var radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'opcaoFrete';
+        radio.value = index;
+        radio.id = 'opcaoFrete' + index;
+
+        var label = document.createElement('label');
+        label.htmlFor = 'opcaoFrete' + index;
+        label.textContent = 'Valor: R$' + opcao.valor + ' - Prazo: ' + opcao.prazo;
+
+        var br = document.createElement('br');
+
+        formOpcoesFrete.appendChild(radio);
+        formOpcoesFrete.appendChild(label);
+        formOpcoesFrete.appendChild(br);
+    });
+
+    function adicionarAoCarrinho() {
+        var valorFrete = document.querySelector('input[name="opcaoFrete"]:checked').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/adicionarAoCarrinho?valorFrete=" + valorFrete, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Redirecionar para a página do carrinho após o sucesso
+                window.location.href = "/carrinho";
+            }
+        };
+        xhr.send();
+    }
+
+    function confirmarAdicaoAoCarrinho() {
+    // Obter o valor do frete selecionado
+    var valorFreteSelecionado = parseFloat(document.querySelector('input[name="opcaoFrete"]:checked').value);
+
+    // Atualizar o valor do frete no input hidden
+    document.getElementById('valorFrete').value = valorFreteSelecionado;
+
+    // Obter o total atual
+    var totalAtual = parseFloat(document.getElementById('pricetotal').innerText.split(': ')[1]);
+
+    // Calcular o novo total com o valor do frete selecionado
+    var novoTotal = totalAtual + valorFreteSelecionado;
+
+    // Atualizar o valor total na página
+    document.getElementById('totalValue').innerText = novoTotal;
+
+    // Submeter o formulário
+    document.getElementById('formOpcoesFrete').submit();
+}
+
+
+
+</script>
+
 </html>

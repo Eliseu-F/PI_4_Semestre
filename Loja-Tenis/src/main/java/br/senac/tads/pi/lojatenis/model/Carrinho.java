@@ -9,9 +9,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class Carrinho {
     private List<ItemPedido> itens;
+    private BigDecimal total;
+    private BigDecimal totalFrete;
 
     public Carrinho() {
         this.itens = new ArrayList<>();
+        this.total = BigDecimal.ZERO;
+        this.totalFrete = BigDecimal.ZERO;
+    }
+
+
+    public void adicionarFrete(BigDecimal valorFrete) {
+        this.totalFrete = this.totalFrete.add(valorFrete);
+    }
+
+    public BigDecimal calcularTotalComFrete() {
+        return this.total.add(this.totalFrete);
     }
 
     public void adicionarItem(Produto produto, int quantidade) {
@@ -65,14 +78,27 @@ public class Carrinho {
         }
     }
 
-    public BigDecimal calcularTotal() {
+    public BigDecimal calcularTotal(BigDecimal valorFrete) {
         BigDecimal total = BigDecimal.ZERO;
         for (ItemPedido item : itens) {
-            BigDecimal subtotal = item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()));
-            total = total.add(subtotal);
+            total = total.add(item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())));
+        }
+        // Verifica se valorFrete não é nulo antes de adicioná-lo ao total
+        if (valorFrete != null) {
+            total = total.add(valorFrete);
         }
         return total;
     }
+
+    // public BigDecimal calcularTotal() {
+    //     BigDecimal total = BigDecimal.ZERO;
+    //     for (ItemPedido item : itens) {
+    //         BigDecimal subtotal = item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()));
+    //         total = total.add(subtotal);
+    //     }
+    //     return total;
+    // }
+    
 
     private class ItemPedido {
         private Produto produto;
