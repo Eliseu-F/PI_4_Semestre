@@ -27,7 +27,7 @@
             padding: 20px;
             align-items: center;
             width: 700px;
-            height: 500px;
+            height: 300px;
             margin-top: 35px;
         }
 
@@ -75,6 +75,29 @@
             align-items: center;
             justify-content: center;
 
+        }
+
+        /* Estilos para o modal */
+        #modalOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        #modalContainer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 100px;
+            z-index: 1001;
         }
     </style>
 
@@ -151,33 +174,6 @@
                 <p>Preço: <span> R$</span><span id="price_item" th:text="${item.produto.preco}"></span>
                 </p>
 
-                <div style="justify-content: center; align-items: center;">
-                    <h2>Consultar frete e prazo de entrega</h2>
-                    <form id="formCalcularFrete" action="/calcularFrete" method="post">
-                        <input type="text" id="cep" name="cep" placeholder="Inserir CEP" maxlength="9" pattern="[0-9]{5}-[0-9]{3}">
-                        <button type="submit">OK</button>
-                    </form>
-                </div>
-            
-                <div id="modalOverlay" style="display: none;">
-                    <div id="modalContainer" style="display: none;">
-                        <p>Opções de Frete</p>
-                        <form id="formOpcoesFrete" action="/carrinho/adicionarComFrete" method="post">
-                            <fieldset>
-                                <legend>Selecione uma opção de frete:</legend>
-                                <ul>
-                                    <!-- Aqui você pode incluir suas opções de frete dinamicamente -->
-                                </ul>
-                            </fieldset>
-                            <!-- Adiciona um campo oculto para armazenar o valor do frete selecionado -->
-                            <input type="hidden" id="valorFrete" name="valorFrete" value="">
-                        </form>
-                        <button type="button" onclick="confirmarAdicaoAoCarrinho()">Confirmar</button>
-                        <button onclick="fecharModal()">Fechar</button>
-                    </div>
-                </div>
-
-
 
                 <div id="quantity_container">
                     <form method="post" action="/carrinho/diminuir">
@@ -197,6 +193,39 @@
                         </button>
                     </form>
                 </div>
+
+                <div style="justify-content: center; align-items: center;">
+                    <p>Consultar frete e prazo de entrega</p>
+                    <form id="formCalcularFrete" action="/calcularFrete" method="post">
+                        <input type="text" id="cep" name="cep" placeholder="Inserir CEP" maxlength="9"
+                            pattern="[0-9]{5}-[0-9]{3}">
+                        <button type="submit">OK</button>
+                    </form>
+                </div>
+
+                <div id="modalOverlay" style="display: none;">
+                    <div id="modalContainer" style="display: none;">
+                        <p>Opções de Frete</p>
+                        <form id="formOpcoesFrete" action="/carrinho/adicionarComFrete" method="post">
+                            <fieldset>
+                                <legend>Selecione uma opção de frete:</legend>
+                                <ul>
+                                    <li th:each="frete : ${opcoesFrete}">
+                                        <input type="radio" name="opcaoFrete" th:value="${frete.valor}"
+                                            th:id="'opcaoFrete' + ${frete.valor}">
+                                        <label th:for="'opcaoFrete' + ${frete.valor}"
+                                            th:text="${'Valor: R$' + frete.valor + ' - Prazo: ' + frete.prazo}"></label>
+                                    </li>
+                                </ul>
+                            </fieldset>
+                            <!-- Adiciona um campo oculto para armazenar o valor do frete selecionado -->
+                            <input type="hidden" id="valorFrete" name="valorFrete" value="">
+                        </form>
+                        <button type="button" onclick="confirmarAdicaoAoCarrinho()">Confirmar</button>
+                        <button onclick="fecharModal()">Fechar</button>
+                    </div>
+                </div>
+
             </div>
             <form action="/carrinho/remove" method="post">
                 <input type="hidden" name="produtoId" th:value="${item.produto.id}">
@@ -253,12 +282,16 @@
         document.getElementById('modalContainer').style.display = 'block';
     }
 
+    // Função para fechar o modal
+    function fecharModal() {
+        document.querySelector("#modalOverlay").style.display = "none";
+    }
 
     // Simular opções de frete (substitua por sua lógica real)
     var opcoesFrete = [
-        { valor: 10.00, prazo: '3 dias úteis' },
-        { valor: 15.00, prazo: '2 dias úteis' },
-        { valor: 20.00, prazo: '1 dia útil' }
+        { valor: 10.00, prazo: 'Sedex - 5 dias úteis' },
+        { valor: 15.00, prazo: 'Correios - 3 dias úteis' },
+        { valor: 20.00, prazo: 'Mx - 1 dia útil' }
     ];
 
     // Limpar opções de frete existentes
@@ -298,25 +331,15 @@
         xhr.send();
     }
 
+    // Função para confirmar a adição ao carrinho com frete
     function confirmarAdicaoAoCarrinho() {
-    // Obter o valor do frete selecionado
-    var valorFreteSelecionado = parseFloat(document.querySelector('input[name="opcaoFrete"]:checked').value);
-
-    // Atualizar o valor do frete no input hidden
-    document.getElementById('valorFrete').value = valorFreteSelecionado;
-
-    // Obter o total atual
-    var totalAtual = parseFloat(document.getElementById('pricetotal').innerText.split(': ')[1]);
-
-    // Calcular o novo total com o valor do frete selecionado
-    var novoTotal = totalAtual + valorFreteSelecionado;
-
-    // Atualizar o valor total na página
-    document.getElementById('totalValue').innerText = novoTotal;
-
-    // Submeter o formulário
-    document.getElementById('formOpcoesFrete').submit();
-}
+        // Obter o valor do frete selecionado
+        var valorFrete = document.querySelector('input[name="opcaoFrete"]:checked').value;
+        // Atualizar o campo de valor do frete no formulário
+        document.getElementById("valorFrete").value = valorFrete;
+        // Enviar o formulário
+        document.getElementById("formOpcoesFrete").submit();
+    }
 
 
 

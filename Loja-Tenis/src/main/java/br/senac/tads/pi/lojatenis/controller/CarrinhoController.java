@@ -76,30 +76,35 @@ public class CarrinhoController {
     @PostMapping("/adicionarComFrete")
     public String adicionarProdutoAoCarrinhoComFrete(@RequestParam int produtoId, @RequestParam int quantidade,
             @RequestParam double valorFrete, HttpSession session, Model model) {
+
+        // Armazena o valor do frete na sessão
+        session.setAttribute("valorFrete", valorFrete);
+
+        // Obtém o produto a ser adicionado ao carrinho
         Produto produto = produtoRepository.findById(produtoId)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        // CRIA O CARRINHO NA SESSÃO DO SITE SE NÃO EXISTIR
+        // Cria o carrinho na sessão do site se não existir
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             carrinho = new Carrinho();
             session.setAttribute("carrinho", carrinho);
         }
 
-        // ADICIONA PRODUTO AO CARRINHO
+        // Adiciona o produto ao carrinho
         carrinho.adicionarItem(produto, quantidade);
 
-        // CONVERTE O VALOR DO FRETE PARA BigDecimal
+        // Converte o valor do frete para BigDecimal
         BigDecimal valorFreteBigDecimal = BigDecimal.valueOf(valorFrete);
 
-        // ADICIONA VALOR DO FRETE AO TOTAL DO CARRINHO
+        // Adiciona o valor do frete ao total do carrinho
         carrinho.adicionarFrete(valorFreteBigDecimal);
 
-        // ADICIONA O VALOR DO FRETE AO MODELO
+        // Adiciona o valor do frete ao modelo
         model.addAttribute("valorFrete", valorFreteBigDecimal);
 
-        // REDIRECIONA PARA PAGINA DO CARRINHO APÓS SOMAR O VALOR DO FRETE AO TOTAL DO
-        // CARRINHO
+        // Redireciona para a página do carrinho após somar o valor do frete ao total do
+        // carrinho
         return "redirect:/carrinho";
     }
 
