@@ -431,4 +431,27 @@ public class ProdutoController {
         return "redirect:/produtos";
     }
 
+
+    @GetMapping("buscamarca/{marca}")
+    public String listaProdutosMarca(@PathVariable String marca, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+        
+
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+    
+        } else {
+            model.addAttribute("usuarioLogado", false);
+        }
+
+        List<Produto>  produtos = repo.findByMarca(marca);
+        model.addAttribute("produtos", produtos);
+
+        return  ("home/produtosPorMarca");
+
+    }
+
 }

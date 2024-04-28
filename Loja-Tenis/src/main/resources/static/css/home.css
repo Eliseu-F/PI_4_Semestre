@@ -104,7 +104,6 @@
         }
 
         .painel {
-
             display: none;
             position: absolute;
             top: 135px;
@@ -112,11 +111,17 @@
             width: 100%;
             background-color: #ffffff;
             padding: 10px;
-            border: 1px solid #ffffff;
+            border: 3px solid #ffffff;
             animation: abrirPainel 0.1s ease forwards;
             height: 300px;
             align-self: center;
             align-items: center;
+        }
+
+        .painel_container > section > a {
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
         }
 
         @keyframes abrirPainel {
