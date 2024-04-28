@@ -23,6 +23,8 @@
         main {
             margin-top: 200px;
 
+            
+
         }
 
         header {
@@ -75,7 +77,6 @@
         }
 
         .painel {
-
             display: none;
             position: absolute;
             top: 135px;
@@ -83,11 +84,12 @@
             width: 100%;
             background-color: #ffffff;
             padding: 10px;
-            border: 1px solid #ffffff;
+            border: 3px solid #ffffff;
             animation: abrirPainel 0.1s ease forwards;
             height: 300px;
             align-self: center;
             align-items: center;
+            font-size: 20px;
         }
 
         @keyframes abrirPainel {
@@ -115,10 +117,14 @@
 
         .menu {
             position: relative;
+
         }
 
-
-
+        .painel_container > section > a {
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+        }
 
         #container_imagem {
             display: flex;
@@ -128,6 +134,7 @@
             border: 4px solid black;
             border-top: none;
             border-bottom: none;
+            width: 700px;
 
         }
 
@@ -136,7 +143,7 @@
             display: flex;
             border: 4px solid black;
             flex-direction: row;
-            width: 100%;
+            height: 650px;
         }
 
         #container_info {
@@ -148,9 +155,10 @@
         }
 
         #imagemAtual {
-            display: flex;
 
-            max-width: 600px;
+            display: flex;
+            max-width: 500px;
+            max-height: 500px;
         }
 
         .button {
@@ -215,7 +223,6 @@
             flex-direction: column;
             justify-content: flex-end;
         }
-
     </style>
 
 </head>
@@ -230,10 +237,9 @@
                 <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
                 <div id="painel" class="painel">
                     <div class="painel_container">
-                        <section>Masculino</section>
-                        <section>Feminino</section>
-                        <section>Lançamentos</section>
-                        <section>Promoções</section>
+                        <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
+                        <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
+                        <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
                     </div>
                 </div>
             </div>
@@ -272,7 +278,7 @@
                 <h2 id="title_product" th:text="${produto.nome}"></h2>
                 <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
                 <span th:text="${produto.marca}"
-                    style=" font-weight: 700; font-size: 25px; margin: 0; color: #868686; "></span>
+                    style=" font-weight: 700; font-size: 25px; margin: 0; color: #000000; "></span>
 
                 <p id="avali_product"><img src="/images/stars.svg" />
                     <span th:text="${produto.avaliacao}"></span>
@@ -288,17 +294,20 @@
                     <img id="imagemAtual" th:src="${'/imagens_produtos/' + imagens[0]}" class="img-thumbnail">
 
                 </div>
+                <div style="display:flex; flex-direction: column; align-items: center; ">
+                    <div id="arrows_container">
+                        <img src="/images/icons/arrowleft.png" style="margin-right: 50px;" id="botaoVolta"
+                            onclick="voltaImagem()" />
+                        <img src="/images/icons/arrowright.png" id="botaoAvanca" onclick="proximaImagem()" />
+                    </div>
 
-                <div id="arrows_container">
-                    <img src="/images/icons/arrowleft.png" style="margin-right: 50px;" id="botaoVolta"
-                        onclick="voltaImagem()" />
-                    <img src="/images/icons/arrowright.png" id="botaoAvanca" onclick="proximaImagem()" />
+                    <div id="indicadores">
+                        <span th:each="imagem, index : ${imagens}" class="bolinha"
+                            onclick="mostrarImagem([[${index.index}]])"></span>
+                    </div>
+
                 </div>
 
-                <div id="indicadores">
-                    <span th:each="imagem, index : ${imagens}" class="bolinha"
-                        onclick="mostrarImagem([[${index.index}]])"></span>
-                </div>
             </div>
 
 
