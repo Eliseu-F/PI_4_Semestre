@@ -193,38 +193,7 @@
                     </form>
                 </div>
 
-                <div style="justify-content: center; align-items: center;">
-                    <p>Consultar frete e prazo de entrega</p>
-                    <form id="formCalcularFrete" action="/calcularFrete" method="post">
-                        <input type="text" id="cep" name="cep" placeholder="Inserir CEP" maxlength="9"
-                            pattern="[0-9]{5}-[0-9]{3}">
-                        <button type="submit">OK</button>
-                    </form>
-                </div>
-
-                <div id="modalOverlay" style="display: none;">
-                    <div id="modalContainer" style="display: none;">
-                        <p>Opções de Frete</p>
-                        <form id="formOpcoesFrete" action="/carrinho/adicionarComFrete" method="post">
-                            <fieldset>
-                                <legend>Selecione uma opção de frete:</legend>
-                                <ul>
-                                    <li th:each="frete : ${opcoesFrete}">
-                                        <input type="radio" name="opcaoFrete" th:value="${frete.valor}"
-                                            th:id="'opcaoFrete' + ${frete.valor}">
-                                        <label th:for="'opcaoFrete' + ${frete.valor}"
-                                            th:text="${'Valor: R$' + frete.valor + ' - Prazo: ' + frete.prazo}"></label>
-                                    </li>
-                                </ul>
-                            </fieldset>
-                            <!-- Adiciona um campo oculto para armazenar o valor do frete selecionado -->
-                            <input type="hidden" id="valorFrete" name="valorFrete" value="">
-                        </form>
-                        <button type="button" onclick="confirmarAdicaoAoCarrinho()">Confirmar</button>
-                        <button onclick="fecharModal()">Fechar</button>
-                    </div>
-                </div>
-
+                
             </div>
             <form action="/carrinho/remove" method="post">
                 <input type="hidden" name="produtoId" th:value="${item.produto.id}">
@@ -234,7 +203,18 @@
             </form>
         </div>
     </div>
-    <p id="pricetotal">Total: <span th:text="${carrinho.calcularTotal(valorFrete)}"></span></p>
+
+    <div style="display: flex; flex-direction: column; align-items: center;">
+    <form action="/carrinho/adicionarFrete" method="post">
+        <button type="submit" name="frete" value="10">Frete R$10</button>
+        <button type="submit" name="frete" value="20">Frete R$20</button>
+        <button type="submit" name="frete" value="35">Frete R$35</button>
+    </form>
+    <p id="pricetotal">Frete: <span th:text="${carrinho.frete}"></span></p>
+
+    </div>
+    <p id="pricetotal">Total: <span th:text="${carrinho.calcularTotal}"></span></p>
+
     </div>
 
 </body>
@@ -257,88 +237,6 @@
     document.getElementById("")
 </script>
 
-<script>
-    // Evento de envio do formulário
-    document.getElementById('formCalcularFrete').addEventListener('submit', function (event) {
-        event.preventDefault(); // Evita o envio tradicional do formulário
-
-        var cep = document.getElementById('cep').value;
-
-        // Validação do formato do CEP
-        var regex = /^[0-9]{5}-[0-9]{3}$/;
-        if (!regex.test(cep)) {
-            alert("Formato de CEP inválido. Por favor, insira um CEP no formato XXXXX-XXX.");
-            return;
-        }
-
-        // Substitua esta parte pela lógica de abrir o modal com as opções de frete
-        openModal();
-    });
-
-    // Função para abrir o modal
-    function openModal() {
-        document.getElementById('modalOverlay').style.display = 'block';
-        document.getElementById('modalContainer').style.display = 'block';
-    }
-
-    // Função para fechar o modal
-    function fecharModal() {
-        document.querySelector("#modalOverlay").style.display = "none";
-    }
-
-    // Simular opções de frete (substitua por sua lógica real)
-    var opcoesFrete = [
-        { valor: 10.00, prazo: 'Sedex - 5 dias úteis' },
-        { valor: 15.00, prazo: 'Correios - 3 dias úteis' },
-        { valor: 20.00, prazo: 'Mx - 1 dia útil' }
-    ];
-
-    // Limpar opções de frete existentes
-    var formOpcoesFrete = document.getElementById('formOpcoesFrete');
-    formOpcoesFrete.innerHTML = '';
-
-    // Adicionar opções de frete como radio buttons
-    opcoesFrete.forEach(function (opcao, index) {
-        var radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'opcaoFrete';
-        radio.value = index;
-        radio.id = 'opcaoFrete' + index;
-
-        var label = document.createElement('label');
-        label.htmlFor = 'opcaoFrete' + index;
-        label.textContent = 'Valor: R$' + opcao.valor + ' - Prazo: ' + opcao.prazo;
-
-        var br = document.createElement('br');
-
-        formOpcoesFrete.appendChild(radio);
-        formOpcoesFrete.appendChild(label);
-        formOpcoesFrete.appendChild(br);
-    });
-
-    function adicionarAoCarrinho() {
-        var valorFrete = document.querySelector('input[name="opcaoFrete"]:checked').value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/adicionarAoCarrinho?valorFrete=" + valorFrete, true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Redirecionar para a página do carrinho após o sucesso
-                window.location.href = "/carrinho";
-            }
-        };
-        xhr.send();
-    }
-
-    // Função para confirmar a adição ao carrinho com frete
-    function confirmarAdicaoAoCarrinho() {
-        // Obter o valor do frete selecionado
-        var valorFrete = document.querySelector('input[name="opcaoFrete"]:checked').value;
-        // Atualizar o campo de valor do frete no formulário
-        document.getElementById("valorFrete").value = valorFrete;
-        // Enviar o formulário
-        document.getElementById("formOpcoesFrete").submit();
-    }
 
 
 

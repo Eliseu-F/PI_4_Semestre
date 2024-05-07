@@ -73,41 +73,6 @@ public class CarrinhoController {
         return "redirect:/carrinho";
     }
 
-    @PostMapping("/adicionarComFrete")
-    public String adicionarProdutoAoCarrinhoComFrete(@RequestParam int produtoId, @RequestParam int quantidade,
-            @RequestParam double valorFrete, HttpSession session, Model model) {
-
-        // Armazena o valor do frete na sessão
-        session.setAttribute("valorFrete", valorFrete);
-
-        // Obtém o produto a ser adicionado ao carrinho
-        Produto produto = produtoRepository.findById(produtoId)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-
-        // Cria o carrinho na sessão do site se não existir
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-        if (carrinho == null) {
-            carrinho = new Carrinho();
-            session.setAttribute("carrinho", carrinho);
-        }
-
-        // Adiciona o produto ao carrinho
-        carrinho.adicionarItem(produto, quantidade);
-
-        // Converte o valor do frete para BigDecimal
-        BigDecimal valorFreteBigDecimal = BigDecimal.valueOf(valorFrete);
-
-        // Adiciona o valor do frete ao total do carrinho
-        carrinho.adicionarFrete(valorFreteBigDecimal);
-
-        // Adiciona o valor do frete ao modelo
-        model.addAttribute("valorFrete", valorFreteBigDecimal);
-
-        // Redireciona para a página do carrinho após somar o valor do frete ao total do
-        // carrinho
-        return "redirect:/carrinho";
-    }
-
     @PostMapping("/remove")
     public String removeProduto(@RequestParam int produtoId, HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
@@ -151,6 +116,20 @@ public class CarrinhoController {
 
         carrinho.diminuiQuantidade(produto);
 
+        return "redirect:/carrinho";
+    }
+
+    @PostMapping("/adicionarFrete")
+    public String adicionarFrete(@RequestParam BigDecimal frete, HttpSession session) {
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            carrinho = new Carrinho();
+            session.setAttribute("carrinho", carrinho);
+        }
+        // Define o valor do frete no carrinho
+        carrinho.setFrete(frete);
+
+        // REDIRECIONA PARA A PÁGINA DO CARRINHO
         return "redirect:/carrinho";
     }
 }
