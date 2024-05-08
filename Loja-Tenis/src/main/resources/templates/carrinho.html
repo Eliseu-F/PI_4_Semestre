@@ -99,6 +99,16 @@
             padding: 100px;
             z-index: 1001;
         }
+
+        #resum_container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 1200px;
+            border: 3px solid #EF2B00;
+            padding: 30px;
+        }
     </style>
 
 </head>
@@ -193,7 +203,7 @@
                     </form>
                 </div>
 
-                
+
             </div>
             <form action="/carrinho/remove" method="post">
                 <input type="hidden" name="produtoId" th:value="${item.produto.id}">
@@ -203,20 +213,38 @@
             </form>
         </div>
     </div>
+    <div id="resum_container">
+        <h2 style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Resumo</h2>
 
-    <div style="display: flex; flex-direction: column; align-items: center;">
-    <form action="/carrinho/adicionarFrete" method="post">
-        <button type="submit" name="frete" value="10">Frete R$10</button>
-        <button type="submit" name="frete" value="20">Frete R$20</button>
-        <button type="submit" name="frete" value="35">Frete R$35</button>
-    </form>
-    <p id="pricetotal">Frete: <span th:text="${carrinho.frete}"></span></p>
+        <div>
+            <p style="color: #848484;">Total: <span style="font-weight: 800; color: black;">R$ </span><span
+                    th:text="${carrinho.calcularTotal}" style="font-weight: 800; color: black;"></span></p>
+            <p style="color: #848484;">Frete: <span style="font-weight: 800; color: black;">R$ </span><span
+                    th:text="${carrinho.frete}" style="font-weight: 800; color: black;"></span></p>
+
+        </div>
+        <h2 style="color: #EF2B00; font-family: 'Segoe UI'; font-weight: 900;">Entrega</h2>
+
+        <input id="cep" placeholder="Digite seu CEP" style="text-align: center;" />
+        <span style="font-size: 13px; margin-top: 10px;" id="logradouro"></span>
+        <span style="font-size: 13px;"  id="bairro" ></span>
+        <span style="font-size: 13px;" id="cidade"></span>
+        <span style="font-size: 13px;" id="uf"></span>
+
+
+        <div id="frete-div" style="display: flex; flex-direction: column; align-items: center;">
+            <form action="/carrinho/adicionarFrete" method="post" style="display: flex; flex-direction:column; ">
+                <button type="submit" name="frete" value="10">Frete R$10</button>
+                <button type="submit" name="frete" value="20">Frete R$20</button>
+                <button type="submit" name="frete" value="35">Frete R$35</button>
+            </form>
+
+
+        </div>
+
 
     </div>
-    <p id="pricetotal">Total: <span th:text="${carrinho.calcularTotal}"></span></p>
-
     </div>
-
 </body>
 <script>
 
@@ -238,8 +266,42 @@
 </script>
 
 
+<script>
+    const SPAN_LOGRADOURO = document.getElementById('logradouro');
+    const SPAN_CIDADE = document.getElementById('cidade');
+    const SPAN_UF = document.getElementById('uf');
 
+    const INPUT_CEP = document.getElementById('cep');
 
+    INPUT_CEP.addEventListener('input', () => {
+        let cep = INPUT_CEP.value;
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error('Não foi possível encontrar o endereço para o CEP fornecido.');
+                }
+                return resposta.json();
+            })
+            .then(json => {
+                SPAN_LOGRADOURO.textContent = json.logradouro || '';
+                SPAN_CIDADE.textContent = json.localidade || '';
+                SPAN_UF.textContent = json.uf || '';
+            })
+            .catch(error => {
+                console.error('Erro ao buscar endereço:', error.message);
+            });
+    });
 </script>
+<script>
+    const DIV_FRETE = document.getElementById('frete-div');
+
+    INPUT_CEP.addEventListener('input', () => {
+        DIV_FRETE.style.display = 'flex';
+    });
+
+    
+</script>
+
 
 </html>

@@ -129,7 +129,6 @@ public class CarrinhoController {
         // Define o valor do frete no carrinho
         carrinho.setFrete(frete);
 
-        // REDIRECIONA PARA A PÁGINA DO CARRINHO
         return "redirect:/carrinho";
     }
 }
