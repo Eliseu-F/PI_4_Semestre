@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.senac.tads.pi.lojatenis.model.Carrinho;
 import br.senac.tads.pi.lojatenis.model.Cliente;
+import br.senac.tads.pi.lojatenis.model.Endereco;
 import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +37,14 @@ public class CarrinhoController {
             model.addAttribute("usuarioLogado", true);
             model.addAttribute("clienteId", clienteLogado.getId());
             model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+            Endereco enderecoCliente = clienteLogado.getEnderecoPadrao();
+            if (enderecoCliente != null) {
+                // Adicionar as informações do endereço ao modelo
+                model.addAttribute("enderecoCliente", enderecoCliente);
+            } else {
+                model.addAttribute("enderecoCliente", "Endereço não encontrado");
+            }
 
         } else {
             model.addAttribute("usuarioLogado", false);
@@ -85,6 +94,10 @@ public class CarrinhoController {
         // ADICIONA PRODUTO AO CARRINHO
         carrinho.removerItem(produto);
 
+        if (carrinho.getItens().isEmpty()) {
+            // Resetar o valor do frete para zero
+            carrinho.setFrete(BigDecimal.ZERO);
+        }
         // REDIRECIONA PARA PAGINA DO CARRINHO
         return "redirect:/carrinho";
     }
@@ -130,5 +143,29 @@ public class CarrinhoController {
         carrinho.setFrete(frete);
 
         return "redirect:/carrinho";
+    }
+
+    @GetMapping("/checkout")
+    public String finalizarPedido(HttpSession session, Model model, HttpServletRequest request) {
+        
+        Cliente clienteLogado = (Cliente) request.getSession().getAttribute("clienteLogado");
+        
+        if (clienteLogado != null) {
+            // Se estiver logado, redireciona para tela de checkout
+            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            Endereco enderecoCliente = clienteLogado.getEnderecoPadrao();
+
+            model.addAttribute("carrinho", carrinho);
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+            
+            model.addAttribute("enderecoCliente", enderecoCliente);
+
+            return "checkout/checkout";
+        } else {
+            //PAGINA DE LOGIN
+            return "redirect:/login";
+        }
     }
 }
