@@ -7,23 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import br.senac.tads.pi.lojatenis.model.ClienteDto;
 import br.senac.tads.pi.lojatenis.model.EnderecoDto;
+import br.senac.tads.pi.lojatenis.model.FormasDePagamento;
+import br.senac.tads.pi.lojatenis.model.PagamentoDto;
 import br.senac.tads.pi.lojatenis.model.Carrinho;
 import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.Endereco;
 import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.service.ClienteRepository;
+import br.senac.tads.pi.lojatenis.service.EnderecoRepository;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import java.util.Optional;
-
 
 @Controller
 @RequestMapping("/carrinho")
@@ -33,6 +38,8 @@ public class CarrinhoController {
     private ProdutoRepository produtoRepository;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     @GetMapping
     public String mostrarCarrinho(HttpSession session, Model model, HttpServletRequest request) {
@@ -167,8 +174,9 @@ public class CarrinhoController {
             model.addAttribute("usuarioLogado", true);
             model.addAttribute("clienteId", clienteLogado.getId());
             model.addAttribute("nomeCliente", clienteLogado.getNome());
-
             model.addAttribute("enderecoCliente", enderecoCliente);
+            model.addAttribute("formaDePagamento", carrinho.getFormaDePagamento());
+
 
             return "checkout/checkout";
         } else {
@@ -178,35 +186,125 @@ public class CarrinhoController {
     }
 
     @GetMapping("/entrega")
-    public String finalizarEntrega(Model model, @RequestParam int id, HttpServletRequest request) {
+    public String finalizarEntrega(Model model, @RequestParam(required = false) Integer id,
+            HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-
-
-                
-        // Cria um ClienteDto e define os endereços
-        ClienteDto clienteDto = new ClienteDto();
-        clienteDto.setEnderecos(cliente.getEnderecos());
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
-        EnderecoDto enderecoDto = new EnderecoDto();
 
-        if (clienteLogado != null) {
-            model.addAttribute("usuarioLogado", true);
-            model.addAttribute("clienteId", clienteLogado.getId());
-            model.addAttribute("nomeCliente", clienteLogado.getNome());
-            model.addAttribute("enderecoDto", enderecoDto);
-            model.addAttribute("cliente", cliente);
-            model.addAttribute("clienteDto", clienteDto);
-            
-            return "checkout/entrega";
-
-        } else {
+        // Se não houver um ID fornecido ou o cliente não estiver logado, redirecione
+        // para a página de login
+        if (id == null || clienteLogado == null) {
             return "redirect:/login";
         }
-    }
-    
 
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setEnderecos(cliente.getEnderecos());
+        EnderecoDto enderecoDto = new EnderecoDto();
+        // Restante do seu código para finalizar a entrega...
+
+        // Se o cliente estiver logado, adicione os atributos ao modelo e retorne a
+        // página de entrega
+        model.addAttribute("usuarioLogado", true);
+        model.addAttribute("clienteId", clienteLogado.getId());
+        model.addAttribute("nomeCliente", clienteLogado.getNome());
+        model.addAttribute("enderecoDto", enderecoDto);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("clienteDto", clienteDto);
+
+        return "checkout/entrega";
+    }
+
+    @PostMapping("/escolhe")
+    public String defineEnderecoPadrao(@RequestParam int id, HttpSession session) {
+        Endereco endereco = enderecoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
+        // Atualizar o endereço atual como o padrão no cliente
+        clienteLogado.setEnderecoPadrao(endereco);
+        clienteRepository.save(clienteLogado);
+
+        return "checkout/pagamento";
+    }
+
+    @PostMapping("/escolhe/add")
+    public String adicionarEndereco(Model model, @ModelAttribute("enderecoDto") @Valid EnderecoDto enderecoDto,
+            BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("enderecoDto", enderecoDto);
+            return "redirect:" + request.getHeader("Referer");
+        }
+
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+        if (clienteLogado == null) {
+            return "redirect:/login";
+        }
+
+        // Cria um novo endereço e configura seus detalhes
+        Endereco novoEndereco = new Endereco();
+        novoEndereco.setEndereco("ENTREGA");
+        novoEndereco.setCep(enderecoDto.getCep());
+        novoEndereco.setLogradouro(enderecoDto.getLogradouro());
+        novoEndereco.setNumero(enderecoDto.getNumero());
+        novoEndereco.setComplemento(enderecoDto.getComplemento());
+        novoEndereco.setBairro(enderecoDto.getBairro());
+        novoEndereco.setCidade(enderecoDto.getCidade());
+        novoEndereco.setUf(enderecoDto.getUf());
+        novoEndereco.setCliente(clienteLogado); // Associa o endereço ao cliente logado
+
+        enderecoRepository.save(novoEndereco);
+
+        // Recupera o cliente novamente para atualizar a lista de endereços apos
+        // adicionar um novo endereço
+        Cliente cliente = clienteRepository.findById(clienteLogado.getId())
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setEnderecos(cliente.getEnderecos());
+
+        // Adiciona os atributos do modelo novamente
+        model.addAttribute("usuarioLogado", true);
+        model.addAttribute("clienteId", clienteLogado.getId());
+        model.addAttribute("nomeCliente", clienteLogado.getNome());
+        model.addAttribute("enderecoDto", new EnderecoDto()); // Limpa o DTO de endereço
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("clienteDto", clienteDto);
+
+        return "checkout/entrega";
+    }
+
+    @PostMapping("/checkout/processar")
+    public String processarPagamento(@ModelAttribute("pagamentoDto") @Valid PagamentoDto pagamentoDto,
+            BindingResult bindingResult,
+            HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            // Se houver erros de validação, redirecione de volta para a página de pagamento
+            return "pagamento";
+        }
+
+        // Aqui você pode processar as informações de pagamento, por exemplo, salvar no
+        // banco de dados
+        // ou realizar validações, etc.
+
+        // Em seguida, você pode adicionar as informações ao carrinho, se necessário
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        FormasDePagamento pagamento = carrinho.getFormaDePagamento();
+        if (pagamento == null) {
+            pagamento = new FormasDePagamento();
+            carrinho.setFormaDePagamento(pagamento);
+        }
+
+        // Adicione as informações de pagamento ao objeto FormasDePagamento
+        pagamento.setTipo(pagamentoDto.getTipo());
+        pagamento.setNumeroCartao(pagamentoDto.getNumeroCartao());
+        pagamento.setCodigoVerificador(pagamentoDto.getCodigoVerificador());
+        pagamento.setNomeCompleto(pagamentoDto.getNomeCompleto());
+        pagamento.setDataVencimento(pagamentoDto.getDataVencimento());
+        pagamento.setQuantidadeParcelas(pagamentoDto.getQuantidadeParcelas());
+
+        return "redirect:/carrinho/checkout";
+    }
 
 }

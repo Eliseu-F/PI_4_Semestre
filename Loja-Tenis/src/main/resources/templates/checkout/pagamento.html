@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações de Pagamento</title>
+</head>
+<body>
+    <h1>Informações de Pagamento</h1>
+    
+    <form action="/carrinho/checkout/processar" method="post">
+        <div>
+            <label for="tipo">Tipo de Pagamento:</label>
+            <select name="tipo" id="tipo">
+                <option value="credito">Cartão de Crédito</option>
+                <option value="boleto">Boleto Bancário</option>
+            </select>
+        </div>
+        <div>
+            <label for="numeroCartao">Número do Cartão:</label>
+            <input type="text" id="numeroCartao" name="numeroCartao" required>
+        </div>
+        <div>
+            <label for="codigoVerificador">Código Verificador:</label>
+            <input type="text" id="codigoVerificador" name="codigoVerificador" required>
+        </div>
+        <div>
+            <label for="nomeCompleto">Nome Completo no Cartão:</label>
+            <input type="text" id="nomeCompleto" name="nomeCompleto" required>
+        </div>
+        <div>
+            <label for="dataVencimento">Data de Vencimento:</label>
+            <input type="text" id="dataVencimento" name="dataVencimento" placeholder="MM/AA" required>
+        </div>
+        <div>
+            <label for="quantidadeParcelas">Quantidade de Parcelas:</label>
+            <input type="number" id="quantidadeParcelas" name="quantidadeParcelas" min="1" required>
+        </div>
+        <button type="submit">Finalizar Pagamento</button>
+    </form>
+</body>
+</html>

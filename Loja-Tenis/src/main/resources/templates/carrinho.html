@@ -327,7 +327,7 @@
 
     const INPUT_CEP = document.getElementById('cep');
 
-    INPUT_CEP.addEventListener('input', () => {
+    INPUT_CEP.addEventListener('blur', () => {
         let cep = INPUT_CEP.value;
 
         fetch(`https://viacep.com.br/ws/${cep}/json/`)

@@ -11,6 +11,8 @@ public class Carrinho {
     private List<ItemPedido> itens;
     private BigDecimal total;
     private BigDecimal frete;
+    private FormasDePagamento formaDePagamento;
+
 
     public BigDecimal getFrete() {
         return frete;
@@ -96,6 +98,14 @@ public class Carrinho {
         }
         
         return total;
+    }
+
+    public FormasDePagamento getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(FormasDePagamento formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
     }
 
     private class ItemPedido {

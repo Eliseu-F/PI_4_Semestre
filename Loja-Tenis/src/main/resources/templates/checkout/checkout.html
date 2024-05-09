@@ -96,7 +96,29 @@ body{
                             <span><span th:text="${enderecoCliente.cep}"> </span></span>
                             </div>
                         </div>
+
+                        
+                        <div id="container_entrega">
+                            <h3>Pagamento</h3>
+                            <div>
+                                <p>Tipo de Pagamento: <span th:text="${formaDePagamento.tipo}"></span></p>
+                                <p>Numero do cartão: <span th:text="${formaDePagamento.numeroCartao}"></span></p>
+                                <p>Codigo Verificador: <span th:text="${formaDePagamento.codigoVerificador}"></span></p>
+                                <p>Nome Completo: <span th:text="${formaDePagamento.nomeCompleto}"></span></p>
+                                <p>Data de vencimento: <span th:text="${formaDePagamento.dataVencimento}"></span></p>
+                                <p>Quantidade de parcelas: <span th:text="${formaDePagamento.quantidadeParcelas}"></span></p>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                        
         </div>
+        <form action="/pedido/finalizar" method="post">
+            <button type="submit">Finalizar Pedido</button>
+        </form>
+        
     </main>
 </body>
 
