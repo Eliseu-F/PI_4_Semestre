@@ -1,6 +1,7 @@
 package br.senac.tads.pi.lojatenis.controller;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import br.senac.tads.pi.lojatenis.model.ClienteDto;
+import br.senac.tads.pi.lojatenis.model.EnderecoDto;
 import br.senac.tads.pi.lojatenis.model.Carrinho;
 import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.Endereco;
 import br.senac.tads.pi.lojatenis.model.Produto;
+import br.senac.tads.pi.lojatenis.service.ClienteRepository;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/carrinho")
@@ -25,6 +31,8 @@ public class CarrinhoController {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @GetMapping
     public String mostrarCarrinho(HttpSession session, Model model, HttpServletRequest request) {
@@ -147,9 +155,9 @@ public class CarrinhoController {
 
     @GetMapping("/checkout")
     public String finalizarPedido(HttpSession session, Model model, HttpServletRequest request) {
-        
+
         Cliente clienteLogado = (Cliente) request.getSession().getAttribute("clienteLogado");
-        
+
         if (clienteLogado != null) {
             // Se estiver logado, redireciona para tela de checkout
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
@@ -159,13 +167,46 @@ public class CarrinhoController {
             model.addAttribute("usuarioLogado", true);
             model.addAttribute("clienteId", clienteLogado.getId());
             model.addAttribute("nomeCliente", clienteLogado.getNome());
-            
+
             model.addAttribute("enderecoCliente", enderecoCliente);
 
             return "checkout/checkout";
         } else {
-            //PAGINA DE LOGIN
+            // PAGINA DE LOGIN
             return "redirect:/login";
         }
     }
+
+    @GetMapping("/entrega")
+    public String finalizarEntrega(Model model, @RequestParam int id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+
+
+                
+        // Cria um ClienteDto e define os endereços
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setEnderecos(cliente.getEnderecos());
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+        EnderecoDto enderecoDto = new EnderecoDto();
+
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+            model.addAttribute("enderecoDto", enderecoDto);
+            model.addAttribute("cliente", cliente);
+            model.addAttribute("clienteDto", clienteDto);
+            
+            return "checkout/entrega";
+
+        } else {
+            return "redirect:/login";
+        }
+    }
+    
+
+
 }
