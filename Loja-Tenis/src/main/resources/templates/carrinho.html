@@ -295,9 +295,8 @@
                 </div>
             </div>
         </div> 
-        <form action="/carrinho/checkout" method="get">
-            <button type="submit">Finalizar Compra</button>
-        </form>
+       
+            <a th:href="@{/carrinho/entrega(id=${clienteId})}">Finalizar Compra</a>
     </div>
 
 </body>
