@@ -1,8 +1,12 @@
 package br.senac.tads.pi.lojatenis.controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.apache.commons.validator.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,19 +20,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.senac.tads.pi.lojatenis.model.ClienteDto;
 import br.senac.tads.pi.lojatenis.model.EnderecoDto;
 import br.senac.tads.pi.lojatenis.model.FormasDePagamento;
+import br.senac.tads.pi.lojatenis.model.ItemCarrinho;
 import br.senac.tads.pi.lojatenis.model.PagamentoDto;
+import br.senac.tads.pi.lojatenis.model.Pedido;
 import br.senac.tads.pi.lojatenis.model.Carrinho;
+import br.senac.tads.pi.lojatenis.model.ItemPedido;
 import br.senac.tads.pi.lojatenis.model.Cliente;
 import br.senac.tads.pi.lojatenis.model.Endereco;
 import br.senac.tads.pi.lojatenis.model.Produto;
 import br.senac.tads.pi.lojatenis.service.ClienteRepository;
 import br.senac.tads.pi.lojatenis.service.EnderecoRepository;
+import br.senac.tads.pi.lojatenis.service.FormaDePagamentoRepository;
+import br.senac.tads.pi.lojatenis.service.ItemPedidoRepository;
+import br.senac.tads.pi.lojatenis.service.PedidoRepository;
 import br.senac.tads.pi.lojatenis.service.ProdutoRepository;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/carrinho")
@@ -40,6 +49,12 @@ public class CarrinhoController {
     private ClienteRepository clienteRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private FormaDePagamentoRepository formaDePagamentoRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     @GetMapping
     public String mostrarCarrinho(HttpSession session, Model model, HttpServletRequest request) {
@@ -166,7 +181,6 @@ public class CarrinhoController {
         Cliente clienteLogado = (Cliente) request.getSession().getAttribute("clienteLogado");
 
         if (clienteLogado != null) {
-            // Se estiver logado, redireciona para tela de checkout
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
             Endereco enderecoCliente = clienteLogado.getEnderecoPadrao();
 
@@ -177,10 +191,8 @@ public class CarrinhoController {
             model.addAttribute("enderecoCliente", enderecoCliente);
             model.addAttribute("formaDePagamento", carrinho.getFormaDePagamento());
 
-
             return "checkout/checkout";
         } else {
-            // PAGINA DE LOGIN
             return "redirect:/login";
         }
     }
@@ -191,8 +203,7 @@ public class CarrinhoController {
         HttpSession session = request.getSession();
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
 
-        // Se não houver um ID fornecido ou o cliente não estiver logado, redirecione
-        // para a página de login
+        
         if (id == null || clienteLogado == null) {
             return "redirect:/login";
         }
@@ -202,10 +213,8 @@ public class CarrinhoController {
         ClienteDto clienteDto = new ClienteDto();
         clienteDto.setEnderecos(cliente.getEnderecos());
         EnderecoDto enderecoDto = new EnderecoDto();
-        // Restante do seu código para finalizar a entrega...
 
-        // Se o cliente estiver logado, adicione os atributos ao modelo e retorne a
-        // página de entrega
+       
         model.addAttribute("usuarioLogado", true);
         model.addAttribute("clienteId", clienteLogado.getId());
         model.addAttribute("nomeCliente", clienteLogado.getNome());
@@ -268,7 +277,7 @@ public class CarrinhoController {
         model.addAttribute("usuarioLogado", true);
         model.addAttribute("clienteId", clienteLogado.getId());
         model.addAttribute("nomeCliente", clienteLogado.getNome());
-        model.addAttribute("enderecoDto", new EnderecoDto()); // Limpa o DTO de endereço
+        model.addAttribute("enderecoDto", new EnderecoDto()); 
         model.addAttribute("cliente", cliente);
         model.addAttribute("clienteDto", clienteDto);
 
@@ -280,31 +289,84 @@ public class CarrinhoController {
             BindingResult bindingResult,
             HttpSession session) {
         if (bindingResult.hasErrors()) {
-            // Se houver erros de validação, redirecione de volta para a página de pagamento
             return "pagamento";
         }
 
-        // Aqui você pode processar as informações de pagamento, por exemplo, salvar no
-        // banco de dados
-        // ou realizar validações, etc.
+        // Recupera o cliente logado da sessao
+        Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
+        System.out.println("Cliente: " + cliente.getNome());
 
-        // Em seguida, você pode adicionar as informações ao carrinho, se necessário
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-        FormasDePagamento pagamento = carrinho.getFormaDePagamento();
-        if (pagamento == null) {
-            pagamento = new FormasDePagamento();
-            carrinho.setFormaDePagamento(pagamento);
+        if (cliente != null) {
+
+            // Cria uma instancia FormasDePagamento e associe ao cliente
+
+            FormasDePagamento novaFormaDePagamento = new FormasDePagamento();
+            novaFormaDePagamento.setTipo(pagamentoDto.getTipo());
+            novaFormaDePagamento.setNumeroCartao(pagamentoDto.getNumeroCartao());
+            novaFormaDePagamento.setCodigoVerificador(pagamentoDto.getCodigoVerificador());
+            novaFormaDePagamento.setNomeCompleto(pagamentoDto.getNomeCompleto());
+            novaFormaDePagamento.setDataVencimento(pagamentoDto.getDataVencimento());
+            novaFormaDePagamento.setQuantidadeParcelas(pagamentoDto.getQuantidadeParcelas());
+
+            // Associa a forma de pagamento ao cliente
+            novaFormaDePagamento.setCliente(cliente);
+
+            // Salva a forma de pagamento no banco de dados
+            formaDePagamentoRepository.save(novaFormaDePagamento);
+
+            // Adiciona a forma de pagamento do carrinho na sessão
+            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            carrinho.setFormaDePagamento(novaFormaDePagamento);
         }
 
-        // Adicione as informações de pagamento ao objeto FormasDePagamento
-        pagamento.setTipo(pagamentoDto.getTipo());
-        pagamento.setNumeroCartao(pagamentoDto.getNumeroCartao());
-        pagamento.setCodigoVerificador(pagamentoDto.getCodigoVerificador());
-        pagamento.setNomeCompleto(pagamentoDto.getNomeCompleto());
-        pagamento.setDataVencimento(pagamentoDto.getDataVencimento());
-        pagamento.setQuantidadeParcelas(pagamentoDto.getQuantidadeParcelas());
-
         return "redirect:/carrinho/checkout";
+    }
+
+    @PostMapping("/checkout/finalizar")
+    public String finalizarPedido(HttpSession session, Model model) {
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
+        String mensagemAviso;
+
+        try {
+            Pedido pedido = new Pedido();
+            pedido.setCliente(cliente);
+            pedido.setEnderecoEntrega(cliente.getEnderecoPadrao());
+            pedido.setFormaPagamento(carrinho.getFormaDePagamento());
+            pedido.setValorTotal(carrinho.calcularTotal());
+            pedido.setStatus("AGUARDANDO PAGAMENTO");
+            pedido.setNumeroSequencial(gerarNumeroSequencial());
+            pedido.setDataPedido(LocalDate.now());
+
+            pedidoRepository.save(pedido);
+
+            for (ItemPedido itemCarrinho : carrinho.getItens()) {
+                ItemPedido itemPedido = new ItemPedido();
+                itemPedido.setPedido(pedido);
+                itemPedido.setProduto(itemCarrinho.getProduto());
+                itemPedido.setQuantidade(itemCarrinho.getQuantidade());
+                itemPedidoRepository.save(itemPedido);
+            }
+
+            carrinho.limpar();
+            
+            mensagemAviso = "Pedido gravado com sucesso! Número do pedido: " + pedido.getNumeroSequencial()
+                            + ", Valor total: R$ " + pedido.getValorTotal();
+        } catch (Exception e) {
+            mensagemAviso = "Erro ao salvar o pedido: " + e.getMessage();
+        }
+
+        model.addAttribute("confirmationMessage", mensagemAviso);
+
+        return "/clientes/confirmacao";
+    }
+    private String gerarNumeroSequencial() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            sb.append(random.nextInt(10)); // Adiciona um numero aleatorio de 0 a 9
+        }
+        return sb.toString();
     }
 
 }

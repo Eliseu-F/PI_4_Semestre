@@ -1,6 +1,7 @@
 package br.senac.tads.pi.lojatenis.model;
 
 public class PagamentoDto {
+    private Long id;
     private String tipo;
     private String numeroCartao;
     private String codigoVerificador;
@@ -55,6 +56,14 @@ public class PagamentoDto {
 
     public void setQuantidadeParcelas(int quantidadeParcelas) {
         this.quantidadeParcelas = quantidadeParcelas;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
 

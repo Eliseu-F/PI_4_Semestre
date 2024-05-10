@@ -6,16 +6,29 @@
 </head>
 <style>
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+}
+
 /* Estilos para cada card de endereço */
 .endereco-card {
-    background-color: #bbbbbb;
-    border: 1px solid #ff4800;
-    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 10px;
     width: 300px;
     height: 300px;
+    transition: box-shadow 0.3s ease;
 }
 
 /* Estilos para os parágrafos dentro do card */
@@ -28,6 +41,69 @@
 /* Estilo para realçar quando o cursor passa sobre o card */
 .endereco-card:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o botão "Novo Endereço" */
+#mostrarFormulario {
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #ff4800;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#mostrarFormulario:hover {
+    background-color: #ff5a36;
+}
+
+/* Estilo para o formulário de adicionar endereço */
+#formularioAdicionarEndereco {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#formularioAdicionarEndereco .row {
+    margin-bottom: 15px;
+}
+
+#formularioAdicionarEndereco label {
+    font-weight: bold;
+}
+
+#formularioAdicionarEndereco input[type="text"],
+#formularioAdicionarEndereco input[type="number"],
+#formularioAdicionarEndereco input[type="password"],
+#formularioAdicionarEndereco input[type="email"],
+#formularioAdicionarEndereco select {
+    width: calc(100% - 10px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#formularioAdicionarEndereco button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4800;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#formularioAdicionarEndereco button[type="submit"]:hover {
+    background-color: #ff5a36;
 }
 
 </style>
@@ -57,7 +133,6 @@
             </div>
         </div>
     </div>
-    <button id="mostrarFormulario" class="btn btn-primary">Novo Endereço</button>
     <form id="formularioAdicionarEndereco" class="d-none" action="/carrinho/escolhe/add" method="post"
                       th:object="${enderecoDto}">
                     <div class="row mb-3">
@@ -124,7 +199,7 @@
 
                     <div class="row mb-3">
                         <div class="col-sm-8 offset-sm-4">
-                            <div id="error-messages"></div> <!-- Contêiner para exibir mensagens de erro -->
+                            <div id="error-messages"></div> 
                             <button type="submit" class="btn btn-primary">Adicionar Endereço</button>
                         </div>
                     </div>
