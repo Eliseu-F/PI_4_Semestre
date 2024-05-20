@@ -3,7 +3,6 @@ package br.senac.tads.pi.lojatenis;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -68,6 +67,7 @@ class UsuarioTest {
 
     @Test
     void testCriarUsuario() {
+        
         UsuarioDto usuarioDto = new UsuarioDto();
 
         usuarioDto.setId(1);
@@ -79,7 +79,7 @@ class UsuarioTest {
         usuarioDto.setGrupo("Administrador");
         usuarioDto.setStatus("Ativo");
 
-    when(usuarioRepository.existsByEmail(eq("testante@gmail.com"))).thenReturn(false); 
+        when(usuarioRepository.existsByEmail(eq("testante@gmail.com"))).thenReturn(false); 
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(new Usuario()); 
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false); 
@@ -102,6 +102,4 @@ class UsuarioTest {
 
         assertEquals("Inativo", usuario.getStatus());
     }
-    
-
 }
