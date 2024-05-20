@@ -40,7 +40,6 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/clientes")
-@Service
 public class ClienteController {
 
     @Autowired
@@ -55,6 +54,7 @@ public class ClienteController {
     PasswordEncoder passwordEncoder;
 
     public ClienteController(ClienteRepository clienteRepository) {
+        this.repo = clienteRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -81,7 +81,7 @@ public class ClienteController {
         if (!clienteDto.getSenha().equals(clienteDto.getConfirmaSenha())) {
             // Adicione um erro ao BindingResult
             bindingResult.rejectValue("confirmaSenha", "error.clienteDto", "As senhas não coincidem");
-            return "usuarios/CriaUsuario";
+            return "clientes/CriaCliente";
         }
 
         // Verificar se o cliente forneceu um endereço

@@ -166,6 +166,7 @@ public class ProdutoController {
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
         return "redirect:/produtos";
+        
     }
 
     @GetMapping("/edit")

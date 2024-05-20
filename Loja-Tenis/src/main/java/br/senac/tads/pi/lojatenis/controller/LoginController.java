@@ -27,6 +27,7 @@ public class LoginController {
     PasswordEncoder passwordEncoder;
 
     public LoginController(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
