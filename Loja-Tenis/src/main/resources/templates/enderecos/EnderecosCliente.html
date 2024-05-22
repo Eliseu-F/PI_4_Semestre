@@ -132,7 +132,7 @@ https://getbootstrap.com/ -->
 
                     <div class="row mb-3">
                         <div class="col-sm-8 offset-sm-4">
-                            <div id="error-messages"></div> <!-- Contêiner para exibir mensagens de erro -->
+                            <div id="error-messages"></div> 
                             <button type="submit" class="btn btn-primary">Adicionar Endereço</button>
                         </div>
                     </div>
@@ -238,7 +238,7 @@ https://getbootstrap.com/ -->
         const enderecoCards = document.querySelectorAll('.endereco-card');
         const numEnderecos = enderecoCards.length;
 
-        if (numEnderecos > 1) { // Habilita os botões apenas quando houver mais de um endereço
+        if (numEnderecos > 1) { 
             setDefaultAddressButtons.forEach(function (button) {
                 button.removeAttribute('disabled');
             });
@@ -249,9 +249,7 @@ https://getbootstrap.com/ -->
 <script !src="">
 
     document.addEventListener("DOMContentLoaded", function() {
-        // Adiciona um ouvinte de evento para o formulário de adicionar endereço
         document.getElementById("formularioAdicionarEndereco").addEventListener("submit", function(event) {
-            // Obtém os valores dos campos do formulário
             var cep = document.getElementById("cep").value;
             var logradouro = document.getElementById("logradouro").value;
             var numero = document.getElementById("numero").value;
@@ -260,10 +258,8 @@ https://getbootstrap.com/ -->
             var cidade = document.getElementById("cidade").value;
             var uf = document.getElementById("uf").value;
 
-            // Define as expressões regulares para validação
             var cepRegex = /^\d{5}-\d{3}$/;
 
-            // Executa as validações
             var errors = [];
             if (!cepRegex.test(cep)) {
                 errors.push("CEP deve estar no formato XXXXX-XXX");
@@ -286,7 +282,6 @@ https://getbootstrap.com/ -->
                 errors.push("UF é obrigatória e deve ter 2 caracteres");
             }
 
-            // Se houver erros, impede o envio do formulário e exibe as mensagens de erro
             if (errors.length > 0) {
                 event.preventDefault();
                 var errorContainer = document.getElementById("error-messages");
@@ -300,9 +295,7 @@ https://getbootstrap.com/ -->
             }
         });
 
-        // Adiciona um ouvinte de evento para o botão "Novo Endereço"
         document.getElementById("mostrarFormulario").addEventListener("click", function() {
-            // Torna visível o formulário de adicionar endereço
             document.getElementById("formularioAdicionarEndereco").classList.remove("d-none");
         });
     });

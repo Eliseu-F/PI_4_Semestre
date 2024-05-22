@@ -106,7 +106,7 @@
         .painel {
             display: none;
             position: absolute;
-            top: 135px;
+            top: 132px;
             left: 0;
             width: 100%;
             background-color: #ffffff;
@@ -116,12 +116,18 @@
             height: 300px;
             align-self: center;
             align-items: center;
+            justify-content: center;
         }
 
         .painel_container > section > a {
             font-size: 20px;
             text-decoration: none;
             color: black;
+            
+        
+        }
+        .painel_container > section  {
+           margin-top: 10px;
         }
 
         @keyframes abrirPainel {
@@ -137,12 +143,17 @@
             }
         }
 
+        .painel_container > h2{
+            color: #EF2B00;
+        }
 
         .painel_container {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             flex-direction: column;
+            justify-content: center;
+            margin: 50px;
 
 
         }
