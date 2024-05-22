@@ -5,7 +5,7 @@ main{
 }
 
 html{
-    background-image: url('../images/backgroundlogin.svg');
+    background-image: url('../images/ui.svg');
     background-repeat: no-repeat;
     background-size: 100%;
     background-position-y:129% ;
@@ -67,7 +67,8 @@ input{
     font-weight: bolder;
     margin-top: 35px;
     text-align: center;
-   outline: none;
+    outline: none;
+    border: none;
 }
 #logo img {
     width: 800px;
