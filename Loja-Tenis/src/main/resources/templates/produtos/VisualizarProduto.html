@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes do Produto</title>
+    <link rel="stylesheet" href="/css/home.css">
+
 
     <head>
     </head>
@@ -23,7 +25,7 @@
         main {
             margin-top: 200px;
 
-            
+
 
         }
 
@@ -120,7 +122,7 @@
 
         }
 
-        .painel_container > section > a {
+        .painel_container>section>a {
             font-size: 20px;
             text-decoration: none;
             color: black;
@@ -172,6 +174,7 @@
             font-weight: 400;
             color: white;
             background-color: #000000;
+            border: none;
 
         }
 
@@ -223,6 +226,26 @@
             flex-direction: column;
             justify-content: flex-end;
         }
+        #avali_product{
+            font-family: 'Segoe UI';
+            display: flex;
+            align-items: center;
+        }
+
+        #price_product{
+            font-family: 'Segoe UI';
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        #title_product{
+            font-family: 'Segoe UI';
+            font-size: 30px;
+        }
+
+        p{
+            margin: 5px;
+        }
     </style>
 
 </head>
@@ -236,11 +259,35 @@
                 style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
                 <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
                 <div id="painel" class="painel">
-                    <div class="painel_container">
-                        <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
-                        <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
-                        <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div class="painel_container">
+                            <h2>Marcas</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
+
+                        </div>
+                        <div class="painel_container">
+                            <h2>Seção</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Masculino</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Feminino</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Infantil</a></section>
+                        </div>
+                        <div class="painel_container">
+                            <h2>Marcas</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
+
+                        </div>
+                        <div class="painel_container">
+                            <h2>Lançamentos</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Masculino</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Feminino</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Sneakers</a></section>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div id="search-container" class="search-container"
@@ -276,16 +323,19 @@
             <div id="container_info">
 
                 <h2 id="title_product" th:text="${produto.nome}"></h2>
-                <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
-                <span th:text="${produto.marca}"
-                    style=" font-weight: 700; font-size: 25px; margin: 0; color: #000000; "></span>
-
                 <p id="avali_product"><img src="/images/stars.svg" />
-                    <span th:text="${produto.avaliacao}"></span>
+                    <span th:text="${produto.avaliacao}" style="font-size: 30px; font-weight: 500; margin-left: 5px; font-family: 'Segoe UI'; "></span>
                 </p>
-                <p th:text="${produto.descricao}"
-                    style="word-break: break-word; font-size: 15px; font-weight: 400; width: 200px;">
-                </p>
+                <p><span th:text="${produto.marca}" style=" font-weight: 700; font-size: 25px; margin: 0; color: #EF2B00; font-family: 'Segoe UI';                    "></span></p>
+                
+                <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
+                
+                <!-- <p th:text="${produto.descricao}"
+                    style="word-break: break-word; font-size: 20px; font-weight: 500; width: 400px;">
+                </p> -->
+                
+
+                
 
             </div>
 
