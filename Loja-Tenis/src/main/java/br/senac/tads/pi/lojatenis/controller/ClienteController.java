@@ -363,6 +363,16 @@ public class ClienteController {
         return "clientes/PedidosCliente";
     }
 
+    @GetMapping("/detalhes/{pedidoId}")
+    public String mostrarDetalhesPedido(Model model, @PathVariable int pedidoId) {
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+
+        model.addAttribute("pedido", pedido);
+
+        return "clientes/DetalhesPedido";
+    }
+
     private boolean isValidCPF(String cpf) {
         // Remove caracteres especiais do CPF
         cpf = cpf.replaceAll("[^0-9]", "");
