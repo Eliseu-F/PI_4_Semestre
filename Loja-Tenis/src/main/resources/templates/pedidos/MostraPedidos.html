@@ -94,6 +94,8 @@ span {
                 <th>ID do comprador</th>
                 <th>email do comprador</th>
                 <th>Nome do comprador</th>
+                <th>Produtos</th>
+
 
 
             </tr>
@@ -108,8 +110,13 @@ span {
                 <td th:text="${pedido.cliente.id}"></td>
                 <td th:text="${pedido.cliente.email}"></td>
                 <td th:text="${pedido.cliente.nome}"></td>
+                <td>
+                    <ul>
+                        <li th:each="item : ${detalhesProdutos[__${iter.index}__]}">
+                            <span th:text="${item.produto.nome}"></span> - <span th:text="${item.quantidade}"></span>
 
-
+                        </li>
+                    </ul>
                 </td>
             </tr>
         </tbody>
