@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Procurar Marca</title>
+    <link rel="stylesheet" href="/css/home.css">
+
     <style>
         header {
             display: flex;
@@ -143,6 +145,22 @@
             text-decoration: none;
             color: black;
         }
+
+        .sort-buttons {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .sort-buttons button {
+            margin: 5px;
+        }
+
+        .filter-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -155,11 +173,33 @@
                 style="display: flex; flex: 1; align-items: center; border-right: solid #EF2B00 3px; height: 60px; margin-right: 25px;">
                 <a class="text_header"><img src="/images/icons/menu.svg" style="margin-right: 15px;" />Menu</a>
                 <div id="painel" class="painel">
-                    <div class="painel_container">
-                        <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
-                        <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
-                        <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div class="painel_container">
+                            <h2>Marcas</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
 
+                        </div>
+                        <div class="painel_container">
+                            <h2>Seção</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Masculino</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Feminino</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Infantil</a></section>
+                        </div>
+                        <div class="painel_container">
+                            <h2>Marcas</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Nike</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Adidas</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Puma</a></section>
+
+                        </div>
+                        <div class="painel_container">
+                            <h2>Lançamentos</h2>
+                            <section><a href="/produtos/buscamarca/Nike">Masculino</a></section>
+                            <section><a href="/produtos/buscamarca/Adidas">Feminino</a></section>
+                            <section><a href="/produtos/buscamarca/Puma">Sneakers</a></section>
+                        </div>
                     </div>
 
                 </div>
@@ -178,7 +218,7 @@
 
 
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
-                <a href="clientes/create" class="text_header">Cadastrar</a>
+                <a href="/clientes/create" class="text_header">Cadastrar</a>
             </div>
 
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
@@ -215,25 +255,29 @@
 
         <div
             style="background-color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <h2
-                style="display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI'; font-size: 40px;">
-                Produtos da marca <span th:text="${marca}"
-                    style="display: flex; margin-left: 10px; color:#EF2B00 ; font-weight: 900;"> </span></h2>
+            <h2 style="display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI'; font-size: 40px;">
+                Produtos da marca <span th:text="${marca}" style="display: flex; margin-left: 10px; color:#EF2B00 ; font-weight: 900;"> </span>
+            </h2>
+            <div class="filter-icon">
+                <img src="/images/icons/filter.svg" alt="Filter" id="filterIcon" />
+                <span>Filtrar</span>
+                <div class="sort-buttons" id="sortButtons">
+                    <button id="sortAsc">Ordenar por Menor Preço</button>
+                    <button id="sortDesc">Ordenar por Maior Preço</button>
+                </div>
+            </div>
+            
 
             <div class="carousel-container">
                 <div th:each="produto : ${produtos}" class="cards">
-                    <a th:href="@{/produtos/view/{id}(id=${produto.id})}"
-                        style="text-decoration: none; color: inherit;">
+                    <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
                         <div style="cursor: pointer;">
-                            <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}"
-                                style="max-width: 300px; max-height: 400px;" />
-                            <h3 th:text="${produto.nome}"
-                                style="display: flex; flex: 1; align-items: center; text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
+                            <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" style="max-width: 300px; max-height: 400px;" />
+                            <h3 th:text="${produto.nome}" style="display: flex; flex: 1; align-items: center; text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
                             </h3>
-                            <p
-                                style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
+                            <p style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
                                 R$
-                                <span th:text="${produto.preco}"></span>
+                                <span th:text="${produto.preco}" class="product-price"></span>
                             </p>
                         </div>
                     </a>
@@ -249,6 +293,39 @@
     document.getElementById("menu").addEventListener("mouseleave", function () {
         document.getElementById("painel").style.display = "none";
     }) 
+
+
+    document.getElementById("sortAsc").addEventListener('click', function(){
+        sortProdutos(true);
+    })
+
+    
+    document.getElementById("sortDesc").addEventListener('click', function(){
+        sortProdutos(false);
+    })
+
+
+    function sortProdutos(ascending) {
+        let container = document.querySelector('.carousel-container');
+        let cards = Array.from(container.querySelectorAll('.cards'));
+
+        cards.sort(function(a, b){
+            let priceA = parseFloat(a.querySelector('.product-price').textContent.replace('R$', '').trim());
+            let priceB = parseFloat(b.querySelector('.product-price').textContent.replace('R$', '').trim());
+
+            return ascending ? priceA - priceB : priceB - priceA;
+        });
+        cards.forEach(card => container.appendChild(card));
+    }
+
+    document.getElementById("filterIcon").addEventListener('click', function () {
+            let sortButtons = document.getElementById("sortButtons");
+            if (sortButtons.style.display === "none" || sortButtons.style.display === "") {
+                sortButtons.style.display = "flex";
+            } else {
+                sortButtons.style.display = "none";
+            }
+        });
 </script>
 
 </html>

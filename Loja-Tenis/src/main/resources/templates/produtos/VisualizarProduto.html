@@ -226,24 +226,25 @@
             flex-direction: column;
             justify-content: flex-end;
         }
-        #avali_product{
+
+        #avali_product {
             font-family: 'Segoe UI';
             display: flex;
             align-items: center;
         }
 
-        #price_product{
+        #price_product {
             font-family: 'Segoe UI';
             font-size: 30px;
             font-weight: 500;
         }
 
-        #title_product{
+        #title_product {
             font-family: 'Segoe UI';
             font-size: 30px;
         }
 
-        p{
+        p {
             margin: 5px;
         }
     </style>
@@ -296,7 +297,7 @@
                         style="margin-right: 15px;" />Buscar</a>
             </div>
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px; ">
-                <a href="clientes/create" class="text_header">Cadastrar</a>
+                <a href="/clientes/create" class="text_header">Cadastrar</a>
             </div>
             <div th:unless="${usuarioLogado}" style="display: flex; align-items: center; margin-right: 40px;">
                 <a href="/login" class="text_header">Login</a>
@@ -324,18 +325,21 @@
 
                 <h2 id="title_product" th:text="${produto.nome}"></h2>
                 <p id="avali_product"><img src="/images/stars.svg" />
-                    <span th:text="${produto.avaliacao}" style="font-size: 30px; font-weight: 500; margin-left: 5px; font-family: 'Segoe UI'; "></span>
+                    <span th:text="${produto.avaliacao}"
+                        style="font-size: 30px; font-weight: 500; margin-left: 5px; font-family: 'Segoe UI'; "></span>
                 </p>
-                <p><span th:text="${produto.marca}" style=" font-weight: 700; font-size: 25px; margin: 0; color: #EF2B00; font-family: 'Segoe UI';                    "></span></p>
-                
+                <p><span th:text="${produto.marca}"
+                        style=" font-weight: 700; font-size: 25px; margin: 0; color: #EF2B00; font-family: 'Segoe UI';                    "></span>
+                </p>
+
                 <p id="price_product">R$ <span th:text="${produto.preco}"></span></p>
-                
+
                 <!-- <p th:text="${produto.descricao}"
                     style="word-break: break-word; font-size: 20px; font-weight: 500; width: 400px;">
                 </p> -->
-                
 
-                
+
+
 
             </div>
 

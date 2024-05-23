@@ -7,8 +7,7 @@
     <title>Pedidos do Cliente</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #000000;
     margin: 0;
     padding: 0;
 }
@@ -22,7 +21,8 @@
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #333;
+    color: #ffffff;
+    font-family: 'Segoe UI';
 }
 
 table {
@@ -35,13 +35,17 @@ table {
 }
 
 thead {
-    background-color: #0077cc;
+    background-color: #EF2B00;
     color: #fff;
+    font-family: 'Segoe UI';
+
 }
 
 th, td {
     padding: 15px;
     text-align: left;
+    font-family: 'Segoe UI';
+
 }
 
 tbody tr:nth-child(even) {
@@ -59,6 +63,7 @@ ul {
 
 li {
     padding: 10px;
+    
 }
 
 li:nth-child(even) {
@@ -71,6 +76,8 @@ li:hover {
 
 span {
     font-weight: bold;
+    font-family: 'Segoe UI';
+
 }
 
 @media screen and (max-width: 600px) {
@@ -78,46 +85,40 @@ span {
         width: 100%;
     }
 }
+#voltar{
+        border: none;
+        background-color: #EF2B00;
+        color: white;
+        font-size: 20px;
+        padding: 5px;
+        margin: 20px;
+    }
 
     </style>
 </head>
 <body>
-    <h1>Pedidos Criados</span></h1>
+    <h1>Pedidos</span></h1>
+    <button type="button" onclick="history.back()" id="voltar">Voltar</button>
     <table>
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Numero do Pedido</th>
                 <th>Valor Total</th>
                 <th>Status</th>
-                <th>Numero do Pedido</th>
-                <th>Data da Compra</th>
-                <th>ID do comprador</th>
-                <th>email do comprador</th>
-                <th>Nome do comprador</th>
-                <th>Produtos</th>
-
+                <th>Data do Pedido</th>
+                <th>Alterar Status</th>
 
 
             </tr>
         </thead>
         <tbody>
             <tr th:each="pedido, iter : ${pedidos}">
-                <td th:text="${pedido.Id}"></td>
+                <td th:text="${pedido.numeroSequencial}"></td>
                 <td th:text="${pedido.valorTotal}"></td>
                 <td th:text="${pedido.status}"></td>
-                <td th:text="${pedido.numeroSequencial}"></td>
                 <td th:text="${pedido.dataPedido}"></td>
-                <td th:text="${pedido.cliente.id}"></td>
-                <td th:text="${pedido.cliente.email}"></td>
-                <td th:text="${pedido.cliente.nome}"></td>
-                <td>
-                    <ul>
-                        <li th:each="item : ${detalhesProdutos[__${iter.index}__]}">
-                            <span th:text="${item.produto.nome}"></span> - <span th:text="${item.quantidade}"></span>
+                <td> <select></select> </td>
 
-                        </li>
-                    </ul>
-                </td>
             </tr>
         </tbody>
     </table>
