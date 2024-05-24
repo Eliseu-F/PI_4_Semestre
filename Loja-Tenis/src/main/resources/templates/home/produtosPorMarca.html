@@ -149,10 +149,17 @@
         .sort-buttons {
             display: none;
             margin-bottom: 20px;
+            flex-direction: column;
         }
 
         .sort-buttons button {
             margin: 5px;
+            border: none;
+            height: 35px;
+            font-family: 'Segoe UI';
+            font-weight: 600;
+            width: 150px;
+            background-color: #cfcfcf;
         }
 
         .filter-icon {
@@ -160,6 +167,8 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
+            flex-direction: column;
+            margin-left: 850px;
         }
     </style>
 </head>
@@ -259,11 +268,13 @@
                 Produtos da marca <span th:text="${marca}" style="display: flex; margin-left: 10px; color:#EF2B00 ; font-weight: 900;"> </span>
             </h2>
             <div class="filter-icon">
-                <img src="/images/icons/filter.svg" alt="Filter" id="filterIcon" />
-                <span>Filtrar</span>
+                <div style="display: flex; align-items: center;">   
+                <span style="font-family: 'Segoe UI'; font-size: 20px; font-weight: 500; margin-right: 20px;">Filtrar</span>
+                <img src="/images/filtro.svg" alt="Filter" id="filterIcon" style="width: 35px; height: 35px;" />
+                </div>
                 <div class="sort-buttons" id="sortButtons">
-                    <button id="sortAsc">Ordenar por Menor Preço</button>
-                    <button id="sortDesc">Ordenar por Maior Preço</button>
+                    <button id="sortAsc">Menor Preço</button>
+                    <button id="sortDesc">Preço</button>
                 </div>
             </div>
             
