@@ -95,32 +95,83 @@ span {
     }
 
     </style>
+<head>
+    <!-- Head content -->
 </head>
 <body>
-    <h1>Pedidos</span></h1>
+    <h1>Pedidos</h1>
     <button type="button" onclick="history.back()" id="voltar">Voltar</button>
     <table>
         <thead>
             <tr>
-                <th>Numero do Pedido</th>
+                <th>Número do Pedido</th>
                 <th>Valor Total</th>
                 <th>Status</th>
                 <th>Data do Pedido</th>
                 <th>Alterar Status</th>
-
-
             </tr>
         </thead>
         <tbody>
-            <tr th:each="pedido, iter : ${pedidos}">
+            <tr th:each="pedido : ${pedidos}">
                 <td th:text="${pedido.numeroSequencial}"></td>
                 <td th:text="${pedido.valorTotal}"></td>
                 <td th:text="${pedido.status}"></td>
                 <td th:text="${pedido.dataPedido}"></td>
-                <td> <select></select> </td>
-
+                <td>
+                    <button type="button" th:onclick="'openModal(' + ${pedido.id} + ', \'' + pedido.status + '\')'">Alterar Status</button>
+                </td>
             </tr>
         </tbody>
     </table>
+
+    <!-- Modal -->
+    <div id="statusModal" style="display:none;">
+        <h2>Alterar Status do Pedido</h2>
+        <select id="newStatus">
+            <option value="aguardando pagamento">Aguardando Pagamento</option>
+            <option value="pagamento rejeitado">Pagamento Rejeitado</option>
+            <option value="pagamento com sucesso">Pagamento com Sucesso</option>
+            <option value="aguardando retirada">Aguardando Retirada</option>
+            <option value="em transito">Em Trânsito</option>
+            <option value="entregue">Entregue</option>
+        </select>
+        <button type="button" onclick="changeStatus()">Confirmar</button>
+        <button type="button" onclick="closeModal()">Cancelar</button>
+    </div>
+
+    <script>
+        let currentPedidoId;
+
+        function openModal(pedidoId, currentStatus) {
+            currentPedidoId = pedidoId;
+            document.getElementById('newStatus').value = currentStatus;
+            document.getElementById('statusModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('statusModal').style.display = 'none';
+        }
+
+        function changeStatus() {
+            const newStatus = document.getElementById('newStatus').value;
+            fetch(`/pedido/updateStatus/${currentPedidoId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Erro ao atualizar o status.');
+                }
+            }).catch(error => {
+                alert('Erro ao atualizar o status.');
+            });
+            closeModal();
+        }
+    </script>
 </body>
 </html>
+
