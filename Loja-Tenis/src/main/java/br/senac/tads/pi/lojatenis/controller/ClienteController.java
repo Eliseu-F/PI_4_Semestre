@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -332,11 +334,12 @@ public class ClienteController {
     @GetMapping("/pedidos")
     public String mostrarPedidos(Model model, @RequestParam int id, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cliente cliente = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Cliente cliente = repo.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
         // Obter os pedidos do cliente
         List<Pedido> pedidos = pedidoRepository.findByCliente(cliente);
+
+        Collections.sort(pedidos, Comparator.comparing(Pedido::getDataPedido).reversed());
 
         // Verificar se o cliente está logado
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");

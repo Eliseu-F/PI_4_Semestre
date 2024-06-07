@@ -17,7 +17,7 @@ public class ProdutoDto {
 
     @NotEmpty(message = "O campo de nome não pode estar vazio")
     @Size(max = 200, message = "Você excedeu 200 caracteres")
-    private String nome;
+    private String modelo;
 
     @Max(5)
     @NotEmpty(message = "O campo de avaliação não pode estar vazio")
@@ -55,6 +55,18 @@ public class ProdutoDto {
     @Size(max = 50, message = "Você excedeu 50 caracteres")
     private String marca;
 
+    @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Size(max = 20, message = "Você excedeu 50 caracteres")
+    private String cor;
+    
+    @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Size(max = 20, message = "Você excedeu 50 caracteres")
+    private String genero;
+
+    @NotEmpty(message = "O campo de nome não pode estar vazio")
+    @Size(max = 20, message = "Você excedeu 50 caracteres")
+    private String esporte;
+
     public String getImagemPadrao() {
         return imagemPadrao != null ? imagemPadrao : "";
     }
@@ -88,12 +100,12 @@ public class ProdutoDto {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getModelo() {
+        return modelo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 
     public String getAvaliacao() {
@@ -142,6 +154,30 @@ public class ProdutoDto {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getEsporte() {
+        return esporte;
+    }
+
+    public void setEsporte(String esporte) {
+        this.esporte = esporte;
     }
 
 }

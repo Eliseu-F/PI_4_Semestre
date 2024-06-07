@@ -285,42 +285,52 @@ public class CarrinhoController {
     }
 
     @PostMapping("/checkout/processar")
-    public String processarPagamento(@ModelAttribute("pagamentoDto") @Valid PagamentoDto pagamentoDto,
-            BindingResult bindingResult,
-            HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            return "pagamento";
-        }
+public String processarPagamento(@ModelAttribute("pagamentoDto") @Valid PagamentoDto pagamentoDto,
+        BindingResult bindingResult,
+        HttpSession session) {
+    if (bindingResult.hasErrors()) {
+        return "pagamento";
+    }
 
-        // Recupera o cliente logado da sessao
-        Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
-        System.out.println("Cliente: " + cliente.getNome());
+    // Recupera o cliente logado da sessao
+    Cliente cliente = (Cliente) session.getAttribute("clienteLogado");
+    System.out.println("Cliente: " + cliente.getNome());
 
-        if (cliente != null) {
+    if (cliente != null) {
 
-            // Cria uma instancia FormasDePagamento e associe ao cliente
+        // Cria uma instancia FormasDePagamento e associe ao cliente
+        FormasDePagamento novaFormaDePagamento = new FormasDePagamento();
+        novaFormaDePagamento.setTipo(pagamentoDto.getTipo());
 
-            FormasDePagamento novaFormaDePagamento = new FormasDePagamento();
-            novaFormaDePagamento.setTipo(pagamentoDto.getTipo());
+        // Se o tipo de pagamento for 'boleto', deixe os campos do cartão de crédito nulos
+        if ("boleto".equalsIgnoreCase(pagamentoDto.getTipo())) {
+            novaFormaDePagamento.setNumeroCartao(null);
+            novaFormaDePagamento.setCodigoVerificador(null);
+            novaFormaDePagamento.setNomeCompleto(null);
+            novaFormaDePagamento.setDataVencimento(null);
+            novaFormaDePagamento.setQuantidadeParcelas(0);
+        } else {
             novaFormaDePagamento.setNumeroCartao(pagamentoDto.getNumeroCartao());
             novaFormaDePagamento.setCodigoVerificador(pagamentoDto.getCodigoVerificador());
             novaFormaDePagamento.setNomeCompleto(pagamentoDto.getNomeCompleto());
             novaFormaDePagamento.setDataVencimento(pagamentoDto.getDataVencimento());
             novaFormaDePagamento.setQuantidadeParcelas(pagamentoDto.getQuantidadeParcelas());
-
-            // Associa a forma de pagamento ao cliente
-            novaFormaDePagamento.setCliente(cliente);
-
-            // Salva a forma de pagamento no banco de dados
-            formaDePagamentoRepository.save(novaFormaDePagamento);
-
-            // Adiciona a forma de pagamento do carrinho na sessão
-            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-            carrinho.setFormaDePagamento(novaFormaDePagamento);
         }
 
-        return "redirect:/carrinho/checkout";
+        // Associa a forma de pagamento ao cliente
+        novaFormaDePagamento.setCliente(cliente);
+
+        // Salva a forma de pagamento no banco de dados
+        formaDePagamentoRepository.save(novaFormaDePagamento);
+
+        // Adiciona a forma de pagamento do carrinho na sessão
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        carrinho.setFormaDePagamento(novaFormaDePagamento);
     }
+
+    return "redirect:/carrinho/checkout";
+}
+
 
     @PostMapping("/checkout/finalizar")
     public String finalizarPedido(HttpSession session, Model model) {

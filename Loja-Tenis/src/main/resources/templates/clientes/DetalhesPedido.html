@@ -138,7 +138,7 @@ button[type="button"]:hover {
                     <div id="container_descriptions">
                         <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
                         <div>
-                            <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                            <p>Nome: <span id="name_item" th:text="${item.produto.modelo}"></span>
                             </p>
                             <p>Preço: <span> R$ </span><span id="price_item" th:text="${item.produto.preco}"></span>
                             </p>

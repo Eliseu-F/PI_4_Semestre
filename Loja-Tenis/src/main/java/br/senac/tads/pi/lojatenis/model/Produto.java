@@ -14,7 +14,7 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String nome;
+    private String modelo;
 
     private String avaliacao;
 
@@ -26,9 +26,13 @@ public class Produto {
 
     private String marca;
 
-    private List<String> tamanhos;
+    private String cor;
 
-    
+    private String genero;
+
+    private String esporte;
+
+    private List<String> tamanhos;
 
     public Produto() {
         this.tamanhos = new ArrayList<>();
@@ -85,12 +89,12 @@ public class Produto {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getModelo() {
+        return modelo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 
     public String getAvaliacao() {
@@ -139,6 +143,30 @@ public class Produto {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getEsporte() {
+        return esporte;
+    }
+
+    public void setEsporte(String esporte) {
+        this.esporte = esporte;
     }
 
 }
