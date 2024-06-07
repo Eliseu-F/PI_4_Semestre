@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,7 @@
         }
 
         h1 {
-            color: #343a40;
+            color: #000000;
             margin-bottom: 30px;
         }
 
@@ -38,21 +39,24 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Confirmação de Pedido</h1>
     <div id="confirmation-message">
-        <!-- Mensagem de confirmação aqui -->
     </div>
     <div id="back-link">
-        <a href="/home">Voltar para a página inicial</a>
+        <a href="/home"
+            style=" display: flex; color: black; margin-top: 20px; font-size: 25px; font-weight: 600;">Voltar para a
+            página inicial</a>
     </div>
     <script th:inline="javascript">
         var confirmationMessage = /*[[${confirmationMessage}]]*/ null;
-        
+
         if (confirmationMessage != null && confirmationMessage !== '') {
             var confirmationDiv = document.getElementById('confirmation-message');
             confirmationDiv.innerHTML = '<p>' + confirmationMessage + '</p>';
         }
     </script>
 </body>
+
 </html>

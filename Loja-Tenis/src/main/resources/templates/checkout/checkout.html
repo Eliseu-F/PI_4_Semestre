@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Checkout</title>
     <style>
         body {
     background-color: #EF2B00;
@@ -138,7 +138,7 @@ button[type="button"]:hover {
                     <div id="container_descriptions">
                         <img class="imagens_produto" th:src="@{'/imagens_produtos/' + ${item.produto.imagemPadrao}}" />
                         <div>
-                            <p>Nome: <span id="name_item" th:text="${item.produto.nome}"></span>
+                            <p>Nome: <span id="name_item" th:text="${item.produto.modelo}"></span>
                             </p>
                             <p>Preço: <span> R$ </span><span id="price_item" th:text="${item.produto.preco}"></span>
                             </p>
@@ -150,14 +150,14 @@ button[type="button"]:hover {
 
             <div style="display: flex; flex-direction: column;">
                 <div id="container_resume">
-                    <p style="color: #848484;">Total dos Produtos: <span style="font-weight: 800; color: black;">R$
+                    <p style="color: black;">Total dos Produtos: <span style="font-weight: 800; color: #EF2B00;">R$
                         </span><span th:text="${carrinho.calcularProdutos}"
-                            style="font-weight: 800; color: black;"></span>
+                            style="font-weight: 800; color: #EF2B00;"></span>
                     </p>
-                    <p style="color: #848484;">Frete: <span style="font-weight: 800; color: black;">R$ </span><span
-                            th:text="${carrinho.frete}" style="font-weight: 800; color: black;"></span></p>
-                    <p style="color: #848484;">Total: <span style="font-weight: 800; color: black;">R$ </span><span
-                            th:text="${carrinho.calcularTotal}" style="font-weight: 800; color: black;"></span></p>
+                    <p style="color: black;">Frete: <span style="font-weight: 800; color: #EF2B00;">R$ </span><span
+                            th:text="${carrinho.frete}" style="font-weight: 800; color: #EF2B00;"></span></p>
+                    <p style="color: black;">Total: <span style="font-weight: 800; color: #EF2B00;">R$ </span><span
+                            th:text="${carrinho.calcularTotal}" style="font-weight: 800; color: #EF2B00;"></span></p>
                 </div>
 
                 <div id="container_entrega">

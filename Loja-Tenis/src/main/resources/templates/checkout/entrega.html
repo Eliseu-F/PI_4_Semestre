@@ -101,12 +101,25 @@ h1 {
     background-color: #ff5a36;
 }
 
+
+.endereco_button{
+    border: 2px solid #ff4800;
+    margin-top: 20px;
+    background-color: #ff4800;
+    color: white;
+}
 </style>
+
 
 <body>
     <h1>Endereços para entrega</h1>
 
-    <div  style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div  style="    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
         <div th:each="endereco, iterStat : ${cliente.enderecos}">
             <div th:if="${endereco.status != 'INATIVO'}" class="endereco-card">
 
@@ -123,7 +136,7 @@ h1 {
                 <form th:action="@{/carrinho/escolhe}"
                             method="post">
                             <input type="hidden" th:name="id" th:value="${endereco.id}" />
-                            <button type="submit" class="btn btn-danger btn-sm set-default-address" style="margin-top: 20px;">Selecionar Endereço</button>
+                            <button type="submit" class="endereco_button" style="margin-top: 20px;">Selecionar Endereço</button>
                 </form>
             </div>
         </div>

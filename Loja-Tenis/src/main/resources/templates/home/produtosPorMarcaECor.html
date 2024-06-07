@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/home.css">
 
     <style>
-            
         header {
             display: flex;
             flex: 1;
@@ -172,9 +171,11 @@
             margin-left: 850px;
         }
 
-        #container_everythying {
+        #container_everythying{
             display: flex;
             flex-direction: row;
+            align-items: center;
+            justify-content: center;
         }
 
         #container_filter {
@@ -224,9 +225,12 @@
             border: 2px solid transparent;
         }
 
-        .hidden {
+        .hidden{
             display: none;
         }
+
+        
+
     </style>
 </head>
 
@@ -316,79 +320,67 @@
 
 
     <main>
-
+        
         <div
             style="background-color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <h2
-                style="display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI'; font-size: 40px;">
-                Produtos da marca <span th:text="${marca}"
-                    style="display: flex; margin-left: 10px; color:#EF2B00 ; font-weight: 900;"> </span>
+            <h2 style="display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI'; font-size: 40px;">
+                Produtos da marca <span th:text="${marca}" style="display: flex; margin-left: 10px; color:#EF2B00 ; font-weight: 900;"> </span>
             </h2>
             <div class="filter-icon">
-                <div style="display: flex; align-items: center;">
-                    <span
-                        style="font-family: 'Segoe UI'; font-size: 20px; font-weight: 500; margin-right: 20px;">Filtrar</span>
-                    <img src="/images/filtro.svg" alt="Filter" id="filterIcon" style="width: 35px; height: 35px;" />
+                <div style="display: flex; align-items: center;">   
+                <span style="font-family: 'Segoe UI'; font-size: 20px; font-weight: 500; margin-right: 20px;">Filtrar</span>
+                <img src="/images/filtro.svg" alt="Filter" id="filterIcon" style="width: 35px; height: 35px;" />
                 </div>
                 <div class="sort-buttons" id="sortButtons">
                     <button id="sortAsc">Menor Preço</button>
                     <button id="sortDesc">Preço</button>
                 </div>
             </div>
-
+            
             <div id="container_everythying">
                 <div id="container_filter">
-                    <button class="filter_buttons" id="filter_cores">
-                        <h3>Cor</h3>
-                    </button>
-                    <div id="hiddenCores" class="hidden">
-                        <div class="filter-container">
-                            <div class="color-filter">
-                                <a class="color-option" data-color="red" style="background-color: red;"
-                                    th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Vermelho'"></a>
-                                <a class="color-option" data-color="blue" style="background-color: blue;"
-                                    th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Azul'"></a>
-                                <a class="color-option" data-color="green" style="background-color: green;"
-                                    th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Verde'"></a>
-                                <a class="color-option" data-color="yellow" style="background-color: yellow;"
-                                    th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Amarelo'"></a>
-                            </div>
+                   <button class="filter_buttons" id="filter_cores">
+                    <h3>Cor</h3>
+                   </button>
+                   <div id="hiddenCores" class="hidden">
+                    <div class="filter-container">
+                        <div class="color-filter">
+                            <a class="color-option" data-color="red" style="background-color: red;" th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Vermelho'"></a>
+                            <a class="color-option" data-color="blue" style="background-color: blue;" th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Azul'"></a>
+                            <a class="color-option" data-color="green" style="background-color: green;" th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Verde'"></a>
+                            <a class="color-option" data-color="yellow" style="background-color: yellow;" th:href="'/produtos/buscamarcaecor/' + ${marca} + '/Amarelo'"></a>
                         </div>
-
                     </div>
-                    <!-- <button class="filter_buttons" id="filter_preco">
-                        <h3>Preço</h3>
-                    </button>
-                    <button class="filter_buttons" id="filter_modelo">
-                        <h3>Modelo</h3>
-                    </button>
-                    <button class="filter_buttons" id="filter_tipo">
-                        <h3>Tipo</h3>
-                    </button> -->
+        
+                   </div>
+                   <!-- <button class="filter_buttons" id="filter_preco">
+                    <h3>Preço</h3>
+                   </button>
+                   <button class="filter_buttons" id="filter_modelo">
+                    <h3>Modelo</h3>
+                   </button>
+                   <button class="filter_buttons" id="filter_tipo">
+                    <h3>Tipo</h3>
+                   </button> -->
                 </div>
+                
 
-
-                <div class="carousel-container">
-                    <div th:each="produto : ${produtos}" class="cards">
-                        <a th:href="@{/produtos/view/{id}(id=${produto.id})}"
-                            style="text-decoration: none; color: inherit;">
-                            <div style="cursor: pointer;">
-                                <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}"
-                                    style="max-width: 300px; max-height: 400px;" />
-                                <h3 th:text="${produto.modelo}"
-                                    style="display: flex; flex: 1; align-items: center; text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
-                                </h3>
-
-                                <p
-                                    style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
-                                    R$
-                                    <span th:text="${produto.preco}" class="product-price"></span>
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+            <div class="carousel-container">
+                <div th:each="produto : ${produtos}" class="cards">
+                    <a th:href="@{/produtos/view/{id}(id=${produto.id})}" style="text-decoration: none; color: inherit;">
+                        <div style="cursor: pointer;">
+                            <img th:src="@{'/imagens_produtos/' + ${produto.imagemPadrao}}" style="max-width: 300px; max-height: 400px;" />
+                            <h3 th:text="${produto.modelo}" style="display: flex; flex: 1; align-items: center; text-transform: uppercase; font-family: 'Segoe UI'; font-weight: 700; margin-left: 15px; color: #EF2B00;">
+                            </h3>
+                            <p style="font-family: 'Segoe UI'; font-weight: 400; color: #EF2B00; margin-left: 15px; font-size: 20px;">
+                                R$
+                                <span th:text="${produto.preco}" class="product-price"></span>
+                            </p>
+                        </div>
+                    </a>
                 </div>
             </div>
+        </div>
 
     </main>
 </body>
@@ -399,15 +391,15 @@
 
     document.getElementById("menu").addEventListener("mouseleave", function () {
         document.getElementById("painel").style.display = "none";
-    })
+    }) 
 
 
-    document.getElementById("sortAsc").addEventListener('click', function () {
+    document.getElementById("sortAsc").addEventListener('click', function(){
         sortProdutos(true);
     })
 
-
-    document.getElementById("sortDesc").addEventListener('click', function () {
+    
+    document.getElementById("sortDesc").addEventListener('click', function(){
         sortProdutos(false);
     })
 
@@ -416,7 +408,7 @@
         let container = document.querySelector('.carousel-container');
         let cards = Array.from(container.querySelectorAll('.cards'));
 
-        cards.sort(function (a, b) {
+        cards.sort(function(a, b){
             let priceA = parseFloat(a.querySelector('.product-price').textContent.replace('R$', '').trim());
             let priceB = parseFloat(b.querySelector('.product-price').textContent.replace('R$', '').trim());
 
@@ -426,25 +418,25 @@
     }
 
     document.getElementById("filterIcon").addEventListener('click', function () {
-        let sortButtons = document.getElementById("sortButtons");
-        if (sortButtons.style.display === "none" || sortButtons.style.display === "") {
-            sortButtons.style.display = "flex";
-        } else {
-            sortButtons.style.display = "none";
-        }
-    });
+            let sortButtons = document.getElementById("sortButtons");
+            if (sortButtons.style.display === "none" || sortButtons.style.display === "") {
+                sortButtons.style.display = "flex";
+            } else {
+                sortButtons.style.display = "none";
+            }
+        });
 </script>
 
 <script>
     document.getElementById('filter_cores').addEventListener('click'
-        , function () {
+        , function(){
             var hiddenCores = document.getElementById('hiddenCores');
-            if (hiddenCores.style.display === 'none' || hiddenCores.style.display === '') {
+            if(hiddenCores.style.display === 'none' || hiddenCores.style.display === '' ){
 
                 hiddenCores.style.display = 'block';
-            }
-            else {
-                hiddenCores.style.display = 'none';
+            } 
+            else{
+            hiddenCores.style.display = 'none';
             }
         }
     )

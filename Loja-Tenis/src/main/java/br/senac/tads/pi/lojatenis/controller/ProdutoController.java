@@ -73,7 +73,7 @@ public class ProdutoController {
             // Mapear os atributos do produto para o DTO
             ProdutoDto produtoDto = new ProdutoDto();
             produtoDto.setId(produto.getId());
-            produtoDto.setNome(produto.getNome());
+            produtoDto.setModelo(produto.getModelo());
             produtoDto.setAvaliacao(produto.getAvaliacao());
             produtoDto.setPreco(produto.getPreco());
             produtoDto.setQtd_estoque(produto.getQtd_estoque());
@@ -150,7 +150,7 @@ public class ProdutoController {
         // Mapear produtoDto para a entidade produto
         Produto produto = new Produto();
 
-        produto.setNome(produtoDto.getNome());
+        produto.setModelo(produtoDto.getModelo());
         produto.setAvaliacao(produtoDto.getAvaliacao());
         produto.setPreco(produtoDto.getPreco());
         produto.setQtd_estoque(produtoDto.getQtd_estoque());
@@ -159,6 +159,12 @@ public class ProdutoController {
         produto.setImagens(imagensSalvas);
         produto.setImagemPadrao(imagemPadrao);
         produto.setMarca(produtoDto.getMarca());
+        produto.setCor(produtoDto.getCor());
+        produto.setGenero(produtoDto.getGenero());
+        produto.setEsporte(produtoDto.getEsporte());
+
+
+
         // Configurar atributos de produtoDto para produto
 
         // Salvar produto no repositório
@@ -166,7 +172,7 @@ public class ProdutoController {
 
         // Redirecionar para a lista de usuários após a criação bem-sucedida
         return "redirect:/produtos";
-        
+
     }
 
     @GetMapping("/edit")
@@ -182,13 +188,17 @@ public class ProdutoController {
             // Mapear os atributos do produto para o DTO
             ProdutoDto produtoDto = new ProdutoDto();
             produtoDto.setId(produto.getId());
-            produtoDto.setNome(produto.getNome());
+            produtoDto.setModelo(produto.getModelo());
             produtoDto.setAvaliacao(produto.getAvaliacao());
             produtoDto.setPreco(produto.getPreco());
             produtoDto.setQtd_estoque(produto.getQtd_estoque());
             produtoDto.setDescricao(produto.getDescricao());
             produtoDto.setStatus(produto.getStatus());
             produtoDto.setMarca(produto.getMarca());
+            produtoDto.setCor(produto.getCor());
+            produtoDto.setGenero(produto.getGenero());
+            produtoDto.setEsporte(produto.getEsporte());
+
 
             // Adicionar o produto e o DTO ao modelo
             model.addAttribute("produto", produto);
@@ -217,13 +227,17 @@ public class ProdutoController {
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             // Atualizar os atributos do produto com base nos dados do DTO
-            produto.setNome(produtoDto.getNome());
+            produto.setModelo(produtoDto.getModelo());
             produto.setAvaliacao(produtoDto.getAvaliacao());
             produto.setPreco(produtoDto.getPreco());
             produto.setQtd_estoque(produtoDto.getQtd_estoque());
             produto.setDescricao(produtoDto.getDescricao());
             produto.setStatus(produtoDto.getStatus());
             produto.setMarca(produtoDto.getMarca());
+            produto.setCor(produtoDto.getCor());
+            produto.setGenero(produtoDto.getGenero());
+            produto.setEsporte(produtoDto.getEsporte());
+
 
             if (produto.getImagens().size() == 1 && produtoDto.getImagensRemovidas() != null
                     && !produtoDto.getImagensRemovidas().isEmpty()) {
@@ -313,13 +327,18 @@ public class ProdutoController {
             // Mapear os atributos do produto para o DTO
             ProdutoDto produtoDto = new ProdutoDto();
             produtoDto.setId(produto.getId());
-            produtoDto.setNome(produto.getNome());
+            produtoDto.setModelo(produto.getModelo());
             produtoDto.setAvaliacao(produto.getAvaliacao());
             produtoDto.setPreco(produto.getPreco());
             produtoDto.setQtd_estoque(produto.getQtd_estoque());
             produtoDto.setDescricao(produto.getDescricao());
             produtoDto.setStatus(produto.getStatus());
             produtoDto.setMarca(produto.getMarca());
+            
+
+            produtoDto.setCor(produto.getCor());
+            produtoDto.setGenero(produto.getGenero());
+            produtoDto.setEsporte(produto.getEsporte());
 
             // Adicionar o produto e o DTO ao modelo
             model.addAttribute("produto", produto);
@@ -348,13 +367,14 @@ public class ProdutoController {
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             // Atualizar os atributos do produto com base nos dados do DTO
-            produto.setNome(produtoDto.getNome());
+            produto.setModelo(produtoDto.getModelo());
             produto.setAvaliacao(produtoDto.getAvaliacao());
             produto.setPreco(produtoDto.getPreco());
             produto.setQtd_estoque(produtoDto.getQtd_estoque());
             produto.setDescricao(produtoDto.getDescricao());
             produto.setStatus(produtoDto.getStatus());
             produtoDto.setMarca(produto.getMarca());
+            produto.setCor(produtoDto.getCor());
 
             if (!produtoDto.getImagemPadrao().isEmpty()) {
                 produto.setImagemPadrao(produtoDto.getImagemPadrao());
@@ -431,27 +451,66 @@ public class ProdutoController {
         return "redirect:/produtos";
     }
 
-
     @GetMapping("/buscamarca/{marca}")
-    public String listaProdutosMarca(@PathVariable String marca, Model model, HttpServletRequest request){
+    public String listaProdutosMarca(@PathVariable String marca, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
-        
 
         if (clienteLogado != null) {
             model.addAttribute("usuarioLogado", true);
             model.addAttribute("clienteId", clienteLogado.getId());
             model.addAttribute("nomeCliente", clienteLogado.getNome());
-    
+
         } else {
             model.addAttribute("usuarioLogado", false);
         }
 
-        List<Produto>  produtos = repo.findByMarca(marca);
+        List<Produto> produtos = repo.findByMarca(marca);
         model.addAttribute("produtos", produtos);
 
-        return  "home/produtosPorMarca";
+        return "home/produtosPorMarca";
 
+    }
+
+    @GetMapping("/buscarcor/{cor}")
+    public String listaProdutoCor(@PathVariable String cor, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+
+        } else {
+            model.addAttribute("usuarioLogado", false);
+        }
+
+        List<Produto> produtos = repo.findByCor(cor);
+        model.addAttribute("produtos", produtos);
+
+        return "home/produtosPorCor";
+
+    }
+
+    @GetMapping("/buscamarcaecor/{marca}/{cor}")
+    public String listaProdutosMarcaECor(@PathVariable String marca, @PathVariable String cor, Model model,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cliente clienteLogado = (Cliente) session.getAttribute("clienteLogado");
+
+        if (clienteLogado != null) {
+            model.addAttribute("usuarioLogado", true);
+            model.addAttribute("clienteId", clienteLogado.getId());
+            model.addAttribute("nomeCliente", clienteLogado.getNome());
+        } else {
+            model.addAttribute("usuarioLogado", false);
+        }
+
+        List<Produto> produtos = repo.findByMarcaAndCor(marca, cor);
+        model.addAttribute("produtos", produtos);
+
+        return "home/produtosPorMarcaECor";
     }
 
 }
